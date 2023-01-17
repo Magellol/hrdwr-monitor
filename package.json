@@ -1,0 +1,8 @@
+{
+  "name": "hardware-monitor",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "repository": "git@github.com:Magellol/hardware-monitor.git",
+  "author": "<thmslbvr@gmail.com>",
+  "license": "MIT"
+}
