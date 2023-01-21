@@ -1,4 +1,5 @@
 import type { Configuration } from "webpack";
+import HtmlPlugin from "html-webpack-plugin";
 import { resolve } from "path";
 
 const config: Configuration = {
@@ -20,8 +21,9 @@ const config: Configuration = {
     filename: "app.js",
 
     // __dirname is related to `webpack/dist` so we have two go two levels backwards
-    path: resolve(__dirname, '..', '..', "dist"),
+    path: resolve(__dirname, "..", "..", "dist"),
   },
+  plugins: [new HtmlPlugin()],
 };
 
 export default config;
