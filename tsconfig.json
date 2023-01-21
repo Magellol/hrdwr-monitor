@@ -1,3 +1,7 @@
 {
-  "extends": "@tsconfig/node18-strictest/tsconfig.json"
+  "extends": "@tsconfig/node18-strictest/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["DOM", "es2022"],
+    "jsx": "react"
+  }
 }
