@@ -1,13 +1,24 @@
 import Express from "express";
+import { resolve } from "path";
+import fs from "fs/promises";
 import * as H from "hyper-ts";
 import * as M from "hyper-ts/lib/Middleware";
 import { toRequestHandler } from "hyper-ts/lib/express";
 import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/TaskEither";
 
-const hello: M.Middleware<H.StatusOpen, H.ResponseEnded, never, void> = pipe(
-  M.status(H.Status.OK), // writes the response status
-  M.ichain(() => M.closeHeaders()), // tells hyper-ts that we're done with the headers
-  M.ichain(() => M.send("Hello hyper-ts on express!")) // sends the response as text
+const readFile: (path: string) => TE.TaskEither<Error, string> = (path) =>
+  TE.tryCatch(
+    () => fs.readFile(path, { encoding: "utf8" }),
+    () => new Error("Could not read file")
+  );
+
+const hello: M.Middleware<H.StatusOpen, H.ResponseEnded, Error, void> = pipe(
+  readFile(resolve(__dirname, "..", "index.html")),
+  M.fromTaskEither,
+  M.ichainFirst(() => M.status(H.Status.OK)),
+  M.ichainFirst(() => M.closeHeaders()),
+  M.ichain((con) => M.send(con))
 );
 
 Express()
