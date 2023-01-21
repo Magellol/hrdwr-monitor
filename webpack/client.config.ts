@@ -1,4 +1,3 @@
-// const path = require("path");
 import type { Configuration } from "webpack";
 import { resolve } from "path";
 

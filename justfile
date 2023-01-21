@@ -4,9 +4,10 @@ export PATH := './node_modules/.bin:' + env_var('PATH')
 
 # Compile a tsc project, handling cleanup between runs.
 @_tsc project:
-    rm -rf ./{{ project }}/dist
     tsc -p ./{{ project }}/tsconfig.json
 
 build:
+  rm -rf ./dist
   just _tsc webpack
-  webpack -c ./webpack/dist/config.js
+  just _tsc server
+  webpack -c ./dist/webpack/client.config.js
