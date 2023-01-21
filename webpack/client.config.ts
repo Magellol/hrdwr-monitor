@@ -19,6 +19,7 @@ const config: Configuration = {
   },
   output: {
     filename: "app.js",
+    publicPath: "/a/",
 
     // __dirname is related to `webpack/dist` so we have two go two levels backwards
     path: resolve(__dirname, "..", "..", "dist"),

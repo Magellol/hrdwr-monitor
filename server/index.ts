@@ -11,6 +11,7 @@ const hello: M.Middleware<H.StatusOpen, H.ResponseEnded, never, void> = pipe(
 );
 
 Express()
+  .use("/a/", Express.static(resolve(__dirname, "..")))
   .get("/", toRequestHandler(hello))
   .listen(3000, () =>
     console.log("Express listening on port 3000. Use: GET /")
