@@ -9,15 +9,28 @@
     "dev": "tsc && node src/server"
   },
   "devDependencies": {
+    "@types/d3-shape": "^3.1.1",
     "@types/express": "^4.17.15",
+    "@types/lodash.range": "^3.2.7",
     "@types/node": "^18.11.18",
-    "typescript": "^4.9.4"
+    "@types/react-dom": "^18.0.10",
+    "@types/webpack": "^5.28.0",
+    "prettier": "^2.8.3",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {
     "@tsconfig/node18-strictest": "^1.0.0",
+    "@types/react": "^18.0.27",
+    "d3-shape": "^3.2.0",
     "express": "^4.18.2",
     "fp-ts": "^2.13.1",
     "fp-ts-contrib": "^0.1.29",
-    "hyper-ts": "^0.7.8"
+    "hyper-ts": "^0.7.8",
+    "lodash.range": "^3.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
