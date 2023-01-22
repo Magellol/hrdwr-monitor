@@ -1,10 +1,16 @@
 import React from "react";
+import * as Sum from "@unsplash/sum-types";
 import range from "lodash.range";
 import * as IO from "fp-ts/es6/IO";
 import * as O from "fp-ts/es6/Option";
 import { lineRadial, curveLinearClosed } from "d3-shape";
 import { pipe } from "fp-ts/es6/pipeable";
 import styles from "./ThermalGauge.css";
+import classNames from "classnames";
+import { constant } from "fp-ts/es6/function";
+
+export type Temp = Sum.Member<"Hot"> | Sum.Member<"Cool">;
+export const Temp = Sum.create<Temp>();
 
 type Path = {
   id: number;
@@ -42,7 +48,13 @@ const defaultPaths: Array<Path> = [
   },
 ];
 
-export const ThermalGauge: React.FC<CircleProps> = React.memo(({ size }) => {
+type Props = {
+  paths: Path[];
+  size: number;
+  temp: Temp;
+};
+
+export const ThermalGauge: React.FC<Props> = React.memo(({ size, temp }) => {
   const svgSize = size * 2;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const frameIdRef = React.useRef(0);
@@ -56,8 +68,14 @@ export const ThermalGauge: React.FC<CircleProps> = React.memo(({ size }) => {
       context.clearRect(0, 0, svgSize, svgSize);
       context.setTransform(1, 0, 0, 1, svgSize / 2, svgSize / 2);
       defaultPaths.forEach((path, i) => {
-        context.strokeStyle = "rgba(255, 255, 255, 0.8)";
-        context.shadowColor = "rgba(255, 255, 255, 0.2)";
+        context.strokeStyle = pipe(
+          temp,
+          Temp.match({
+            Cool: constant("rgba(255, 255, 255, 0.8)"),
+            Hot: constant("rgba(255, 52, 0, 0.7)"),
+          })
+        );
+
         context.shadowOffsetX = 1;
         context.shadowOffsetY = -1;
         context.shadowBlur = 20;
@@ -83,7 +101,7 @@ export const ThermalGauge: React.FC<CircleProps> = React.memo(({ size }) => {
     frameIdRef.current = startDrawing();
 
     return () => window.cancelAnimationFrame(frameIdRef.current);
-  }, []);
+  }, [temp]);
 
   return (
     <div
@@ -91,7 +109,16 @@ export const ThermalGauge: React.FC<CircleProps> = React.memo(({ size }) => {
       className={styles.container}
     >
       <div
-        className={styles.circle}
+        className={classNames(
+          styles.circle,
+          pipe(
+            temp,
+            Temp.match({
+              Cool: constant(styles.cool),
+              Hot: constant(styles.hot),
+            })
+          )
+        )}
         style={{ width: size, height: size }}
       ></div>
       <canvas
@@ -125,8 +152,3 @@ function generatePath(size: number) {
     })(points)!; // @todo fix non null
   };
 }
-
-type CircleProps = {
-  paths: Path[];
-  size: number;
-};
