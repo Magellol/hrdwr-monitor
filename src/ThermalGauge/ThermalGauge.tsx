@@ -52,8 +52,7 @@ const defaultPaths: Array<Path> = [
   },
 ];
 
-type Props = {
-  paths: Path[];
+export type Props = {
   size: number;
   degrees: number;
 };
