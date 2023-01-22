@@ -360,6 +360,11 @@
   dependencies:
     "@types/node" "*"
 
+"@unsplash/sum-types@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@unsplash/sum-types/-/sum-types-0.3.1.tgz#a8a771dfae9433c5e261397ec88fee14d2e5cfd2"
+  integrity sha512-SLVfRXfU4TwvJprviIxCPDCsOSNaBLXUw2GpW8T7rmt5p4vAp3j3BpyWXAHPrKIL0PeMc2aJ12T6xyhjpWYLLg==
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
