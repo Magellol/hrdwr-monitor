@@ -1,0 +1,12 @@
+.container {
+  padding: 24px;
+  background: linear-gradient(rgb(41, 0, 41), rgb(19, 28, 53)) rgb(19, 28, 53);
+
+  /* 100% - x; x being the ammount padding top + padding bottom. */
+  height: calc(100% - 48px)
+}
+
+.layout {
+  display: grid;
+  grid-gap: 12px;
+}

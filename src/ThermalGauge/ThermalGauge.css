@@ -1,6 +1,5 @@
 .container {
   position: relative;
-  padding: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,12 +9,13 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(0.5px);
-  box-shadow: 0 0 0 8px var(--thermal-gauge-main-color) inset, 0 5px 70px 20px var(--thermal-gauge-main-color) inset,
-    0 -5px 200px 20px rgba(255, 255, 255, 0.1) inset,
+  box-shadow: 0 0 0 8px var(--thermal-gauge-main-color) inset,
+    0 5px 70px 20px var(--thermal-gauge-main-color) inset,
+    0 -5px 200px 20px var(--thermal-gauge-faded-color) inset,
     0 -5px 100px 20px rgba(255, 255, 255, 0.5) inset,
-    0 5px 100px 20px rgba(255, 255, 255, 0.1) inset,
-    0 -5px 300px 30px var(--thermal-gauge-faded-color), 0 -5px 300px 30px var(--thermal-gauge-faded-color),
-    0 5px 100px 20px rgba(255, 255, 255, 0.2);
+    0 5px 100px 20px rgba(255, 255, 255, 0.5) inset,
+    0 -5px 300px 30px var(--thermal-gauge-faded-color),
+    0 -5px 300px 30px var(--thermal-gauge-faded-color);
 }
 
 .canvas {
@@ -25,10 +25,8 @@
 
 .degrees {
   position: absolute;
-  font-family: monospace;
+
+  /* Visually align on the X axis */
+  translate: 4px 0;
   font-size: 42px;
-  font-weight: lighter;
-  -webkit-font-smoothing: antialiased;
-  color: rgba(255, 255, 255, 0.65);
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }

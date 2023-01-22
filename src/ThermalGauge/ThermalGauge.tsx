@@ -113,10 +113,7 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
   }, [color]);
 
   return (
-    <div
-      style={{ width: svgSize, height: svgSize }}
-      className={styles.container}
-    >
+    <div className={styles.container}>
       <div
         style={{
           "--thermal-gauge-main-color": color,

@@ -1,4 +1,10 @@
+html,
+body,
+:global(#app) {
+  height: 100%;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica,
-    Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif;
+  font-family: monospace;
+  -webkit-font-smoothing: antialiased;
 }

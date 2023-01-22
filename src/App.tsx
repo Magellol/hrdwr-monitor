@@ -1,20 +1,24 @@
 import "normalize.css";
 import "./Globals.css";
+import * as O from "fp-ts/Option";
 import * as React from "react";
 import { Thermal } from "./Thermal";
+import { Block } from "./Block";
+import styles from "./App.css";
 
 export const App: React.FC = () => {
   const [degrees, setDegrees] = React.useState(30);
 
   return (
-    <div
-      style={{
-        background:
-          "linear-gradient(rgb(63, 1, 62), rgb(19, 28, 53)) rgb(19, 28, 53)",
-        padding: 20,
-      }}
-    >
-      <Thermal degrees={degrees} title="CPU Core" />
+    <div className={styles.container}>
+      <div className={styles.layout}>
+        <Block background={O.none}>
+          <Thermal degrees={degrees} title="CPU Core" />
+        </Block>
+        <Block background={O.none}>
+          <Thermal degrees={degrees} title="GPU Core" />
+        </Block>
+      </div>
       <input
         value={degrees}
         type="number"
