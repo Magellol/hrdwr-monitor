@@ -5,7 +5,7 @@ export const App: React.FC = () => (
   <div
     style={{
       background:
-        "linear-gradient(rgb(25, 40, 83), rgb(19, 28, 53)) rgb(19, 28, 53)",
+        "linear-gradient(rgb(63, 1, 62), rgb(19, 28, 53)) rgb(19, 28, 53)",
       padding: 20,
     }}
   >
