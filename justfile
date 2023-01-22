@@ -6,8 +6,7 @@ export PATH := './node_modules/.bin:' + env_var('PATH')
 @_tsc project:
     tsc -p ./{{ project }}/tsconfig.json
 
-build:
+dev:
   rm -rf ./dist
   just _tsc webpack
-  just _tsc server
-  webpack -c ./dist/webpack/client.config.js
+  webpack serve -c ./dist/webpack/client.config.js
