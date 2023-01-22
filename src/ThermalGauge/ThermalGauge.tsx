@@ -43,6 +43,7 @@ const defaultPaths: Array<Path> = [
 ];
 
 export const ThermalGauge: React.FC<CircleProps> = React.memo(({ size }) => {
+  const svgSize = size * 2;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const frameIdRef = React.useRef(0);
   const getPath = generatePath(size);
@@ -52,8 +53,8 @@ export const ThermalGauge: React.FC<CircleProps> = React.memo(({ size }) => {
       context.lineWidth = 3;
       context.filter = "blur(0.5px)";
       context.setTransform(1, 0, 0, 1, 0, 0);
-      context.clearRect(0, 0, size, size);
-      context.setTransform(1, 0, 0, 1, size / 2, size / 2);
+      context.clearRect(0, 0, svgSize, svgSize);
+      context.setTransform(1, 0, 0, 1, svgSize / 2, svgSize / 2);
       defaultPaths.forEach((path, i) => {
         context.strokeStyle = "rgba(255, 255, 255, 0.8)";
         context.shadowColor = "rgba(255, 255, 255, 0.2)";
@@ -82,23 +83,23 @@ export const ThermalGauge: React.FC<CircleProps> = React.memo(({ size }) => {
     frameIdRef.current = startDrawing();
 
     return () => window.cancelAnimationFrame(frameIdRef.current);
-  }, [defaultPaths]);
+  }, []);
 
   return (
     <div
-      className="relative flex justify-center items-center"
-      style={{ width: size, height: size }}
+      style={{ width: svgSize, height: svgSize }}
+      className={styles.container}
     >
-      <canvas
-        className={styles.circleCanvas}
-        ref={canvasRef}
-        width={size}
-        height={size}
-      ></canvas>
       <div
         className={styles.circle}
         style={{ width: size, height: size }}
       ></div>
+      <canvas
+        ref={canvasRef}
+        width={svgSize}
+        height={svgSize}
+        className={styles.canvas}
+      ></canvas>
     </div>
   );
 });
