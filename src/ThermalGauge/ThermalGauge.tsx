@@ -21,7 +21,7 @@ const defaultPaths: Array<Path> = [
   {
     speed: 500,
     strokeWidth: 3,
-    waveAmplitude: 9,
+    waveAmplitude: 10,
     radiusDelta: 0,
     waves: 4,
     color: O.none,
@@ -30,7 +30,7 @@ const defaultPaths: Array<Path> = [
     radiusDelta: -7,
     speed: -1000,
     strokeWidth: 3,
-    waveAmplitude: 14,
+    waveAmplitude: 15,
     waves: 2,
     color: O.none,
   },
@@ -38,17 +38,17 @@ const defaultPaths: Array<Path> = [
     radiusDelta: 0,
     speed: -400,
     strokeWidth: 3,
-    waveAmplitude: 2,
+    waveAmplitude: 3,
     waves: 30,
     color: O.none,
   },
   {
     radiusDelta: -10,
-    speed: -800,
+    speed: -700,
     strokeWidth: 0.5,
-    waveAmplitude: 5,
-    waves: 1,
-    color: O.some("rgba(255, 255, 255, 0.2"),
+    waveAmplitude: 6,
+    waves: 3,
+    color: O.some("rgba(255, 255, 255, 0.3"),
   },
 ];
 
@@ -88,6 +88,7 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
         context.shadowOffsetX = 1;
         context.shadowOffsetY = -1;
         context.shadowBlur = 20;
+        context.shadowColor = "rgba(255, 255, 255, 0.1)"
         context.stroke(new Path2D(getPath(path, i)));
       });
 
