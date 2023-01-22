@@ -4,13 +4,21 @@ import range from "lodash.range";
 import * as IO from "fp-ts/es6/IO";
 import * as O from "fp-ts/es6/Option";
 import { lineRadial, curveLinearClosed } from "d3-shape";
-import { pipe } from "fp-ts/es6/pipeable";
 import styles from "./ThermalGauge.css";
 import classNames from "classnames";
-import { constant } from "fp-ts/es6/function";
+import { constant, pipe } from "fp-ts/es6/function";
 
-export type Temp = Sum.Member<"Hot"> | Sum.Member<"Cool">;
-export const Temp = Sum.create<Temp>();
+// Prob need a middle ground here
+type Temp = Sum.Member<"Hot"> | Sum.Member<"Cool">;
+const Temp = Sum.create<Temp>();
+
+const tempFromDegrees = (n: number): Temp => {
+  if (n < 50) {
+    return Temp.mk.Cool;
+  } else {
+    return Temp.mk.Hot;
+  }
+};
 
 type Path = {
   id: number;
@@ -51,10 +59,10 @@ const defaultPaths: Array<Path> = [
 type Props = {
   paths: Path[];
   size: number;
-  temp: Temp;
+  degrees: number;
 };
 
-export const ThermalGauge: React.FC<Props> = React.memo(({ size, temp }) => {
+export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
   const svgSize = size * 2;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const frameIdRef = React.useRef(0);
@@ -69,7 +77,8 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, temp }) => {
       context.setTransform(1, 0, 0, 1, svgSize / 2, svgSize / 2);
       defaultPaths.forEach((path, i) => {
         context.strokeStyle = pipe(
-          temp,
+          degrees,
+          tempFromDegrees,
           Temp.match({
             Cool: constant("rgba(255, 255, 255, 0.8)"),
             Hot: constant("rgba(255, 52, 0, 0.7)"),
@@ -101,7 +110,7 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, temp }) => {
     frameIdRef.current = startDrawing();
 
     return () => window.cancelAnimationFrame(frameIdRef.current);
-  }, [temp]);
+  }, [degrees]);
 
   return (
     <div
@@ -112,7 +121,8 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, temp }) => {
         className={classNames(
           styles.circle,
           pipe(
-            temp,
+            degrees,
+            tempFromDegrees,
             Temp.match({
               Cool: constant(styles.cool),
               Hot: constant(styles.hot),
@@ -121,6 +131,21 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, temp }) => {
         )}
         style={{ width: size, height: size }}
       ></div>
+      <span
+        className={classNames(
+          styles.degrees,
+          pipe(
+            degrees,
+            tempFromDegrees,
+            Temp.match({
+              Cool: constant(styles.cool),
+              Hot: constant(styles.hot),
+            })
+          )
+        )}
+      >
+        {degrees}
+      </span>
       <canvas
         ref={canvasRef}
         width={svgSize}

@@ -12,7 +12,7 @@
   filter: blur(0.5px);
 }
 
-.cool {
+.circle.cool {
   box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.8) inset,
     0 5px 200px 20px #0000af99 inset, 0 -5px 200px 20px #0000af99 inset,
     0 -5px 100px 20px rgba(255, 255, 255, 0.4) inset,
@@ -20,7 +20,7 @@
     0 -5px 300px 30px #0000af99, 0 5px 100px 20px rgba(255, 255, 255, 0.2);
 }
 
-.hot {
+.circle.hot {
   box-shadow: 0 0 0 8px rgba(255, 52, 0, 0.7) inset,
     0 5px 200px 20px rgba(144, 0, 0, 0.5) inset,
     0 -5px 200px 20px rgba(144, 0, 0, 0.5) inset,
@@ -34,4 +34,20 @@
 .canvas {
   position: relative;
   z-index: 1;
+}
+
+.degrees {
+  position: absolute;
+  font-family: monospace;
+  font-size: 48px;
+  font-weight: lighter;
+  -webkit-font-smoothing: antialiased;
+}
+
+.degrees.cool {
+  color: white;
+}
+
+.degrees.hot {
+  color: red;
 }

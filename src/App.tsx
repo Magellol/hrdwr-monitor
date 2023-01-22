@@ -1,10 +1,9 @@
-import { ThermalGauge, Temp } from "./ThermalGauge/ThermalGauge";
-import * as React from "react";
 import "normalize.css";
-import { constant, pipe } from "fp-ts/es6/function";
+import * as React from "react";
+import { ThermalGauge } from "./ThermalGauge/ThermalGauge";
 
 export const App: React.FC = () => {
-  const [temp, setTemp] = React.useState(Temp.mk.Cool);
+  const [degrees, setDegrees] = React.useState(30);
 
   return (
     <div
@@ -14,21 +13,12 @@ export const App: React.FC = () => {
         padding: 20,
       }}
     >
-      <ThermalGauge size={175} paths={[]} temp={temp} />
-      <button
-        onClick={() => {
-          pipe(
-            setTemp(
-              Temp.match({
-                Hot: constant(Temp.mk.Cool),
-                Cool: constant(Temp.mk.Hot),
-              })
-            )
-          );
-        }}
-      >
-        test temp
-      </button>
+      <ThermalGauge size={175} paths={[]} degrees={degrees} />
+      <input
+        value={degrees}
+        type="number"
+        onChange={(ev) => setDegrees(ev.target.valueAsNumber)}
+      />
     </div>
   );
 };
