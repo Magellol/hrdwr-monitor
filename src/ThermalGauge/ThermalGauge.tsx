@@ -4,6 +4,7 @@ import * as IO from "fp-ts/es6/IO";
 import * as O from "fp-ts/es6/Option";
 import { lineRadial, curveLinearClosed } from "d3-shape";
 import { pipe } from "fp-ts/es6/pipeable";
+import styles from "./ThermalGauge.css";
 
 type Path = {
   id: number;
@@ -89,13 +90,13 @@ export const ThermalGauge: React.FC<CircleProps> = React.memo(({ size }) => {
       style={{ width: size, height: size }}
     >
       <canvas
-        // className={styles.circleCanvas}
+        className={styles.circleCanvas}
         ref={canvasRef}
         width={size}
         height={size}
       ></canvas>
       <div
-        // className={styles.circle}
+        className={styles.circle}
         style={{ width: size, height: size }}
       ></div>
     </div>
