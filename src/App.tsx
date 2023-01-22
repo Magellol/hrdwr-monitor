@@ -1,7 +1,7 @@
 import "normalize.css";
 import "./Globals.css";
 import * as React from "react";
-import { ThermalGauge } from "./ThermalGauge/ThermalGauge";
+import { Thermal } from "./Thermal";
 
 export const App: React.FC = () => {
   const [degrees, setDegrees] = React.useState(30);
@@ -14,7 +14,7 @@ export const App: React.FC = () => {
         padding: 20,
       }}
     >
-      <ThermalGauge size={175} paths={[]} degrees={degrees} />
+      <Thermal degrees={degrees} title="CPU Core" />
       <input
         value={degrees}
         type="number"
