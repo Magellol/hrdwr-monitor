@@ -2076,6 +2076,11 @@ qs@6.11.0:
   dependencies:
     side-channel "^1.0.4"
 
+rainbowvis.js@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/rainbowvis.js/-/rainbowvis.js-1.1.1.tgz#ccb6e6e681d7f6be728e1b57d9889ecc0611cc0f"
+  integrity sha512-/sFEGIfTRsGnVhNSVRWytNMSXadyqcDWW6LLoQs2EWg3R0IZylHp05/XjkqeG4gn0kSp3UE2M8uCPseahcHtuA==
+
 randombytes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"

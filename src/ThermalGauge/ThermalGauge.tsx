@@ -1,24 +1,12 @@
-import React from "react";
-import * as Sum from "@unsplash/sum-types";
-import range from "lodash.range";
+import classNames from "classnames";
+import { curveLinearClosed, lineRadial } from "d3-shape";
+import { pipe } from "fp-ts/es6/function";
 import * as IO from "fp-ts/es6/IO";
 import * as O from "fp-ts/es6/Option";
-import { lineRadial, curveLinearClosed } from "d3-shape";
+import range from "lodash.range";
+import Rainbow from "rainbowvis.js";
+import React from "react";
 import styles from "./ThermalGauge.css";
-import classNames from "classnames";
-import { constant, pipe } from "fp-ts/es6/function";
-
-// Prob need a middle ground here
-type Temp = Sum.Member<"Hot"> | Sum.Member<"Cool">;
-const Temp = Sum.create<Temp>();
-
-const tempFromDegrees = (n: number): Temp => {
-  if (n < 50) {
-    return Temp.mk.Cool;
-  } else {
-    return Temp.mk.Hot;
-  }
-};
 
 type Path = {
   id: number;
@@ -62,7 +50,16 @@ type Props = {
   degrees: number;
 };
 
+const gaugeRainbow = new Rainbow();
+gaugeRainbow.setSpectrum("#0000b3", "#9a0000");
+gaugeRainbow.setNumberRange(35, 80);
+
+const textRainbow = new Rainbow();
+textRainbow.setSpectrum("#001732", "#370000");
+textRainbow.setNumberRange(35, 80);
+
 export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
+  const color = `#${gaugeRainbow.colourAt(degrees)}`;
   const svgSize = size * 2;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const frameIdRef = React.useRef(0);
@@ -76,15 +73,7 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
       context.clearRect(0, 0, svgSize, svgSize);
       context.setTransform(1, 0, 0, 1, svgSize / 2, svgSize / 2);
       defaultPaths.forEach((path, i) => {
-        context.strokeStyle = pipe(
-          degrees,
-          tempFromDegrees,
-          Temp.match({
-            Cool: constant("rgba(255, 255, 255, 0.8)"),
-            Hot: constant("rgba(255, 52, 0, 0.7)"),
-          })
-        );
-
+        context.strokeStyle = color;
         context.shadowOffsetX = 1;
         context.shadowOffsetY = -1;
         context.shadowBlur = 20;
@@ -110,7 +99,7 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
     frameIdRef.current = startDrawing();
 
     return () => window.cancelAnimationFrame(frameIdRef.current);
-  }, [degrees]);
+  }, [color]);
 
   return (
     <div
@@ -118,33 +107,19 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
       className={styles.container}
     >
       <div
-        className={classNames(
-          styles.circle,
-          pipe(
-            degrees,
-            tempFromDegrees,
-            Temp.match({
-              Cool: constant(styles.cool),
-              Hot: constant(styles.hot),
-            })
-          )
-        )}
-        style={{ width: size, height: size }}
+        style={{
+          "--main": color,
+          "--faded": `${color}40`,
+          width: size,
+          height: size,
+        }}
+        className={classNames(styles.circle)}
       ></div>
       <span
-        className={classNames(
-          styles.degrees,
-          pipe(
-            degrees,
-            tempFromDegrees,
-            Temp.match({
-              Cool: constant(styles.cool),
-              Hot: constant(styles.hot),
-            })
-          )
-        )}
+        className={styles.degrees}
+        style={{ color: `#${textRainbow.colorAt(degrees)}` }}
       >
-        {degrees}
+        {degrees}°
       </span>
       <canvas
         ref={canvasRef}

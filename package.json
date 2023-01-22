@@ -43,6 +43,7 @@
     "hyper-ts": "^0.7.8",
     "lodash.range": "^3.2.0",
     "normalize.css": "^8.0.1",
+    "rainbowvis.js": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
