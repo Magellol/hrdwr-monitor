@@ -40,7 +40,7 @@ const config: Configuration = {
   plugins: [
     new HtmlPlugin({
       templateContent:
-        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Webpack App</title> <meta name="viewport" content="width=device-width, initial-scale=1"><script defer src="/a/app.js"></script></head><body><div id="app" /></body></html>',
+        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Webpack App</title> <meta name="viewport" content="width=device-width, initial-scale=1"></head><body><div id="app" /></body></html>',
     }),
   ],
 };
