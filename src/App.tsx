@@ -1,4 +1,5 @@
 import "normalize.css";
+import "./Globals.css";
 import * as React from "react";
 import { ThermalGauge } from "./ThermalGauge/ThermalGauge";
 
