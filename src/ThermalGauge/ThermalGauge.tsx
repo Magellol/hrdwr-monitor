@@ -9,38 +9,46 @@ import React from "react";
 import styles from "./ThermalGauge.css";
 
 type Path = {
-  id: number;
   speed: number;
   strokeWidth: number;
   waveAmplitude: number;
   waves: number;
   radiusDelta?: number;
+  color: O.Option<string>;
 };
 
 const defaultPaths: Array<Path> = [
   {
-    id: 0,
     speed: 500,
     strokeWidth: 3,
     waveAmplitude: 9,
     radiusDelta: 0,
     waves: 4,
+    color: O.none,
   },
   {
-    id: 1,
     radiusDelta: -7,
     speed: -1000,
     strokeWidth: 3,
     waveAmplitude: 14,
     waves: 2,
+    color: O.none,
   },
   {
-    id: 2,
     radiusDelta: 0,
     speed: -400,
     strokeWidth: 3,
     waveAmplitude: 2,
     waves: 30,
+    color: O.none,
+  },
+  {
+    radiusDelta: -10,
+    speed: -800,
+    strokeWidth: 0.5,
+    waveAmplitude: 5,
+    waves: 1,
+    color: O.some("rgba(255, 255, 255, 0.2"),
   },
 ];
 
@@ -55,7 +63,7 @@ gaugeRainbow.setSpectrum("#0000b3", "#9a0000");
 gaugeRainbow.setNumberRange(35, 80);
 
 const textRainbow = new Rainbow();
-textRainbow.setSpectrum("#001732", "#370000");
+textRainbow.setSpectrum("#00326e", "#630000");
 textRainbow.setNumberRange(35, 80);
 
 export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
@@ -73,7 +81,11 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
       context.clearRect(0, 0, svgSize, svgSize);
       context.setTransform(1, 0, 0, 1, svgSize / 2, svgSize / 2);
       defaultPaths.forEach((path, i) => {
-        context.strokeStyle = color;
+        context.lineWidth = path.strokeWidth;
+        context.strokeStyle = pipe(
+          path.color,
+          O.getOrElse(() => color)
+        );
         context.shadowOffsetX = 1;
         context.shadowOffsetY = -1;
         context.shadowBlur = 20;
@@ -108,8 +120,8 @@ export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
     >
       <div
         style={{
-          "--main": color,
-          "--faded": `${color}40`,
+          "--thermal-gauge-main-color": color,
+          "--thermal-gauge-faded-color": `${color}40`,
           width: size,
           height: size,
         }}
