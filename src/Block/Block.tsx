@@ -11,7 +11,7 @@ export const Block: React.FC<{
     style={{
       background: pipe(
         background,
-        O.getOrElseW(() => "black")
+        O.getOrElseW(() => "#030c1c")
       ),
     }}
   >
