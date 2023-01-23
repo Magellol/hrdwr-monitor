@@ -42,6 +42,9 @@
     "normalize.css": "^8.0.1",
     "rainbowvis.js": "^1.1.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-particles": "^2.8.0",
+    "tsparticles": "^2.8.0",
+    "tsparticles-engine": "^2.8.0"
   }
 }

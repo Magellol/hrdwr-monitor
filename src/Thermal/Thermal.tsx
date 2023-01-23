@@ -12,7 +12,7 @@ export const Thermal: React.FC<Pick<ThermalGaugeProps, "degrees"> & Props> = ({
   return (
     <div>
       <h2 className={styles.title}>{title}</h2>
-      <ThermalGauge degrees={degrees} size={175} />
+      <ThermalGauge degrees={degrees} size={175} id={title} />
     </div>
   );
 };

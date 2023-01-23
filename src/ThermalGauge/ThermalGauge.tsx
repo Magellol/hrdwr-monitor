@@ -6,6 +6,9 @@ import * as O from "fp-ts/es6/Option";
 import range from "lodash.range";
 import Rainbow from "rainbowvis.js";
 import React from "react";
+import Particles from "react-particles";
+import { loadFull } from "tsparticles";
+import type { Engine } from "tsparticles-engine";
 import styles from "./ThermalGauge.css";
 
 type Path = {
@@ -55,6 +58,7 @@ const defaultPaths: Array<Path> = [
 export type Props = {
   size: number;
   degrees: number;
+  id: string;
 };
 
 const gaugeRainbow = new Rainbow();
@@ -65,80 +69,133 @@ const textRainbow = new Rainbow();
 textRainbow.setSpectrum("#00326e", "#630000");
 textRainbow.setNumberRange(35, 80);
 
-export const ThermalGauge: React.FC<Props> = React.memo(({ size, degrees }) => {
-  const color = `#${gaugeRainbow.colourAt(degrees)}`;
-  const svgSize = size * 2;
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-  const frameIdRef = React.useRef(0);
-  const getPath = generatePath(size);
+export const ThermalGauge: React.FC<Props> = React.memo(
+  ({ size, degrees, id }) => {
+    const color = `#${gaugeRainbow.colourAt(degrees)}`;
+    const svgSize = size * 2;
+    const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+    const frameIdRef = React.useRef(0);
+    const getPath = generatePath(size);
 
-  React.useEffect(() => {
-    function draw(context: CanvasRenderingContext2D) {
-      context.lineWidth = 3;
-      context.filter = "blur(0.5px)";
-      context.setTransform(1, 0, 0, 1, 0, 0);
-      context.clearRect(0, 0, svgSize, svgSize);
-      context.setTransform(1, 0, 0, 1, svgSize / 2, svgSize / 2);
-      defaultPaths.forEach((path, i) => {
-        context.lineWidth = path.strokeWidth;
-        context.strokeStyle = pipe(
-          path.color,
-          O.getOrElse(() => color)
-        );
-        context.shadowOffsetX = 1;
-        context.shadowOffsetY = -1;
-        context.shadowBlur = 20;
-        context.shadowColor = "rgba(255, 255, 255, 0.1)"
-        context.stroke(new Path2D(getPath(path, i)));
-      });
+    const particlesInit = React.useCallback(async (engine: Engine) => {
+      console.log(engine);
 
-      frameIdRef.current = window.requestAnimationFrame(() => draw(context));
-    }
+      // you can initialize the tsParticles instance (engine) here, adding custom shapes or presets
+      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+      // starting from v2 you can add only the features you need reducing the bundle size
+      await loadFull(engine);
+    }, []);
 
-    const startDrawing = pipe(
-      O.fromNullable(canvasRef.current),
-      O.mapNullable((canvas) => canvas.getContext("2d")),
-      O.fold(
-        () => IO.of(frameIdRef.current),
-        (context) =>
-          pipe(
-            window.requestAnimationFrame(() => draw(context)),
-            IO.of
-          )
-      )
+    React.useEffect(() => {
+      function draw(context: CanvasRenderingContext2D) {
+        context.lineWidth = 3;
+        context.filter = "blur(0.5px)";
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.clearRect(0, 0, svgSize, svgSize);
+        context.setTransform(1, 0, 0, 1, svgSize / 2, svgSize / 2);
+        defaultPaths.forEach((path, i) => {
+          context.lineWidth = path.strokeWidth;
+          context.strokeStyle = pipe(
+            path.color,
+            O.getOrElse(() => color)
+          );
+          context.shadowOffsetX = 1;
+          context.shadowOffsetY = -1;
+          context.shadowBlur = 20;
+          context.shadowColor = "rgba(255, 255, 255, 0.1)";
+          context.stroke(new Path2D(getPath(path, i)));
+        });
+
+        frameIdRef.current = window.requestAnimationFrame(() => draw(context));
+      }
+
+      const startDrawing = pipe(
+        O.fromNullable(canvasRef.current),
+        O.mapNullable((canvas) => canvas.getContext("2d")),
+        O.fold(
+          () => IO.of(frameIdRef.current),
+          (context) =>
+            pipe(
+              window.requestAnimationFrame(() => draw(context)),
+              IO.of
+            )
+        )
+      );
+
+      frameIdRef.current = startDrawing();
+
+      return () => window.cancelAnimationFrame(frameIdRef.current);
+    }, [color]);
+
+    return (
+      <div className={styles.container}>
+        <div
+          style={{
+            "--thermal-gauge-main-color": color,
+            "--thermal-gauge-faded-color": `${color}40`,
+            width: size,
+            height: size,
+          }}
+          className={classNames(styles.circle)}
+        ></div>
+
+        <canvas
+          ref={canvasRef}
+          width={svgSize}
+          height={svgSize}
+          className={styles.canvas}
+        ></canvas>
+        <Particles
+          id={id}
+          className={styles.particlesContainer}
+          init={particlesInit}
+          options={{
+            fullScreen: false,
+            fpsLimit: 60,
+            pauseOnBlur: true,
+            particles: {
+              move: {
+                collisions: false,
+                direction: "inside",
+                enable: true,
+                outModes: {
+                  default: "out",
+                },
+                random: true,
+                speed: {
+                  min: 0.5,
+                  max: 1,
+                },
+              },
+              number: {
+                value: 100,
+              },
+              opacity: {
+                value: {
+                  min: 0.05,
+                  max: 0.15,
+                },
+              },
+              shape: {
+                type: "circle",
+              },
+              size: {
+                value: 1,
+              },
+            },
+            detectRetina: true,
+          }}
+        />
+        <span
+          className={styles.degrees}
+          style={{ color: `#${textRainbow.colorAt(degrees)}` }}
+        >
+          {degrees}°
+        </span>
+      </div>
     );
-
-    frameIdRef.current = startDrawing();
-
-    return () => window.cancelAnimationFrame(frameIdRef.current);
-  }, [color]);
-
-  return (
-    <div className={styles.container}>
-      <div
-        style={{
-          "--thermal-gauge-main-color": color,
-          "--thermal-gauge-faded-color": `${color}40`,
-          width: size,
-          height: size,
-        }}
-        className={classNames(styles.circle)}
-      ></div>
-      <span
-        className={styles.degrees}
-        style={{ color: `#${textRainbow.colorAt(degrees)}` }}
-      >
-        {degrees}°
-      </span>
-      <canvas
-        ref={canvasRef}
-        width={svgSize}
-        height={svgSize}
-        className={styles.canvas}
-      ></canvas>
-    </div>
-  );
-});
+  }
+);
 
 ThermalGauge.displayName = "Circle";
 

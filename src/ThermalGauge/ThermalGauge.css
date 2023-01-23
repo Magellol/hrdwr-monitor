@@ -30,3 +30,12 @@
   translate: 4px 0;
   font-size: 42px;
 }
+
+.particlesContainer {
+  /* TODO: this is somewhat directly related from the size of the ThermalGauge */
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  overflow: hidden;
+  border-radius: 50%;
+}
