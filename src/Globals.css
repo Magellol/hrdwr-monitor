@@ -7,4 +7,5 @@ body,
 body {
   font-family: monospace;
   -webkit-font-smoothing: antialiased;
+  font-size: 15px;
 }
