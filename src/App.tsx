@@ -11,6 +11,12 @@ export const App: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <header className={styles.header}>
+        <div className={styles.statusContainer}>
+          <div className={styles.status} />
+          Systems operational
+        </div>
+      </header>
       <div className={styles.layout}>
         <Block background={O.none}>
           <Thermal degrees={degrees} title="CPU Core" min={30} max={75} />

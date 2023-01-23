@@ -3,7 +3,7 @@
   background: linear-gradient(rgb(41, 0, 41), rgb(19, 28, 53)) rgb(19, 28, 53);
 
   /* 100% - x; x being the ammount padding top + padding bottom. */
-  height: calc(100% - 48px)
+  height: calc(100% - 48px);
 }
 
 .layout {
@@ -11,4 +11,25 @@
   grid-auto-flow: column;
   justify-content: start;
   grid-gap: 12px;
+}
+
+.header {
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  margin-bottom: 24px;
+}
+
+.statusContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: green;
 }
