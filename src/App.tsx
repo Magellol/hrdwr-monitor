@@ -13,10 +13,10 @@ export const App: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.layout}>
         <Block background={O.none}>
-          <Thermal degrees={degrees} title="CPU Core" />
+          <Thermal degrees={degrees} title="CPU Core" min={30} max={75} />
         </Block>
         <Block background={O.none}>
-          <Thermal degrees={degrees} title="GPU Core" />
+          <Thermal degrees={degrees} title="GPU Core" min={45} max={80} />
         </Block>
       </div>
       <input
