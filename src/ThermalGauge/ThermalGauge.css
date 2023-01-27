@@ -7,6 +7,7 @@
 
 .circle {
   position: absolute;
+  pointer-events: none;
   border-radius: 50%;
   filter: blur(0.5px);
   box-shadow: 0 0 0 8px var(--thermal-gauge-main-color) inset,
@@ -21,6 +22,7 @@
 .canvas {
   position: relative;
   z-index: 1;
+  pointer-events: none;
 }
 
 .degrees {

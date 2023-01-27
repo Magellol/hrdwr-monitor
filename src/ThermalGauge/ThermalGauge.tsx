@@ -136,7 +136,7 @@ export const ThermalGauge: React.FC<Props> = React.memo(
             width: size,
             height: size,
           }}
-          className={classNames(styles.circle)}
+          className={styles.circle}
         ></div>
 
         <canvas
