@@ -4,6 +4,10 @@ body,
   height: 100%;
 }
 
+:root {
+  --grey: #b1b1b1;
+}
+
 body {
   font-family: monospace;
   -webkit-font-smoothing: antialiased;
