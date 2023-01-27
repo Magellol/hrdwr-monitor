@@ -5,7 +5,14 @@ body,
 }
 
 :root {
-  --grey: #b1b1b1;
+  --grey1: #b1b1b1;
+  --grey2: #838282;
+  --blockRadius: 24px;
+  --blockPadding: 18px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
