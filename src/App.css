@@ -35,5 +35,16 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
+}
+
+.status.green {
   background-color: green;
+}
+
+.status.orange {
+  background-color: orange;
+}
+
+.status.red {
+  background-color: red;
 }
