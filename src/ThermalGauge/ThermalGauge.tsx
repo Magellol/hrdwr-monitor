@@ -163,17 +163,17 @@ export const ThermalGauge: React.FC<Props> = React.memo(
                 },
                 random: true,
                 speed: {
-                  min: 0.5,
+                  min: 0.2,
                   max: 1,
                 },
               },
               number: {
-                value: 100,
+                value: 125,
               },
               opacity: {
                 value: {
                   min: 0.05,
-                  max: 0.15,
+                  max: 0.1,
                 },
               },
               shape: {
