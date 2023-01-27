@@ -1,6 +1,6 @@
 .container {
   padding: 24px;
-  background: linear-gradient(rgb(41, 0, 41), rgb(19, 28, 53)) rgb(19, 28, 53);
+  background: linear-gradient(rgb(0, 0, 0), rgb(19, 28, 53)) rgb(19, 28, 53);
 
   /* 100% - x; x being the ammount padding top + padding bottom. */
   height: calc(100% - 48px);
@@ -12,7 +12,6 @@
   justify-content: start;
   grid-gap: 12px;
 }
-
 .header {
   gap: 8px;
   display: flex;
@@ -27,9 +26,14 @@
   gap: 8px;
 }
 
+.systemStatus {
+  color: var(--grey);
+  font-size: 14px;
+}
+
 .status {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-color: green;
 }

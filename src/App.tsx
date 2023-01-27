@@ -14,7 +14,7 @@ export const App: React.FC = () => {
       <header className={styles.header}>
         <div className={styles.statusContainer}>
           <div className={styles.status} />
-          Systems operational
+          <span className={styles.systemStatus}>Systems operational</span>
         </div>
       </header>
       <div className={styles.layout}>
