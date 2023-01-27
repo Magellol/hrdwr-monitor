@@ -1,9 +1,18 @@
 .title {
   margin: 0;
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.9)
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .footer {
-  color: rgba(255, 255, 255, 0.6)
+  display: flex;
+  color: rgba(255, 255, 255, 0.6);
+  align-items: center;
+  gap: 8px;
+}
+
+.thermometer {
+  display: block;
+  width: 16px;
+  fill: var(--grey)
 }

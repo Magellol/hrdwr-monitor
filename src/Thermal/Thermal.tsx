@@ -1,4 +1,5 @@
 import { ThermalGauge, Props as ThermalGaugeProps } from "../ThermalGauge";
+import { ThermometerIcon } from "../ThermometerIcon";
 import styles from "./Thermal.css";
 
 type Props = {
@@ -18,6 +19,7 @@ export const Thermal: React.FC<Pick<ThermalGaugeProps, "degrees"> & Props> = ({
       <h2 className={styles.title}>{title}</h2>
       <ThermalGauge degrees={degrees} size={175} id={title} />
       <footer className={styles.footer}>
+        <ThermometerIcon className={styles.thermometer} />
         min: {min}°; max: {max}°
       </footer>
     </div>
