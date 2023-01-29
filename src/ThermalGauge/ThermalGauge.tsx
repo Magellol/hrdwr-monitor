@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { curveLinearClosed, lineRadial } from "d3-shape";
 import { pipe } from "fp-ts/es6/function";
 import * as IO from "fp-ts/es6/IO";
