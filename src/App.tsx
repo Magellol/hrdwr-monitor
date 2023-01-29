@@ -1,4 +1,3 @@
-import * as O from "fp-ts/Option";
 import "normalize.css";
 import * as React from "react";
 import styles from "./App.css";
@@ -12,10 +11,10 @@ export const App: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.layout}>
-        <Block background={O.none}>
+        <Block>
           <Thermal degrees={degrees} title="CPU Core" />
         </Block>
-        <Block background={O.none}>
+        <Block>
           <Thermal degrees={degrees} title="GPU Core" />
         </Block>
       </div>

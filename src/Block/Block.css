@@ -2,4 +2,26 @@
   padding: var(--blockPadding);
   border-radius: var(--blockRadius);
   max-width: 400px;
+  position: relative;
+}
+
+.bg {
+  background-color: #e5e5f7;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0.4;
+  border-radius: var(--blockRadius);
+  background-image: radial-gradient(circle at center center, #0d2f6b, #030c1c),
+    repeating-radial-gradient(
+      circle at center center,
+      #030c1c,
+      #030c1c,
+      2px,
+      transparent 5px,
+      transparent 2px
+    );
+  background-blend-mode: multiply;
 }
