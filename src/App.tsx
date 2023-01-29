@@ -4,7 +4,7 @@ import styles from "./App.css";
 import { Block } from "./Block";
 import "./Globals.css";
 import { Thermal } from "./Thermal";
-import { VelocityGauge } from "./VelocityGauge/VelocityGauge";
+import { UsageGauge } from "./UsageGauge/UsageGauge";
 
 export const App: React.FC = () => {
   const [degrees, setDegrees] = React.useState(30);
@@ -13,8 +13,8 @@ export const App: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.layout}>
         <Block className={styles.gaugesBlock}>
-          <VelocityGauge min={0} max={24000} n={12000} title="GPU VRAM"/>
-          <VelocityGauge min={0} max={32000} n={3000} title="DDRAM"/>
+          <UsageGauge min={0} max={24000} n={12000} title="GPU VRAM"/>
+          <UsageGauge min={0} max={32000} n={3000} title="DDRAM"/>
         </Block>
         <Block className={styles.fansBlock}></Block>
         <div className={styles.thermalBlock}>

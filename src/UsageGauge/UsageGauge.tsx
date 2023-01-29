@@ -27,7 +27,7 @@ export type Props = {
   title: string;
 };
 
-export const VelocityGauge: React.FC<Props> = ({ min, max, n, title }) => {
+export const UsageGauge: React.FC<Props> = ({ min, max, n, title }) => {
   // TODO: use useCallbackRef with an option instead
   const ref = React.useRef(null);
   // gaugeRainbow.setNumberRange(min, max);
