@@ -1,9 +1,7 @@
 .container {
   padding: 24px;
   background: linear-gradient(rgb(0, 0, 0), rgb(19, 28, 53)) rgb(19, 28, 53);
-
-  /* 100% - x; x being the ammount padding top + padding bottom. */
-  height: calc(100% - 48px);
+  height: 100%;
 }
 
 .layout {
