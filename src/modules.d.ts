@@ -140,7 +140,7 @@ declare module "gaugeJS" {
      *    </code>
      * @see http://jsfiddle.net/berni/Yb4d7/
      */
-    percentColors?: [[number, string]];
+    percentColors?: Array<[number, string]>;
 
     /**
      * Value labels
