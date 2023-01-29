@@ -11,12 +11,16 @@ export const App: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.layout}>
-        <Block>
-          <Thermal degrees={degrees} title="CPU Core" />
-        </Block>
-        <Block>
-          <Thermal degrees={degrees} title="GPU Core" />
-        </Block>
+        <Block className={styles.gaugesBlock}></Block>
+        <Block className={styles.fansBlock}></Block>
+        <div className={styles.thermalBlock}>
+          <Block>
+            <Thermal degrees={degrees} title="CPU Core" />
+          </Block>
+          <Block>
+            <Thermal degrees={degrees} title="GPU Core" />
+          </Block>
+        </div>
       </div>
       <input
         value={degrees}

@@ -1,14 +1,31 @@
 .container {
   padding: 24px;
-  background: linear-gradient(rgb(0, 0, 0), rgb(19, 28, 53)) rgb(19, 28, 53);
+  background: linear-gradient(rgb(0, 0, 0), rgb(1, 8, 25));
   height: 100%;
 }
 
 .layout {
   display: grid;
-  grid-auto-flow: column;
-  justify-content: start;
-  grid-gap: 12px;
+  grid-template:
+    "gauges thermal" auto
+    "fans thermal" 1fr
+    "fans themarl" 1fr / 1fr auto;
+  gap: 12px;
+}
+
+.memoryBlock {
+  grid-area: memory;
+}
+
+.gaugesBlock {
+  grid-area: gauges;
+}
+
+.thermalBlock {
+  grid-area: thermal;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .statusContainer {
