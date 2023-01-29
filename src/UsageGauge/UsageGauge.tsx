@@ -1,22 +1,33 @@
-import { pipe } from "fp-ts/function";
+import { tuple, pipe } from "fp-ts/function";
+import * as A from "fp-ts/Array";
+import range from "lodash.range";
 import { Gauge, GaugeOptions } from "gaugeJS";
 import React from "react";
 import * as O from "../facades/Option";
-import styles from "./VelocityGauge.css";
+import styles from "./UsageGauge.css";
+import Rainbow from "rainbowvis.js";
+import { toHex } from "../Color";
+
+const [lower, upper, step] = [0, 1, 0.05];
+
+const gaugeRainbow = new Rainbow();
+gaugeRainbow.setSpectrum("#0000b3", "#9a0000");
+gaugeRainbow.setNumberRange(lower, upper);
 
 const gaugeOpts: GaugeOptions = {
   angle: -0.3,
   lineWidth: 0.05, // The line thickness
-  radiusScale: 0.9, // Relative radius
+  radiusScale: 1, // Relative radius
   limitMax: true, // If false, max value increases automatically if value > maxValue
   limitMin: true, // If true, the min value of the gauge will be fixed
   pointer: {
     strokeWidth: 0,
   },
-  percentColors: [
-    [0.0, "#0000b3"],
-    [1.0, "#9a0000"],
-  ],
+  percentColors: pipe(
+    // We add step to the upper bound to include it as part of the range, by default it is not included.
+    range(lower, upper + step, step),
+    A.map((step) => tuple(step, pipe(gaugeRainbow.colorAt(step), toHex)))
+  ),
   highDpiSupport: true, // High resolution support
 };
 
