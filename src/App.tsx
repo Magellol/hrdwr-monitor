@@ -13,7 +13,8 @@ export const App: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.layout}>
         <Block className={styles.gaugesBlock}>
-          <VelocityGauge min={0} max={1200} n={1200}/>
+          <VelocityGauge min={0} max={24000} n={12000} title="GPU VRAM"/>
+          <VelocityGauge min={0} max={32000} n={3000} title="DDRAM"/>
         </Block>
         <Block className={styles.fansBlock}></Block>
         <div className={styles.thermalBlock}>
