@@ -1,0 +1,57 @@
+.mask {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  width: 12.5rem;
+  height: 6.25rem;
+  margin: 1.25rem;
+}
+
+.semiCircle {
+  position: relative;
+  display: block;
+  width: 12.5rem;
+  height: 6.25rem;
+  border-radius: 50% 50% 50% 50%/100% 100% 0% 0%;
+}
+.semiCircle::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 2;
+  display: block;
+  width: 8.75rem;
+  height: 4.375rem;
+  margin-left: -4.375rem;
+  background: var(--blockBg);
+  border-radius: 50% 50% 50% 50%/100% 100% 0% 0%;
+}
+
+.semiCircleMask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12.5rem;
+  height: 12.5rem;
+  background: transparent;
+  /* This is used to animate */
+  /* rotate: 120deg; */
+  translate: 0 0 0;
+  transform-origin: center center;
+  backface-visibility: hidden;
+  /* transition: all 0.3s ease-in-out; */
+}
+.semiCircleMask::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0%;
+  z-index: 2;
+  display: block;
+  width: 12.625rem;
+  height: 6.375rem;
+  margin: -1px 0 0 -1px;
+  background: #000713;
+  border-radius: 50% 50% 50% 50%/100% 100% 0% 0%;
+}
