@@ -10,13 +10,6 @@
   justify-content: start;
   grid-gap: 12px;
 }
-.header {
-  gap: 8px;
-  display: flex;
-  flex-direction: column;
-  color: white;
-  margin-bottom: 24px;
-}
 
 .statusContainer {
   display: flex;
