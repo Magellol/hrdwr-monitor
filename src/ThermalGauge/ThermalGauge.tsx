@@ -58,19 +58,22 @@ const defaultPaths: Array<Path> = [
 export type Props = {
   size: number;
   degrees: number;
+  min: number;
+  max: number;
   id: string;
 };
 
 const gaugeRainbow = new Rainbow();
 gaugeRainbow.setSpectrum("#0000b3", "#9a0000");
-gaugeRainbow.setNumberRange(35, 80);
 
 const textRainbow = new Rainbow();
 textRainbow.setSpectrum("#00326e", "#630000");
-textRainbow.setNumberRange(35, 80);
 
 export const ThermalGauge: React.FC<Props> = React.memo(
-  ({ size, degrees, id }) => {
+  ({ size, degrees, id, min, max }) => {
+    gaugeRainbow.setNumberRange(min, max);
+    textRainbow.setNumberRange(min, max);
+
     const color = `#${gaugeRainbow.colourAt(degrees)}`;
     const svgSize = size * 2;
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
