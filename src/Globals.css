@@ -7,7 +7,7 @@ body,
 :root {
   --grey1: #b1b1b1;
   --grey2: #838282;
-  --blockRadius: 24px;
+  --blockRadius: 18px;
   --blockPadding: 18px;
 }
 
