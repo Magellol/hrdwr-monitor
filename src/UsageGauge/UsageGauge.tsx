@@ -23,6 +23,7 @@ const gaugeOpts: GaugeOptions = {
   pointer: {
     strokeWidth: 0,
   },
+  strokeColor: "black",
   percentColors: pipe(
     // We add step to the upper bound to include it as part of the range, by default it is not included.
     range(lower, upper + step, step),
@@ -50,11 +51,12 @@ export const UsageGauge: React.FC<Props> = ({ min, max, n, title }) => {
     gauge.maxValue = max; // set max gauge value
     gauge.setMinValue(min); // set min value
     gauge.set(n); // set actual value
+    gauge.animationSpeed = 50;
   }, [min, max, n]);
 
   return (
     <div className={styles.container}>
-      <canvas ref={ref} style={{ width: 175 }}></canvas>
+      <canvas ref={ref} style={{ width: 100, height: 100 }}></canvas>
       <span className={styles.n}>{n}</span>
       <span className={styles.title}>{title}</span>
     </div>
