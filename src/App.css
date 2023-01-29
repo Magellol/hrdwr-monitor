@@ -19,6 +19,7 @@
 
 .gaugesBlock {
   grid-area: gauges;
+  display: flex;
 }
 
 .thermalBlock {
