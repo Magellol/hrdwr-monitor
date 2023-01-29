@@ -1,7 +1,7 @@
 .container {
   padding: var(--blockPadding);
   border-radius: var(--blockRadius);
-  background-color: #030c1c;
+  background-color: var(--blockBg);
 }
 
 /* .bg {
