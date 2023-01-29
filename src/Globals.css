@@ -9,6 +9,8 @@ body,
   --grey2: #838282;
   --blockRadius: 18px;
   --blockPadding: 18px;
+  --blockBg: #030c1c;
+  --layoutGap: 12px;
 }
 
 * {
