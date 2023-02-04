@@ -4,13 +4,14 @@
 
 - CPU temp
 - GPU temp
+- GPU VRAM load
 - RAM load
 - Fan speeds (RPM)
 
 ### TODO
 - [ ] Enable eslint/prettier
-- [x] Add just
-
+- [ ] Make UsageGauge a bit more consistent design-wise with the thermal gauges (we're missing some gradient and glow)
+- [ ] Implement idea of streaming chart for fan speeds
 
 ### Ideas
 
