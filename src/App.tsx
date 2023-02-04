@@ -5,6 +5,7 @@ import { Block } from "./Block";
 import "./Globals.css";
 import { Thermal } from "./Thermal";
 import { UsageGauge } from "./UsageGauge/UsageGauge";
+import { pathSample1, pathSample2 } from "./ThermalGauge";
 
 export const App: React.FC = () => {
   const [degrees, setDegrees] = React.useState(30);
@@ -12,17 +13,30 @@ export const App: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.layout}>
-        <Block className={styles.gaugesBlock}>
-          <UsageGauge min={0} max={24000} n={12000} title="GPU VRAM"/>
-          <UsageGauge min={0} max={32000} n={3000} title="DDRAM"/>
+        <Block className={styles.gaugesBlock} title="Load">
+          <UsageGauge
+            min={0}
+            max={24000}
+            n={15000}
+            unit="MBs"
+            title="GPU VRAM"
+          />
+          <UsageGauge
+            min={0}
+            max={10000}
+            n={3000}
+            unit="Hz"
+            title="GPU Clock"
+          />
+          <UsageGauge min={0} max={32000} n={3000} unit="MBs" title="DRAM" />
         </Block>
-        <Block className={styles.fansBlock}></Block>
+        <Block className={styles.fansBlock} title="Fan speeds"></Block>
         <div className={styles.thermalBlock}>
-          <Block>
-            <Thermal degrees={degrees} title="CPU Core" />
+          <Block title="CPU Core">
+            <Thermal degrees={degrees} id="cpu-core" paths={pathSample1} />
           </Block>
-          <Block>
-            <Thermal degrees={degrees} title="GPU Core" />
+          <Block title="GPU Core">
+            <Thermal degrees={degrees} id="gpu-core" paths={pathSample2} />
           </Block>
         </div>
       </div>

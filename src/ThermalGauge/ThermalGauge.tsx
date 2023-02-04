@@ -19,7 +19,7 @@ type Path = {
   color: O.Option<string>;
 };
 
-const defaultPaths: Array<Path> = [
+export const pathSample1: Array<Path> = [
   {
     speed: 500,
     strokeWidth: 3,
@@ -54,30 +54,67 @@ const defaultPaths: Array<Path> = [
   },
 ];
 
+export const pathSample2: Array<Path> = [
+  {
+    speed: 200,
+    strokeWidth: 3,
+    waveAmplitude: 3,
+    radiusDelta: 0,
+    waves: 5,
+    color: O.none,
+  },
+  {
+    radiusDelta: -7,
+    speed: 700,
+    strokeWidth: 3,
+    waveAmplitude: 15,
+    waves: 2,
+    color: O.none,
+  },
+  {
+    radiusDelta: 1,
+    speed: 400,
+    strokeWidth: 3,
+    waveAmplitude: 2,
+    waves: 30,
+    color: O.none,
+  },
+  {
+    radiusDelta: 2,
+    speed: 800,
+    strokeWidth: 0.5,
+    waveAmplitude: 6,
+    waves: 3,
+    color: O.some("rgba(255, 255, 255, 0.3"),
+  },
+];
+
 export type Props = {
   size: number;
   degrees: number;
   min: number;
   max: number;
   id: string;
+  paths: Array<Path>;
 };
 
 const gaugeRainbow = new Rainbow();
 gaugeRainbow.setSpectrum("#0000b3", "#9a0000");
 
 const textRainbow = new Rainbow();
-textRainbow.setSpectrum("#00326e", "#630000");
+textRainbow.setSpectrum("#022045", "#630000");
 
 export const ThermalGauge: React.FC<Props> = React.memo(
-  ({ size, degrees, id, min, max }) => {
+  ({ size, degrees, id, min, max, paths }) => {
     gaugeRainbow.setNumberRange(min, max);
     textRainbow.setNumberRange(min, max);
 
+    const canvasSize = size * 1.2;
+
     const color = `#${gaugeRainbow.colourAt(degrees)}`;
-    const svgSize = size * 2;
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
     const frameIdRef = React.useRef(0);
-    const getPath = generatePath(size);
+    const getPath = generatePath(size / 2);
 
     const particlesInit = React.useCallback(async (engine: Engine) => {
       console.log(engine);
@@ -93,9 +130,9 @@ export const ThermalGauge: React.FC<Props> = React.memo(
         context.lineWidth = 3;
         context.filter = "blur(0.5px)";
         context.setTransform(1, 0, 0, 1, 0, 0);
-        context.clearRect(0, 0, svgSize, svgSize);
-        context.setTransform(1, 0, 0, 1, svgSize / 2, svgSize / 2);
-        defaultPaths.forEach((path, i) => {
+        context.clearRect(0, 0, canvasSize, canvasSize);
+        context.setTransform(1, 0, 0, 1, canvasSize / 2, canvasSize / 2);
+        paths.forEach((path, i) => {
           context.lineWidth = path.strokeWidth;
           context.strokeStyle = pipe(
             path.color,
@@ -143,8 +180,8 @@ export const ThermalGauge: React.FC<Props> = React.memo(
 
         <canvas
           ref={canvasRef}
-          width={svgSize}
-          height={svgSize}
+          width={canvasSize}
+          height={canvasSize}
           className={styles.canvas}
         ></canvas>
         <Particles
@@ -211,7 +248,7 @@ function generatePath(size: number) {
     return line.radius((angle) => {
       const t = Date.now() / path.speed;
       return (
-        size / 2 +
+        size +
         radiusDelta +
         Math.cos(angle * path.waves - datumIndex / 3 + t) *
           Math.pow((1 + Math.cos(angle - t)) / 2, 3) *
