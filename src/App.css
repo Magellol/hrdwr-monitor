@@ -1,65 +1,66 @@
 .container {
   padding: 24px;
-  background: linear-gradient(rgb(0, 0, 0), rgb(1, 8, 25));
+  background: linear-gradient(rgb(0, 0, 0), rgb(0, 12, 39));
   height: 100%;
 }
 
 .layout {
-  display: grid;
-  /* TODO: this doesn't work as expected */
-  grid-template:
-    "gauges thermal" auto
-    "fans thermal" 1fr
-    "fans thermal" 1fr / 1fr auto;
-  gap: var(--layoutGap);
+  display: flex;
+  gap: 42px;
+  justify-content: center;
+  align-items: center;
   height: 100%;
 }
 
-.fansBlock {
-  grid-area: fans;
+.bgPattern {
+  opacity: 0.07;
+  background-image: linear-gradient(#444cf7 1px, transparent 1px),
+    linear-gradient(to right, #444cf7 1px, transparent 1px);
+  background-size: 15px 15px;
+  height: 642px;
+  width: 100%;
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+
+  /* To avoid fades to create horizontal scrolling */
+  overflow: hidden;
 }
 
-.gaugesBlock {
-  grid-area: gauges;
+.fade {
+  /* Relative to `.bgPattern */
+  position: absolute;
+  z-index: 2;
 }
 
-.gaugesContent {
-  display: flex;
-  gap: 24px;
+.sideFade {
+  width: 400px;
+  top: -40px;
+  bottom: -40px;
 }
 
-.thermalBlock {
-  grid-area: thermal;
-  display: flex;
-  flex-direction: column;
-  gap: var(--layoutGap);
+.baseFade {
+  width: 100%;
 }
 
-.statusContainer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.leftFade {
+  left: 0;
+  background: linear-gradient(to left, transparent 0%, rgb(0, 0, 0) 100%);
 }
 
-.systemStatus {
-  color: var(--grey);
-  font-size: 14px;
+.rightFade {
+  right: 0;
+  background: linear-gradient(to left, rgb(0, 0, 0) 0%, transparent 100%);
 }
 
-.status {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+.topFade {
+  top: -40px;
+  height: 200px;
+  background: linear-gradient(black, 70%, transparent 100%);
 }
 
-.status.green {
-  background-color: green;
-}
-
-.status.orange {
-  background-color: orange;
-}
-
-.status.red {
-  background-color: red;
+.bottomFade {
+  bottom: 0;
+  height: 200px;
+  background: linear-gradient(transparent, 70%, black 100%);
 }
