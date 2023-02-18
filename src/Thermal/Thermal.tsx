@@ -10,6 +10,15 @@ export const Thermal: React.FC<
 > = ({ id, degrees, paths }) => {
   return (
     <div className={styles.container}>
+      <div className={styles.rays}>
+        {pipe(
+          // This can't be 90deg to avoid stacking the first and last item
+          NEA.range(0, 89),
+          NEA.mapWithIndex((i) => (
+            <div className={styles.ray} style={{ rotate: `${4 * i}deg` }}></div>
+          ))
+        )}
+      </div>
       <div className={classNames(styles.content)}>
         <ThermalGauge
           degrees={degrees}

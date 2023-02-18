@@ -5,3 +5,23 @@
 .content {
   transition: filter 0.2s ease;
 }
+.rays {
+  /* Relative to `.container` */
+  position: absolute;
+  box-sizing: border-box;
+  left: 128px;
+  pointer-events: none;
+}
+
+.ray {
+  width: 1px;
+  height: 109px;
+  background-color: rgba(255, 255, 255, 0.05);
+  left: 14px;
+  top: 33px;
+
+  /* Relative to `.rays` */
+  position: absolute;
+  transform-origin: 50% 100%;
+}
+
