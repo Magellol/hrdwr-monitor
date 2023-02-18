@@ -30,8 +30,8 @@
   position: absolute;
 
   /* Visually align on the X axis */
-  translate: 4px 0;
-  font-size: 42px;
+  /* translate: 4px 0; */
+  font-size: 60px;
 }
 
 .particlesContainer {
