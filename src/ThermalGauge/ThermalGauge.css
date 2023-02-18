@@ -12,12 +12,12 @@
   border-radius: 50%;
   filter: blur(0.5px);
   box-shadow: 0 0 0 8px var(--thermal-gauge-main-color) inset,
-    0 5px 70px 20px var(--thermal-gauge-main-color) inset,
-    0 -5px 200px 20px var(--thermal-gauge-faded-color) inset,
-    0 -5px 100px 20px rgba(255, 255, 255, 0.5) inset,
-    0 5px 100px 20px rgba(255, 255, 255, 0.5) inset,
-    0 -5px 300px 30px var(--thermal-gauge-faded-color),
-    0 -5px 300px 30px var(--thermal-gauge-faded-color);
+    0 0px 70px 20px var(--thermal-gauge-main-color) inset,
+    0 0px 200px 20px var(--thermal-gauge-faded-color) inset,
+    0 0px 100px 20px rgba(255, 255, 255, 0.5) inset,
+    0 0px 100px 20px rgba(255, 255, 255, 0.5) inset,
+    0 0px 50px 30px var(--thermal-gauge-faded-color),
+    0 0px 100px 30px var(--thermal-gauge-faded-color);
 }
 
 .canvas {
