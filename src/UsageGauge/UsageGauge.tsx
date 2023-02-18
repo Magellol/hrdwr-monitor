@@ -14,6 +14,9 @@ const gaugeRainbow = new Rainbow();
 gaugeRainbow.setSpectrum("#0000b3", "#9a0000");
 gaugeRainbow.setNumberRange(lower, upper);
 
+const textRainbow = new Rainbow();
+textRainbow.setSpectrum("#0000b3", "#9a0000");
+
 const gaugeOpts: GaugeOptions = {
   angle: -0.3,
   lineWidth: 0.05, // The line thickness
@@ -43,7 +46,7 @@ export type Props = {
 export const UsageGauge: React.FC<Props> = ({ min, max, n, title, unit }) => {
   // TODO: use useCallbackRef with an option instead
   const ref = React.useRef(null);
-  // gaugeRainbow.setNumberRange(min, max);
+  textRainbow.setNumberRange(min, max);
 
   React.useEffect(() => {
     const el = pipe(ref.current, O.fromNullable, O.unsafeUnwrap);
@@ -59,7 +62,17 @@ export const UsageGauge: React.FC<Props> = ({ min, max, n, title, unit }) => {
     <div className={styles.container}>
       <canvas ref={ref} style={{ width: 100, height: 100 }}></canvas>
       <div className={styles.nContainer}>
-        <span>{n}</span>
+        <span
+          style={{
+            textShadow: `0 0 0.3em ${pipe(
+              textRainbow.colorAt(n),
+              toHex
+            )}, 0 0 0.6em ${pipe(textRainbow.colorAt(n+1), toHex)}`,
+            // color: pipe(textRainbow.colorAt(n), toHex),
+          }}
+        >
+          {n}
+        </span>
         <span className={styles.unit}>({unit})</span>
       </div>
       <span className={styles.title}>{title}</span>
