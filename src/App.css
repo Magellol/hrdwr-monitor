@@ -6,19 +6,24 @@
 
 .layout {
   display: grid;
+  /* TODO: this doesn't work as expected */
   grid-template:
     "gauges thermal" auto
     "fans thermal" 1fr
-    "fans themarl" 1fr / 1fr auto;
+    "fans thermal" 1fr / 1fr auto;
   gap: var(--layoutGap);
+  height: 100%;
 }
 
-.memoryBlock {
-  grid-area: memory;
+.fansBlock {
+  grid-area: fans;
 }
 
 .gaugesBlock {
   grid-area: gauges;
+}
+
+.gaugesContent {
   display: flex;
   gap: 24px;
 }
