@@ -36,10 +36,11 @@ export type Props = {
   min: number;
   max: number;
   n: number;
+  unit: string;
   title: string;
 };
 
-export const UsageGauge: React.FC<Props> = ({ min, max, n, title }) => {
+export const UsageGauge: React.FC<Props> = ({ min, max, n, title, unit }) => {
   // TODO: use useCallbackRef with an option instead
   const ref = React.useRef(null);
   // gaugeRainbow.setNumberRange(min, max);
@@ -57,7 +58,10 @@ export const UsageGauge: React.FC<Props> = ({ min, max, n, title }) => {
   return (
     <div className={styles.container}>
       <canvas ref={ref} style={{ width: 100, height: 100 }}></canvas>
-      <span className={styles.n}>{n}</span>
+      <div className={styles.nContainer}>
+        <span>{n}</span>
+        <span className={styles.unit}>({unit})</span>
+      </div>
       <span className={styles.title}>{title}</span>
     </div>
   );
