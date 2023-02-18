@@ -5,6 +5,7 @@
 .content {
   transition: filter 0.2s ease;
 }
+
 .rays {
   /* Relative to `.container` */
   position: absolute;
@@ -25,3 +26,8 @@
   transform-origin: 50% 100%;
 }
 
+.label {
+  color: #fff;
+  text-shadow: 0 0 4px #fff, 0 0 8px #fff;
+  font-size: 16px;
+}

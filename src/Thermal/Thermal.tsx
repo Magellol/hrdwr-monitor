@@ -1,15 +1,17 @@
 import classNames from "classnames";
-import {
-  Props as ThermalGaugeProps,
-  ThermalGauge
-} from "../ThermalGauge";
+import { Props as ThermalGaugeProps, ThermalGauge } from "../ThermalGauge";
 import styles from "./Thermal.css";
+import * as NEA from "fp-ts/NonEmptyArray";
+import { pipe } from "fp-ts/function";
 
 export const Thermal: React.FC<
-  Pick<ThermalGaugeProps, "degrees" | "paths"> & { id: string }
-> = ({ id, degrees, paths }) => {
+  Pick<ThermalGaugeProps, "degrees" | "paths"> & { label: string }
+> = ({ label, degrees, paths }) => {
   return (
     <div className={styles.container}>
+      <header>
+        <span className={styles.label}>{label}</span>
+      </header>
       <div className={styles.rays}>
         {pipe(
           // This can't be 90deg to avoid stacking the first and last item
@@ -24,7 +26,7 @@ export const Thermal: React.FC<
           degrees={degrees}
           size={225}
           paths={paths}
-          id={id}
+          id={label}
           min={30}
           max={85}
         />
