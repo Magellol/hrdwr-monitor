@@ -30,7 +30,7 @@ export const pathSample1: Array<Path> = [
   },
   {
     radiusDelta: -7,
-    speed: -1000,
+    speed: -800,
     strokeWidth: 3,
     waveAmplitude: 15,
     waves: 2,
@@ -56,7 +56,7 @@ export const pathSample1: Array<Path> = [
 
 export const pathSample2: Array<Path> = [
   {
-    speed: 200,
+    speed: 300,
     strokeWidth: 3,
     waveAmplitude: 3,
     radiusDelta: 0,
@@ -67,7 +67,7 @@ export const pathSample2: Array<Path> = [
     radiusDelta: -7,
     speed: 700,
     strokeWidth: 3,
-    waveAmplitude: 15,
+    waveAmplitude: 18,
     waves: 2,
     color: O.none,
   },
@@ -102,7 +102,7 @@ const gaugeRainbow = new Rainbow();
 gaugeRainbow.setSpectrum("#0000b3", "#9a0000");
 
 const textRainbow = new Rainbow();
-textRainbow.setSpectrum("#022045", "#630000");
+textRainbow.setSpectrum("#011631", "#630000");
 
 export const ThermalGauge: React.FC<Props> = React.memo(
   ({ size, degrees, id, min, max, paths }) => {
@@ -227,9 +227,14 @@ export const ThermalGauge: React.FC<Props> = React.memo(
         />
         <span
           className={styles.degrees}
-          style={{ color: `#${textRainbow.colorAt(degrees)}` }}
+          style={{
+            color: `#${textRainbow.colorAt(degrees)}`,
+            textShadow: `0 0 0.3em #${textRainbow.colorAt(
+              degrees
+            )}, 0 0 0.6em #${textRainbow.colorAt(degrees)}`,
+          }}
         >
-          {degrees}°
+          {degrees}
         </span>
       </div>
     );
