@@ -218,6 +218,17 @@ declare module "gaugeJS" {
         max: number;
       }
     ];
+
+    renderTicks?: {
+      divisions?: number;
+      divWidth?: number;
+      divLength?: number;
+      divColor?: string;
+      subDivisions?: number;
+      subLength?: number;
+      subWidth?: number;
+      subColor?: string;
+    };
   }
 
   export interface DonutOptions extends BaseOptions {

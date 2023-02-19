@@ -40,6 +40,16 @@ const avg5minGaugeOpts: GaugeOptions = {
     A.map((step) => tuple(step, pipe(gaugeRainbow.colorAt(step), toHex)))
   ),
   highDpiSupport: true, // High resolution support
+  renderTicks: {
+    divisions: 3,
+    divWidth: 1,
+    divLength: 2,
+    subDivisions: 2,
+    subWidth: 1,
+    subLength: 1,
+    subColor: 'rgba(255, 255, 255, 0.1)',
+    divColor: 'rgba(255, 255, 255, 0.2)',
+  }
 };
 
 export const Thermal: React.FC<
