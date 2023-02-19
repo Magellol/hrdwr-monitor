@@ -1,15 +1,15 @@
 import classNames from "classnames";
-import { Props as ThermalGaugeProps, ThermalGauge } from "../ThermalGauge";
-import styles from "./Thermal.css";
-import * as NEA from "fp-ts/NonEmptyArray";
-import { pipe, tuple } from "fp-ts/function";
 import * as A from "fp-ts/Array";
+import { pipe, tuple } from "fp-ts/function";
+import * as NEA from "fp-ts/NonEmptyArray";
+import { Gauge, GaugeOptions } from "gaugeJS";
 import range from "lodash.range";
-import { GaugeOptions, Gauge } from "gaugeJS";
-import { toHex } from "../Color";
 import Rainbow from "rainbowvis.js";
 import React from "react";
+import { toHex } from "../Color";
 import * as O from "../facades/Option";
+import { Props as ThermalGaugeProps, ThermalGauge } from "../ThermalGauge";
+import styles from "./Thermal.css";
 
 const [lower, upper, step] = [0, 1, 0.05];
 
@@ -44,21 +44,34 @@ export const Thermal: React.FC<
   const min = 30;
   const max = 85;
   // TODO: use useCallbackRef with an option instead
-  const ref = React.useRef(null);
+  const ref = React.useRef<HTMLCanvasElement>(null);
+  const gaugeRef = React.useRef<O.Option<Gauge>>(O.none);
 
   React.useEffect(() => {
-    const el = pipe(ref.current, O.fromNullable, O.unsafeUnwrap);
+    gaugeRef.current = pipe(
+      gaugeRef.current,
+      O.alt(() => {
+        return pipe(
+          ref.current,
+          O.fromNullable,
+          O.map((el) => {
+            const g = new Gauge(el).setOptions(avg5minGaugeOpts);
+            g.maxValue = max;
+            g.setMinValue(min);
+            g.animationSpeed = 150;
 
-    // TODO there is a bug where the gauge glitches when the number is updated. It starts the animation from zero all over againb
-    // My guess is because the `gauge` and its `min` `max` are not preserved and re-created everytime the degrees update.
-    const gauge = new Gauge(el).setOptions(avg5minGaugeOpts);
-    gauge.maxValue = max; // set max gauge value
-    gauge.setMinValue(min); // set min value
+            return g;
+          })
+        );
+      }),
 
-    // TODO: this should be the avg over time (e.g 5 minutes) as opposed to be the the current value
-    gauge.set(degrees);
-    // gauge.animationSpeed = 150;
-  }, [min, max, degrees]);
+      // TODO this sounds like `Option` is the wrong monadic context here
+      O.chainFirst((g) => {
+        // TODO: this should be the avg over time (e.g 5 minutes) as opposed to be the the current value
+        return O.some(g.set(degrees));
+      })
+    );
+  }, [degrees]);
 
   return (
     <div className={styles.container}>
