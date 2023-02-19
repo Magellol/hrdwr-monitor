@@ -7,7 +7,7 @@ import { Thermal, Dir } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
 
 export const App: React.FC = () => {
-  const [degrees, setDegrees] = React.useState(30);
+  const [degrees, setDegrees] = React.useState(35);
 
   return (
     <div className={styles.container}>
