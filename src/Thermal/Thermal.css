@@ -35,3 +35,12 @@
   text-shadow: 0 0 4px #fff, 0 0 8px #fff;
   font-size: 16px;
 }
+
+.avgGaugeContainer {
+  /* Relative to `.container` */
+  rotate: 90deg;
+  position: absolute;
+  top: 50%;
+  right: -130px;
+  translate: 0 -50%;
+}
