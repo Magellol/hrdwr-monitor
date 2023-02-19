@@ -73,7 +73,7 @@ export const pathSample2: Array<Path> = [
   },
   {
     radiusDelta: 1,
-    speed: 400,
+    speed: 300,
     strokeWidth: 3,
     waveAmplitude: 2,
     waves: 30,
