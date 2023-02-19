@@ -6,7 +6,7 @@
 
 .layout {
   display: flex;
-  gap: 42px;
+  gap: 200px;
   justify-content: center;
   align-items: center;
   height: 100%;
