@@ -102,7 +102,7 @@ const gaugeRainbow = new Rainbow();
 gaugeRainbow.setSpectrum("#0000b3", "#9a0000");
 
 const textRainbow = new Rainbow();
-textRainbow.setSpectrum("#011631", "#630000");
+textRainbow.setSpectrum("#011631", "#3b0000");
 
 export const ThermalGauge: React.FC<Props> = React.memo(
   ({ size, degrees, id, min, max, paths }) => {
