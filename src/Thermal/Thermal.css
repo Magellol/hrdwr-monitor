@@ -8,10 +8,13 @@
 
 .header {
   display: flex;
+  flex-direction: column;
+  text-shadow: 0 0 4px #fff, 0 0 8px #fff;
+  gap: 4px;
 }
 
 .header.right {
-  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .rays {
@@ -40,8 +43,12 @@
 
 .label {
   color: #fff;
-  text-shadow: 0 0 4px #fff, 0 0 8px #fff;
   font-size: 16px;
+}
+
+.model {
+  color: #fff;
+  font-size: 12px;
 }
 
 .avgGaugeContainer {

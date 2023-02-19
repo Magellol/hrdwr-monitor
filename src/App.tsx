@@ -15,12 +15,14 @@ export const App: React.FC = () => {
         <Thermal
           degrees={degrees}
           label="CPU Core"
+          model="Intel Core i5-13600K"
           paths={pathSample1}
           dir={Dir.mk.Left}
         />
         <Thermal
           degrees={degrees}
           label="GPU Core"
+          model="AMD Radeon RX 7900 XTX"
           paths={pathSample2}
           dir={Dir.mk.Right}
         />

@@ -55,6 +55,12 @@ const avg5minGaugeOpts: GaugeOptions = {
 export const Thermal: React.FC<
   Pick<ThermalGaugeProps, "degrees" | "paths"> & { label: string; dir: Dir }
 > = ({ label, degrees, paths, dir }) => {
+  Pick<ThermalGaugeProps, "degrees" | "paths"> & {
+    label: string;
+    model: string;
+    dir: Dir;
+  }
+> = ({ label, model, degrees, paths, dir }) => {
   const min = 30;
   const max = 85;
   // TODO: use useCallbackRef with an option instead
@@ -102,6 +108,7 @@ export const Thermal: React.FC<
         )}
       >
         <span className={styles.label}>{label}</span>
+        <span className={styles.model}>{model}</span>
       </header>
       <div className={styles.rays}>
         {pipe(
