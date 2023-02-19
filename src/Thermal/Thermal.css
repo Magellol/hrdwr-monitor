@@ -43,4 +43,5 @@
   top: 50%;
   right: -130px;
   translate: 0 -50%;
+  scale: -1 1;
 }
