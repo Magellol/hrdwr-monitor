@@ -1,6 +1,7 @@
+import * as Sum from "@unsplash/sum-types";
 import classNames from "classnames";
 import * as A from "fp-ts/Array";
-import { pipe, tuple } from "fp-ts/function";
+import { constant, pipe, tuple } from "fp-ts/function";
 import * as NEA from "fp-ts/NonEmptyArray";
 import { Gauge, GaugeOptions } from "gaugeJS";
 import range from "lodash.range";
@@ -19,6 +20,9 @@ gaugeRainbow.setNumberRange(lower, upper);
 
 const textRainbow = new Rainbow();
 textRainbow.setSpectrum("#0000b3", "#9a0000");
+
+export type Dir = Sum.Member<"Left"> | Sum.Member<"Right">;
+export const Dir = Sum.create<Dir>();
 
 const avg5minGaugeOpts: GaugeOptions = {
   angle: 0.19,
@@ -39,8 +43,8 @@ const avg5minGaugeOpts: GaugeOptions = {
 };
 
 export const Thermal: React.FC<
-  Pick<ThermalGaugeProps, "degrees" | "paths"> & { label: string }
-> = ({ label, degrees, paths }) => {
+  Pick<ThermalGaugeProps, "degrees" | "paths"> & { label: string; dir: Dir }
+> = ({ label, degrees, paths, dir }) => {
   const min = 30;
   const max = 85;
   // TODO: use useCallbackRef with an option instead
@@ -75,7 +79,18 @@ export const Thermal: React.FC<
 
   return (
     <div className={styles.container}>
-      <header>
+      <header
+        className={classNames(
+          styles.header,
+          pipe(
+            dir,
+            Dir.match({
+              Left: constant(styles.right),
+              Right: constant(styles.left),
+            })
+          )
+        )}
+      >
         <span className={styles.label}>{label}</span>
       </header>
       <div className={styles.rays}>
@@ -97,7 +112,18 @@ export const Thermal: React.FC<
           max={85}
         />
       </div>
-      <div className={styles.avgGaugeContainer}>
+      <div
+        className={classNames(
+          styles.avgGaugeContainer,
+          pipe(
+            dir,
+            Dir.match({
+              Left: constant(styles.left),
+              Right: constant(styles.right),
+            })
+          )
+        )}
+      >
         <canvas ref={ref} style={{ width: 300, height: 300 }}></canvas>
       </div>
     </div>

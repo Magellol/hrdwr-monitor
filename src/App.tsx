@@ -3,7 +3,7 @@ import "normalize.css";
 import * as React from "react";
 import styles from "./App.css";
 import "./Globals.css";
-import { Thermal } from "./Thermal";
+import { Thermal, Dir } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
 
 export const App: React.FC = () => {
@@ -12,8 +12,18 @@ export const App: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.layout}>
-        <Thermal degrees={degrees} label="CPU Core" paths={pathSample1} />
-        <Thermal degrees={degrees} label="GPU Core" paths={pathSample2} />
+        <Thermal
+          degrees={degrees}
+          label="CPU Core"
+          paths={pathSample1}
+          dir={Dir.mk.Left}
+        />
+        <Thermal
+          degrees={degrees}
+          label="GPU Core"
+          paths={pathSample2}
+          dir={Dir.mk.Right}
+        />
         <div className={styles.bgPattern}>
           <div
             className={classNames(

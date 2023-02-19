@@ -6,6 +6,14 @@
   transition: filter 0.2s ease;
 }
 
+.header {
+  display: flex;
+}
+
+.header.right {
+  justify-content: flex-end;
+}
+
 .rays {
   /* Relative to `.container` */
   position: absolute;
@@ -38,10 +46,18 @@
 
 .avgGaugeContainer {
   /* Relative to `.container` */
-  rotate: 90deg;
   position: absolute;
   top: 50%;
-  right: -130px;
   translate: 0 -50%;
+}
+
+.avgGaugeContainer.right {
   scale: -1 1;
+  right: -130px;
+  rotate: 90deg;
+}
+
+.avgGaugeContainer.left {
+  left: -130px;
+  rotate: -90deg;
 }
