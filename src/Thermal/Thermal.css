@@ -55,7 +55,7 @@
   /* Relative to `.container` */
   position: absolute;
   top: 50%;
-  translate: 0 -50%;
+  translate: 0 -45%;
 }
 
 .avgGaugeContainer.right {

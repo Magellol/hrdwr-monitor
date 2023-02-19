@@ -33,7 +33,7 @@ const avg5minGaugeOpts: GaugeOptions = {
   pointer: {
     strokeWidth: 0,
   },
-  strokeColor: "black",
+  strokeColor: "rgba(255, 255, 255, 0.03)",
   percentColors: pipe(
     // We add step to the upper bound to include it as part of the range, by default it is not included.
     range(lower, upper + step, step),
@@ -47,14 +47,12 @@ const avg5minGaugeOpts: GaugeOptions = {
     subDivisions: 2,
     subWidth: 1,
     subLength: 1,
-    subColor: 'rgba(255, 255, 255, 0.1)',
-    divColor: 'rgba(255, 255, 255, 0.2)',
-  }
+    subColor: "rgba(255, 255, 255, 0.15)",
+    divColor: "rgba(255, 255, 255, 0.2)",
+  },
 };
 
 export const Thermal: React.FC<
-  Pick<ThermalGaugeProps, "degrees" | "paths"> & { label: string; dir: Dir }
-> = ({ label, degrees, paths, dir }) => {
   Pick<ThermalGaugeProps, "degrees" | "paths"> & {
     label: string;
     model: string;
