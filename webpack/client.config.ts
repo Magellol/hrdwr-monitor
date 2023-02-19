@@ -51,8 +51,21 @@ const config: Configuration = {
   },
   plugins: [
     new HtmlPlugin({
-      templateContent:
-        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Webpack App</title> <meta name="viewport" content="width=device-width, initial-scale=1"></head><body><div id="app" /></body></html>',
+      templateContent: `
+      <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8"><title>Webpack App</title>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+          </head>
+          <body>
+            <div id="app" />
+          </body>
+        </html>,
+      `,
     }),
     new ReactRefreshWebpackPlugin(),
   ],
