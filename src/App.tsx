@@ -16,6 +16,7 @@ export const App: React.FC = () => {
           degrees={degrees}
           label="CPU Core"
           model="Intel Core i5-13600K"
+          load={45}
           paths={pathSample1}
           dir={Dir.mk.Left}
         />
@@ -24,6 +25,7 @@ export const App: React.FC = () => {
           label="GPU Core"
           model="AMD Radeon RX 7900 XTX"
           paths={pathSample2}
+          load={60}
           dir={Dir.mk.Right}
         />
         <div className={styles.bgPattern}>

@@ -55,12 +55,13 @@ const avg5minGaugeOpts: GaugeOptions = {
 export const Thermal: React.FC<
   Pick<ThermalGaugeProps, "degrees" | "paths"> & {
     label: string;
+
+    // TODO: use newtype for percentage
+    load: number;
     model: string;
     dir: Dir;
   }
-> = ({ label, model, degrees, paths, dir }) => {
-  const min = 30;
-  const max = 85;
+> = ({ label, model, degrees, paths, dir, load }) => {
   // TODO: use useCallbackRef with an option instead
   const ref = React.useRef<HTMLCanvasElement>(null);
   const gaugeRef = React.useRef<O.Option<Gauge>>(O.none);
@@ -74,8 +75,8 @@ export const Thermal: React.FC<
           O.fromNullable,
           O.map((el) => {
             const g = new Gauge(el).setOptions(avg5minGaugeOpts);
-            g.maxValue = max;
-            g.setMinValue(min);
+            g.maxValue = 100;
+            g.setMinValue(0);
             g.animationSpeed = 150;
 
             return g;
@@ -84,12 +85,9 @@ export const Thermal: React.FC<
       }),
 
       // TODO this sounds like `Option` is the wrong monadic context here
-      O.chainFirst((g) => {
-        // TODO: this should be the avg over time (e.g 5 minutes) as opposed to be the the current value
-        return O.some(g.set(degrees));
-      })
+      O.chainFirst((g) => O.some(g.set(load)))
     );
-  }, [degrees]);
+  }, [load]);
 
   return (
     <div className={styles.container}>
@@ -106,7 +104,9 @@ export const Thermal: React.FC<
         )}
       >
         <span className={styles.label}>{label}</span>
-        <span className={styles.model}>{model}</span>
+        <span className={classNames(styles.model, styles.glowyText)}>
+          {model}
+        </span>
       </header>
       <div className={styles.rays}>
         {pipe(
@@ -129,7 +129,7 @@ export const Thermal: React.FC<
       </div>
       <div
         className={classNames(
-          styles.avgGaugeContainer,
+          styles.loadGaugeContainer,
           pipe(
             dir,
             Dir.match({
@@ -139,7 +139,12 @@ export const Thermal: React.FC<
           )
         )}
       >
-        <canvas ref={ref} style={{ width: 300, height: 300 }}></canvas>
+        <span className={classNames(styles.loadLabel, styles.glowyText)}>
+          {load}%
+        </span>
+        <div className={classNames(styles.loadGraphContainer)}>
+          <canvas ref={ref} style={{ width: 300, height: 300 }}></canvas>
+        </div>
       </div>
     </div>
   );

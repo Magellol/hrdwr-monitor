@@ -48,30 +48,61 @@
   font-size: 16px;
 }
 
-.model {
-  color: #fff;
-  font-size: 12px;
+.glowyText {
   background: linear-gradient(to right, #eee, #f900ff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-.avgGaugeContainer {
+.model {
+  color: #fff;
+  font-size: 12px;
+}
+
+.loadGaugeContainer {
   /* Relative to `.container` */
   position: absolute;
   top: 50%;
   translate: 0 -45%;
+}
+
+.loadGraphContainer {
   pointer-events: none;
 }
 
-.avgGaugeContainer.right {
-  scale: -1 1;
+.loadGaugeContainer.right {
   right: -140px;
+}
+
+.loadGaugeContainer.right .loadGraphContainer {
+  scale: -1 1;
   rotate: 90deg;
 }
 
-.avgGaugeContainer.left {
+.loadGaugeContainer.left {
   left: -140px;
+}
+
+.loadGaugeContainer.left .loadGraphContainer {
   rotate: -90deg;
+}
+
+.loadGaugeContainer.left .loadLabel {
+  left: 105px;
+  translate: 0 -50%;
+}
+
+.loadGaugeContainer.right .loadLabel {
+  right: 102px;
+  translate: 0 -50%;
+}
+
+.loadLabel {
+  /* Relative to .loadGaugeContainer */
+  position: absolute;
+  color: white;
+  top: 50%;
+  font-size: 14px;
+  letter-spacing: 2px;
 }
