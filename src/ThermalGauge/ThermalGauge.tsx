@@ -46,9 +46,17 @@ export const pathSample1: Array<Path> = [
     color: Color.changeShade(-10),
   },
   {
+    radiusDelta: 1,
+    speed: 400,
+    strokeWidth: 3,
+    waveAmplitude: 10,
+    waves: 4,
+    color: Color.changeShade(-10),
+  },
+  {
     radiusDelta: -7,
     speed: -800,
-    strokeWidth: 3,
+    strokeWidth: 4,
     waveAmplitude: 15,
     waves: 2,
     color: Color.changeShade(-10),
@@ -57,7 +65,7 @@ export const pathSample1: Array<Path> = [
   {
     radiusDelta: 0,
     speed: -400,
-    strokeWidth: 3,
+    strokeWidth: 4,
     waveAmplitude: 3,
     waves: 30,
     color: identity,
@@ -88,6 +96,14 @@ export const pathSample2: Array<Path> = [
     waveAmplitude: 10,
     waves: 3,
     color: Color.changeShade(-50),
+  },
+  {
+    radiusDelta: 1,
+    speed: -400,
+    strokeWidth: 3,
+    waveAmplitude: 10,
+    waves: 4,
+    color: Color.changeShade(-10),
   },
   {
     radiusDelta: 1,
