@@ -7,13 +7,15 @@
 }
 
 .header {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  text-shadow: 0 0 4px #fff, 0 0 8px #fff;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5),
+    0 0 4px rgba(255, 255, 255, 0.5);
   gap: 4px;
 }
 
 .header.right {
+  display: flex;
   align-items: flex-end;
 }
 
@@ -49,6 +51,10 @@
 .model {
   color: #fff;
   font-size: 12px;
+  background: linear-gradient(to right, #eee, #f900ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .avgGaugeContainer {
