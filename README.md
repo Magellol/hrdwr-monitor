@@ -26,3 +26,4 @@
 - [ ] Take inspiration on how LED changes on computer hardward, look at iCUE rgb effects
 
 - [ ] To support other platforms, a plugin system could convert the received data to match a common interface
+- [ ] Re-inforce the idea of a dashboard by adding a few lines on top and bottom that has a lighting effect or a glare effect
