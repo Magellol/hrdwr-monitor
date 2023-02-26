@@ -6,7 +6,6 @@
 
 .layout {
   display: flex;
-  gap: 350px;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -65,6 +64,82 @@
   bottom: 0;
   height: 200px;
   background: linear-gradient(transparent, 50%, rgb(0, 12, 39) 100%);
+}
+
+.connectingLines {
+  display: flex;
+}
+
+.connectingLineContainer {
+  width: 100%;
+  position: relative;
+}
+
+.leftConnectingLineContainer {
+  margin-right: -20px;
+}
+
+.rightConnectingLineContainer {
+  rotate: 180deg;
+  transform-origin: center;
+  top: -5px;
+}
+
+.connectingLinePath {
+  stroke-width: 2px;
+  stroke-opacity: 0.1;
+}
+
+.connectingLine {
+  /* Note: this has to closely related to the same path in the `ConnectingLine` svg path */
+  offset-path: path("M30,1 H187 L216,30");
+  position: absolute;
+  opacity: 0;
+  animation-fill-mode: forwards;
+  width: 10px;
+  height: 2px;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.5) 10%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  box-shadow: 0 0 0.6em #0dfcc4, 0 0 0.8em #17fcc7;
+}
+
+.leftConnectingLine {
+  animation: move 4s infinite ease-out;
+  animation-delay: 3s;
+}
+
+.rightConnectingLine {
+  animation: move 4s infinite ease-out;
+  animation-delay: 3s;
+}
+
+@keyframes move {
+  0% {
+    transform: scalex(0);
+    opacity: 0;
+    offset-distance: 0%;
+  }
+  1% {
+    opacity: 1;
+  }
+  20% {
+    transform: scalex(1);
+    offset-distance: 100%;
+  }
+
+  30% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: scalex(1);
+    offset-distance: 100%;
+    opacity: 0;
+  }
 }
 
 @keyframes pulse {
