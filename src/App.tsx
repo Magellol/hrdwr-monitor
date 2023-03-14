@@ -7,6 +7,12 @@ import { Thermal, Dir } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
 import { UsageGauge } from "./UsageGauge/UsageGauge";
 
+// Needed data
+// CPU load, CPU name, CPU temp
+// RAM usage, RAM total, 
+// VRAM usage, VRAM total, 
+// GPU load, GPU name, GPU temp
+
 const ConnectingLine: React.FC = () => {
   const id = React.useId();
   return (
@@ -35,13 +41,11 @@ const ConnectingLine: React.FC = () => {
 };
 
 export const App: React.FC = () => {
-  const [degrees, setDegrees] = React.useState(35);
-
   return (
     <div className={styles.container}>
       <div className={styles.layout}>
         <Thermal
-          degrees={degrees}
+          degrees={35}
           label="CPU Core"
           model="Intel Core i5-13600K"
           load={45}
@@ -97,7 +101,7 @@ export const App: React.FC = () => {
         </div>
 
         <Thermal
-          degrees={degrees}
+          degrees={35}
           label="GPU Core"
           model="AMD Radeon RX 7900 XTX"
           paths={pathSample2}
@@ -131,11 +135,6 @@ export const App: React.FC = () => {
           ></div>
         </div>
       </div>
-      <input
-        value={degrees}
-        type="number"
-        onChange={(ev) => setDegrees(ev.target.valueAsNumber)}
-      />
     </div>
   );
 };
