@@ -5,6 +5,7 @@ import styles from "./App.css";
 import "./Globals.css";
 import { Thermal, Dir } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
+import { UsageGauge } from "./UsageGauge/UsageGauge";
 
 const ConnectingLine: React.FC = () => {
   const id = React.useId();
@@ -46,35 +47,52 @@ export const App: React.FC = () => {
           load={45}
           paths={pathSample1}
           dir={Dir.mk.Left}
-        />
+        ></Thermal>
+
         <div className={styles.connectingLines}>
-          <div
-            className={classNames(
-              styles.connectingLineContainer,
-              styles.leftConnectingLineContainer
-            )}
-          >
+          <div className={styles.connectingLineContainer}>
+            <div className={styles.leftConnectingLineContainer}>
+              <div
+                className={classNames(
+                  styles.connectingLine,
+                  styles.leftConnectingLine
+                )}
+              />
+              <ConnectingLine />
+            </div>
             <div
               className={classNames(
-                styles.connectingLine,
-                styles.leftConnectingLine
+                styles.usageGaugeContainer,
+                styles.leftUsageGaugeContainer
               )}
-            />
-            <ConnectingLine />
+            >
+              <UsageGauge min={0} max={16000} n={2400} title="RAM" unit="MB" />
+            </div>
           </div>
-          <div
-            className={classNames(
-              styles.connectingLineContainer,
-              styles.rightConnectingLineContainer
-            )}
-          >
+          <div className={styles.connectingLineContainer}>
+            <div className={styles.rightConnectingLineContainer}>
+              <div
+                className={classNames(
+                  styles.connectingLine,
+                  styles.rightConnectingLine
+                )}
+              />
+              <ConnectingLine />
+            </div>
             <div
               className={classNames(
-                styles.connectingLine,
-                styles.rightConnectingLine
+                styles.usageGaugeContainer,
+                styles.rightUsageGaugeContainer
               )}
-            />
-            <ConnectingLine />
+            >
+              <UsageGauge
+                min={0}
+                max={24000}
+                n={14000}
+                title="VRAM"
+                unit="MB"
+              />
+            </div>
           </div>
         </div>
 
@@ -85,7 +103,7 @@ export const App: React.FC = () => {
           paths={pathSample2}
           load={60}
           dir={Dir.mk.Right}
-        />
+        ></Thermal>
         <div className={styles.bgPattern}>
           <div
             className={classNames(

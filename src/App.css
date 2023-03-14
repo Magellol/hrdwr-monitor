@@ -118,6 +118,19 @@
   animation-delay: 6s;
 }
 
+.usageGaugeContainer {
+  position: absolute;
+  bottom: -175px;
+}
+
+.leftUsageGaugeContainer {
+  left: -30px;
+}
+
+.rightUsageGaugeContainer {
+  right: -30px;
+}
+
 @keyframes move {
   0% {
     opacity: 0;
