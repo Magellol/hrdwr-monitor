@@ -78,7 +78,6 @@ export const UsageGauge: React.FC<Props> = ({ min, max, n, title, unit }) => {
               textRainbow.colorAt(n),
               toHex
             )}, 0 0 0.6em ${pipe(textRainbow.colorAt(n+1), toHex)}`,
-            // color: pipe(textRainbow.colorAt(n), toHex),
           }}
         >
           {n}
