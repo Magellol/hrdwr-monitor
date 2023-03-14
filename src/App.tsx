@@ -6,11 +6,12 @@ import "./Globals.css";
 import { Thermal, Dir } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
 import { UsageGauge } from "./UsageGauge/UsageGauge";
+import { data, DataSet } from "../data";
 
 // Needed data
 // CPU load, CPU name, CPU temp
-// RAM usage, RAM total, 
-// VRAM usage, VRAM total, 
+// RAM usage, RAM total,
+// VRAM usage, VRAM total,
 // GPU load, GPU name, GPU temp
 
 const ConnectingLine: React.FC = () => {
@@ -41,14 +42,26 @@ const ConnectingLine: React.FC = () => {
 };
 
 export const App: React.FC = () => {
+  const [state, setState] = React.useState(0);
+
+  // TODO: this is for faking poilli
+  const get = (prop: keyof DataSet) => data[state]![prop];
+  React.useEffect(() => {
+    const interval = window.setInterval(() => {
+      setState((prev) => (prev === data.length - 1 ? 0 : prev + 1));
+    }, 2500);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.layout}>
         <Thermal
-          degrees={35}
+          degrees={get("cpuTemp")}
+          load={get("cpuLoad")}
           label="CPU Core"
           model="Intel Core i5-13600K"
-          load={45}
           paths={pathSample1}
           dir={Dir.mk.Left}
         ></Thermal>
@@ -70,7 +83,13 @@ export const App: React.FC = () => {
                 styles.leftUsageGaugeContainer
               )}
             >
-              <UsageGauge min={0} max={16000} n={2400} title="RAM" unit="MB" />
+              <UsageGauge
+                min={0}
+                max={16000}
+                n={get("ramLoad")}
+                title="RAM"
+                unit="MB"
+              />
             </div>
           </div>
           <div className={styles.connectingLineContainer}>
@@ -92,7 +111,7 @@ export const App: React.FC = () => {
               <UsageGauge
                 min={0}
                 max={24000}
-                n={14000}
+                n={get("vramLoad")}
                 title="VRAM"
                 unit="MB"
               />
@@ -101,11 +120,11 @@ export const App: React.FC = () => {
         </div>
 
         <Thermal
-          degrees={35}
+          degrees={get("gpuTemp")}
           label="GPU Core"
           model="AMD Radeon RX 7900 XTX"
           paths={pathSample2}
-          load={60}
+          load={get("gpuLoad")}
           dir={Dir.mk.Right}
         ></Thermal>
         <div className={styles.bgPattern}>
