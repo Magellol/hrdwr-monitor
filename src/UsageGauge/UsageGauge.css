@@ -4,6 +4,7 @@
   align-items: center;
   position: relative;
   gap: 8px;
+  font-weight: bold;
 }
 
 .title {

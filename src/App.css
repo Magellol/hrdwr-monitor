@@ -68,11 +68,11 @@
 
 .connectingLines {
   display: flex;
+  position: relative;
 }
 
 .connectingLineContainer {
   width: 100%;
-  position: relative;
 }
 
 .leftConnectingLineContainer {
@@ -82,7 +82,7 @@
 .rightConnectingLineContainer {
   rotate: 180deg;
   transform-origin: center;
-  top: -5px;
+  margin-top: -5px;
 }
 
 .connectingLinePath {
@@ -120,7 +120,7 @@
 
 .usageGaugeContainer {
   position: absolute;
-  bottom: -175px;
+  bottom: -195px;
 }
 
 .leftUsageGaugeContainer {
