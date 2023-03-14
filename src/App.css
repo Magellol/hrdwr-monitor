@@ -92,7 +92,7 @@
 
 .connectingLine {
   /* Note: this has to closely related to the same path in the `ConnectingLine` svg path */
-  offset-path: path("M30,1 H187 L216,30");
+  offset-path: path("M30,1 H187 L218,35");
   position: absolute;
   opacity: 0;
   animation-fill-mode: forwards;
@@ -105,21 +105,21 @@
     rgba(255, 255, 255, 1) 100%
   );
   box-shadow: 0 0 0.6em #0dfcc4, 0 0 0.8em #17fcc7;
+  transform: translate3d(0, 0, 0);
 }
 
 .leftConnectingLine {
   animation: move 4s infinite ease-out;
-  animation-delay: 3s;
+  animation-delay: 6s;
 }
 
 .rightConnectingLine {
   animation: move 4s infinite ease-out;
-  animation-delay: 3s;
+  animation-delay: 6s;
 }
 
 @keyframes move {
   0% {
-    transform: scalex(0);
     opacity: 0;
     offset-distance: 0%;
   }
@@ -127,7 +127,6 @@
     opacity: 1;
   }
   20% {
-    transform: scalex(1);
     offset-distance: 100%;
   }
 
@@ -136,7 +135,6 @@
   }
 
   100% {
-    transform: scalex(1);
     offset-distance: 100%;
     opacity: 0;
   }

@@ -159,8 +159,6 @@ export const ThermalGauge: React.FC<Props> = React.memo(
     const getPath = generatePath(size / 2);
 
     const particlesInit = React.useCallback(async (engine: Engine) => {
-      console.log(engine);
-
       // you can initialize the tsParticles instance (engine) here, adding custom shapes or presets
       // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
       // starting from v2 you can add only the features you need reducing the bundle size
@@ -268,9 +266,6 @@ export const ThermalGauge: React.FC<Props> = React.memo(
           className={styles.degrees}
           style={{
             color: `#${textRainbow.colorAt(degrees)}`,
-            textShadow: `0 0 0.3em #${textRainbow.colorAt(
-              degrees
-            )}, 0 0 0.6em #${textRainbow.colorAt(degrees)}`,
           }}
         >
           {degrees}
