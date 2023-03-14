@@ -26,13 +26,23 @@ const gaugeOpts: GaugeOptions = {
   pointer: {
     strokeWidth: 0,
   },
-  strokeColor: "black",
+  strokeColor: "rgba(255, 255, 255, 0.03)",
   percentColors: pipe(
     // We add step to the upper bound to include it as part of the range, by default it is not included.
     range(lower, upper + step, step),
     A.map((step) => tuple(step, pipe(gaugeRainbow.colorAt(step), toHex)))
   ),
   highDpiSupport: true, // High resolution support
+  renderTicks: {
+    divisions: 3,
+    divWidth: 1,
+    divLength: 2,
+    subDivisions: 2,
+    subWidth: 1,
+    subLength: 1,
+    subColor: "rgba(255, 255, 255, 0.15)",
+    divColor: "rgba(255, 255, 255, 0.2)",
+  },
 };
 
 export type Props = {
