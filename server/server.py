@@ -6,5 +6,7 @@ app = Flask(__name__)
 @app.route("/ps")
 def ps():
     return {
-        "perc": psutil.cpu_percent(interval=1.0)
+      "cpuPerc": psutil.cpu_percent(interval=None),
+      # "avgLoad": psutil.getloadavg()
+      "memoryPerc": psutil.virtual_memory()[2]
     }
