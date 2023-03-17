@@ -13,6 +13,7 @@ in
     pythonEnv = python39.withPackages (ps: [
       ps.psutil
       ps.flask
+      ps.flask-cors
     ]);
 in
   pkgs.mkShell {
