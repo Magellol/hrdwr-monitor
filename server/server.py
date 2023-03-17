@@ -7,9 +7,11 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/ps")
+@cross_origin()
 def ps():
     return {
       "cpuPerc": psutil.cpu_percent(interval=None),
       # "avgLoad": psutil.getloadavg()
-      "memoryPerc": psutil.virtual_memory()[2]
+      "memoryAvailable": psutil.virtual_memory()[3],
+      "memoryTotal": psutil.virtual_memory()[0],
     }

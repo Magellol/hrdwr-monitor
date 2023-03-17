@@ -3,10 +3,9 @@ import "normalize.css";
 import * as React from "react";
 import styles from "./App.css";
 import "./Globals.css";
-import { Thermal, Dir } from "./Thermal";
+import { Dir, Thermal } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
 import { UsageGauge } from "./UsageGauge/UsageGauge";
-import { data, DataSet } from "../data";
 
 // Needed data
 // CPU load, CPU name, CPU temp
@@ -41,25 +40,43 @@ const ConnectingLine: React.FC = () => {
   );
 };
 
+type State = {
+  cpuPerc: number;
+  memoryUsed: number;
+  memoryTotal: number;
+};
+
 export const App: React.FC = () => {
-  const [state, setState] = React.useState(0);
+  const [state, setState] = React.useState<State>({
+    cpuPerc: 0,
+    memoryUsed: 0,
+    memoryTotal: 0,
+  });
 
-  // TODO: this is for faking poilli
-  const get = (prop: keyof DataSet) => data[state]![prop];
   React.useEffect(() => {
-    const interval = window.setInterval(() => {
-      setState((prev) => (prev === data.length - 1 ? 0 : prev + 1));
-    }, 2500);
+    const id = window.setInterval(() => {
+      fetch("http://localhost:5000/ps")
+        .then((response) => response.json())
+        .then((data) => {
+          setState({
+            memoryTotal: data.memoryTotal,
+            memoryUsed: data.memoryTotal - data.memoryAvailable,
+            cpuPerc: data.cpuPerc,
+          });
+        });
+    }, 2000);
 
-    return () => window.clearInterval(interval);
+    return () => {
+      window.clearInterval(id);
+    };
   }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.layout}>
         <Thermal
-          degrees={get("cpuTemp")}
-          load={get("cpuLoad")}
+          degrees={0}
+          load={state.cpuPerc}
           label="CPU Core"
           model="Intel Core i5-13600K"
           paths={pathSample1}
@@ -86,7 +103,7 @@ export const App: React.FC = () => {
               <UsageGauge
                 min={0}
                 max={16000}
-                n={get("ramLoad")}
+                n={state.memoryUsed}
                 title="RAM"
                 unit="MB"
               />
@@ -108,23 +125,17 @@ export const App: React.FC = () => {
                 styles.rightUsageGaugeContainer
               )}
             >
-              <UsageGauge
-                min={0}
-                max={24000}
-                n={get("vramLoad")}
-                title="VRAM"
-                unit="MB"
-              />
+              <UsageGauge min={0} max={24000} n={0} title="VRAM" unit="MB" />
             </div>
           </div>
         </div>
 
         <Thermal
-          degrees={get("gpuTemp")}
+          degrees={0}
           label="GPU Core"
           model="AMD Radeon RX 7900 XTX"
           paths={pathSample2}
-          load={get("gpuLoad")}
+          load={0}
           dir={Dir.mk.Right}
         ></Thermal>
         <div className={styles.bgPattern}>
