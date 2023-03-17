@@ -12,6 +12,7 @@ in
   let
     pythonEnv = python39.withPackages (ps: [
       ps.psutil
+      ps.flask
     ]);
 in
   pkgs.mkShell {
