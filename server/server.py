@@ -10,6 +10,8 @@ def ps():
     return {
       "cpuPerc": psutil.cpu_percent(interval=None),
       # "avgLoad": psutil.getloadavg()
-      "memoryAvailable": psutil.virtual_memory()[3],
-      "memoryTotal": psutil.virtual_memory()[0],
+
+      # divide by 1048576 to convert to MB
+      "memoryAvailable": psutil.virtual_memory()[3] / 1048576,
+      "memoryTotal": psutil.virtual_memory()[0] / 1048576,
     }
