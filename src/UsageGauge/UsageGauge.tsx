@@ -54,18 +54,33 @@ export type Props = {
 };
 
 export const UsageGauge: React.FC<Props> = ({ min, max, n, title, unit }) => {
-  // TODO: use useCallbackRef with an option instead
-  const ref = React.useRef(null);
   textRainbow.setNumberRange(min, max);
 
-  React.useEffect(() => {
-    const el = pipe(ref.current, O.fromNullable, O.unsafeUnwrap);
+  // TODO: use useCallbackRef with an option instead
+  const ref = React.useRef(null);
+  const gaugeRef = React.useRef<O.Option<Gauge>>(O.none);
 
-    const gauge = new Gauge(el).setOptions(gaugeOpts);
-    gauge.maxValue = max; // set max gauge value
-    gauge.setMinValue(min); // set min value
-    gauge.set(n); // set actual value
-    gauge.animationSpeed = 50;
+  React.useEffect(() => {
+    gaugeRef.current = pipe(
+      gaugeRef.current,
+      O.alt(() => {
+        return pipe(
+          ref.current,
+          O.fromNullable,
+          O.map((el) => {
+            const g = new Gauge(el).setOptions(gaugeOpts);
+            g.maxValue = max; // set max gauge value
+            g.setMinValue(min); // set min value
+            g.animationSpeed = 50;
+
+            return g;
+          })
+        );
+      }),
+
+      // TODO this sounds like `Option` is the wrong monadic context here
+      O.chainFirst((g) => O.some(g.set(n)))
+    );
   }, [min, max, n]);
 
   return (
