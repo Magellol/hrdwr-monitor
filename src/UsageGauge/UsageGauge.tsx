@@ -77,7 +77,7 @@ export const UsageGauge: React.FC<Props> = ({ min, max, n, title, unit }) => {
             textShadow: `0 0 0.3em ${pipe(
               textRainbow.colorAt(n),
               toHex
-            )}, 0 0 0.6em ${pipe(textRainbow.colorAt(n+1), toHex)}`,
+            )}, 0 0 0.6em ${pipe(textRainbow.colorAt(n + 1), toHex)}`,
           }}
         >
           {Intl.NumberFormat("en-CA", { style: "percent" }).format(n / max)}
