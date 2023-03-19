@@ -80,7 +80,7 @@ export const UsageGauge: React.FC<Props> = ({ min, max, n, title, unit }) => {
             )}, 0 0 0.6em ${pipe(textRainbow.colorAt(n+1), toHex)}`,
           }}
         >
-          {n}
+          {Intl.NumberFormat("en-CA", { style: "percent" }).format(n / max)}
         </span>
         <span className={styles.unit}>({unit})</span>
       </div>
