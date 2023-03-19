@@ -54,6 +54,7 @@ export const App: React.FC = () => {
   });
 
   React.useEffect(() => {
+    //TODO We could create a socket instead and push values to the client instead of polling.
     const id = window.setInterval(() => {
       fetch("http://localhost:5000/ps")
         .then((response) => response.json())
@@ -101,7 +102,12 @@ export const App: React.FC = () => {
               )}
             >
               <UsageGauge
-                min={0}
+                // TODO: we have to use -1 here because max must be greater than min and they both start at 0 on the first render
+                // we can use options instead.
+                min={-1}
+
+                // TODO: we should set this once and for all when the load the app
+                // We could request when we boot the app at the beginning and never change this info ever again.
                 max={16000}
                 n={state.memoryUsed}
                 title="RAM"
