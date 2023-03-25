@@ -1,4 +1,4 @@
-[
+export default [
   {
     "SensorApp": "HWiNFO",
     "SensorClass": "CPU [#0]: Intel Core i5-13600K: DTS",
