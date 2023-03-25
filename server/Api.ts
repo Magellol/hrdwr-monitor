@@ -120,6 +120,8 @@ export const normalize = (xs: NEA.NonEmptyArray<Item>): Sensor.Sensors => {
 const getErrorMessage = (error: unknown) =>
   error instanceof Error ? error.message : "Unknown error";
 
+export const ResponseCodec = t.nonEmptyArray(Item);
+
 export const request = (
   ...params: Parameters<typeof fetch>
 ): TE.TaskEither<ApiError, Sensor.Sensors> =>
@@ -131,8 +133,6 @@ export const request = (
     TE.chain((response) =>
       TE.tryCatch(() => response.json(), constant(ApiError.mk.BadJson))
     ),
-    TE.chainEitherK(
-      flow(t.nonEmptyArray(Item).decode, E.mapLeft(ApiError.mk.Decode))
-    ),
+    TE.chainEitherK(flow(ResponseCodec.decode, E.mapLeft(ApiError.mk.Decode))),
     TE.map(normalize)
   );
