@@ -4,7 +4,7 @@ export PATH := './node_modules/.bin:' + env_var('PATH')
 
 # Compile a tsc project, handling cleanup between runs.
 [private]
-@tsc project:
+tsc project:
     tsc -p ./{{ project }}/tsconfig.json
 
 dev:

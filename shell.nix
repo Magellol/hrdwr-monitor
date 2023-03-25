@@ -2,10 +2,9 @@ with import <nixpkgs> {};
 
 let
   # A pinned recent revision of nixpkgs/unstable.
-  # TODO: I've copied this from unsplash and I'm not sure if I actually need this??
   pkgs = import (builtins.fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/0bbb65673c0ba31047c9ba6c4cd211556b534a4e.tar.gz";
-    sha256 = "151rgnr2ip5i4fk7hllirk0gchwavgca6bk4cqk7agxr4j1pnqgf";
+    url = "https://github.com/NixOS/nixpkgs/archive/dbf5322e93bcc6cfc52268367a8ad21c09d76fea.tar.gz";
+    sha256 = "0lwk4v9dkvd28xpqch0b0jrac4xl9lwm6snrnzx8k5lby72kmkng";
   }) {};
 
 in
