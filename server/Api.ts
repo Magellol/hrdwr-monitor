@@ -87,6 +87,7 @@ export const normalize = (xs: NEA.NonEmptyArray<Item>): Sensor.Sensors => {
             case "CPU Package":
               return pipe(
                 item.SensorValue,
+                // TODO: this assumes thatt the unit is always Celsius but can also be fahrenheit
                 Sensor.Temperature.mk.Celsius,
                 Sensor.mk.Temperature,
                 O.some
