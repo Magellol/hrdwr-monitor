@@ -8,7 +8,7 @@ const cfg = {
   },
   testMatch: ['**/__tests__/**/*.test.ts'],
   modulePaths: ['<rootDir>'],
-  moduleFileExtensions: ['ts'],
+  moduleFileExtensions: ['ts', 'js'],
 };
 
 module.exports = cfg;
