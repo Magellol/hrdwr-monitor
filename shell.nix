@@ -9,18 +9,10 @@ let
   }) {};
 
 in
-  let
-    pythonEnv = python39.withPackages (ps: [
-      ps.psutil
-      ps.flask
-      ps.flask-cors
-    ]);
-in
   pkgs.mkShell {
     buildInputs = with pkgs; [
       nodejs
       yarn
       just
-      pythonEnv
     ];
   }
