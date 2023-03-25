@@ -47,6 +47,7 @@
     "io-ts": "^2.2.20",
     "io-ts-types": "^0.5.19",
     "lodash.range": "^3.2.0",
+    "monocle-ts": "^2.3.13",
     "newtype-ts": "^0.3.5",
     "node-fetch": "2",
     "normalize.css": "^8.0.1",
