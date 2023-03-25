@@ -31,7 +31,7 @@
   "dependencies": {
     "@tsconfig/node18-strictest": "^1.0.0",
     "@types/react": "^18.0.27",
-    "@unsplash/sum-types": "^0.3.1",
+    "@unsplash/sum-types": "^0.3.2",
     "classnames": "^2.3.2",
     "d3-shape": "^3.2.0",
     "express": "^4.18.2",
