@@ -1,8 +1,8 @@
 {
-  "extends": "@tsconfig/node18-strictest/tsconfig.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "lib": ["es2022"],
-    "outDir": "../dist/server",
+    "outDir": "../dist/server"
   },
   "include": ["."]
 }
