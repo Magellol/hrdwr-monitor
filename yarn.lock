@@ -981,6 +981,11 @@
   dependencies:
     "@types/yargs-parser" "*"
 
+"@unsplash/sum-types-io-ts@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@unsplash/sum-types-io-ts/-/sum-types-io-ts-0.5.1.tgz#8f80de7c974b13c8d952d19ac7e1a8faa5e70e9b"
+  integrity sha512-wKLgmAZ0NgqC5Zub+0+vdH3Iuuu8QiLeb6rSk0j8Xc7UV4L7n6HLlsEZmN7HDl2+tae8EG+pHOxm7Zz+2jNyBg==
+
 "@unsplash/sum-types@^0.3.2":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@unsplash/sum-types/-/sum-types-0.3.2.tgz#192592794ee3e0918c630cf4092445a652538257"
