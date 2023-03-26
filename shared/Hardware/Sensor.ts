@@ -9,17 +9,6 @@ export type Temperature =
   | Sum.Member<"Fahrenheit", number>;
 export const Temperature = Sum.create<Temperature>();
 
-export type TSensor =
-  | Sum.Member<"Temperature", Temperature>
-  | Sum.Member<"Load", TPercentage>;
-export const { mk, match, matchW } = Sum.create<TSensor>();
-
-export type KnownSensor = "CPU Package" | "GPU Temperature";
-export const KnownSensor: Array<KnownSensor> = [
-  "CPU Package",
-  "GPU Temperature",
-];
-
 export type Sensors = {
   cpuThermal: O.Option<Temperature>;
   cpuLoad: O.Option<TPercentage>;
@@ -33,4 +22,13 @@ export const Monoid: M.Monoid<Sensors> = {
     cpuLoad: O.none,
     gpuThermal: O.none,
   },
+};
+
+export const mkTempFromLiteral = (unit: "C" | "F") => {
+  switch (unit) {
+    case "C":
+      return Temperature.mk.Celsius;
+    case "F":
+      return Temperature.mk.Fahrenheit;
+  }
 };
