@@ -1,6 +1,8 @@
 import * as E from "fp-ts/Either";
 import { constant, flow, pipe } from "fp-ts/function";
 import * as NEA from "fp-ts/NonEmptyArray";
+import * as HWiNFO from "./HWiNFO";
+import * as OpenHardwareMonitor from "./OpenHardwareMonitor";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import fetch from "node-fetch";
@@ -15,51 +17,8 @@ type ApiError =
   | Sum.Member<"Unknown", string>;
 const ApiError = Sum.create<ApiError>();
 
-const CommonClass = t.type({
-  SensorUpdateTime: t.DateFromUnixTime,
-  SensorName: t.string,
-  SensorValue: t.NumberFromString,
-});
-
-const HWiNFOClass = t.type(
-  {
-    SensorApp: t.literal("HWiNFO"),
-    SensorUnit: t.union([
-      t.literal("C"),
-      t.literal("F"),
-      t.literal("%"),
-      t.literal("RPM"),
-    ]),
-    SensorClass: t.string,
-  },
-  "Api.HWiNFOClass"
-);
-
-const OpenHardwareMonitorClass = t.intersection(
-  [
-    t.type({
-      SensorApp: t.literal("Open Hardware Monitor"),
-    }),
-    t.union([
-      t.type({
-        SensorClass: t.literal("Temperature"),
-        SensorUnit: t.union([t.literal("C"), t.literal("F")]),
-      }),
-      t.type({
-        SensorClass: t.literal("Load"),
-        SensorUnit: t.literal("%"),
-      }),
-      t.type({
-        SensorClass: t.literal("Data"),
-        SensorUnit: t.null,
-      }),
-    ]),
-  ],
-  "Api.OpenHardwareMonitorClass"
-);
-
-export const Item = t.intersection(
-  [CommonClass, t.union([HWiNFOClass, OpenHardwareMonitorClass])],
+export const Item = t.union(
+  [HWiNFO.Codec, OpenHardwareMonitor.Codec],
   "Api.Item"
 );
 
@@ -69,48 +28,22 @@ export const normalize = (xs: NEA.NonEmptyArray<Item>): Sensor.Sensors => {
   return pipe(
     xs,
     NEA.reduce(
-      {
-        cpuThermal: O.none,
-        cpuLoad: O.none,
-        gpuThermal: O.none,
-      },
+      // TODO: this is a bit weird
+      Sensor.Monoid.empty,
       (acc, item) => {
         const value = (() => {
-          /**
-           * TODO:
-           * This is actually unsafe because it's making too many assumption that may not be true based on the codec definition.
-           * e.g the codec would allow `CPU PAckage` to be a load sensor for instance and this would result in a bug.
-           * For the sake of making some progress on this, I'm going to live with this assumption but ideally we should offload
-           * this to the codec and fix the `Item` codec to decode with the right combinations.
-           */
-          switch (item.SensorName) {
-            case "CPU Package":
-              return pipe(
-                item.SensorValue,
-                // TODO: this assumes thatt the unit is always Celsius but can also be fahrenheit
-                Sensor.Temperature.mk.Celsius,
-                Sensor.mk.Temperature,
-                O.some
-              );
-            case "GPU Temperature":
-              return pipe(
-                item.SensorValue,
-                Sensor.Temperature.mk.Celsius,
-                Sensor.mk.Temperature,
-                O.some
-              );
+          switch (item.SensorApp) {
+            case "HWiNFO":
+              return O.some(HWiNFO.toSensors(item));
 
-            default:
+            // TODO: how to differentiate all diffent "Load" types...
+            case "Open Hardware Monitor":
               return O.none;
           }
         })();
 
-        return pipe(
-          value,
-          O.match(constant(acc), (sensor) => ({
-            ...acc,
-            [item.SensorName]: O.some(sensor),
-          }))
+        return pipe(value, O.getOrElse(constant(Sensor.Monoid.empty)), (x) =>
+          Sensor.Monoid.concat(acc, x)
         );
       }
     )
