@@ -3,7 +3,7 @@ import * as O from "fp-ts/Option";
 import { ResponseCodec } from "../Api";
 
 describe("Api", () => {
-  describe("normalize", () => {
+  describe("ResponseCodec", () => {
     it("fallbacks when decoding failed", () => {
       const decoded = ResponseCodec.decode([
         {
