@@ -1,47 +1,40 @@
-use winapi::um::pdh::{PdhOpenQuery, PdhAddCounter, PdhCollectQueryData, PDH_FMT_DOUBLE, PDH_INVALID_HANDLE, PdhGetFormattedCounterValue};
-use winapi::um::pdh::PdhOpenQueryA;
-use winapi::um::pdh::PdhAddCounterA;
-use winapi::um::pdh::PdhCollectQueryDataEx;
-use winapi::um::pdh::PDH_FMT_DOUBLE;
-use winapi::um::pdh::PDH_INVALID_HANDLE;
-use winapi::um::pdh::PdhGetFormattedCounterValue;
-use winapi::shared::winerror::ERROR_SUCCESS;
-use winapi::um::pdh::PDH_HCOUNTER;
-use std::ptr::null_mut;
+use std::ptr;
+// winapi = { version = "0.3.9", features = ["pdh", "winerror"] }
+use winapi::{ctypes::c_char, shared::winerror::ERROR_SUCCESS, um::pdh::*};
 
 fn main() {
     unsafe {
-        let mut query_handle: PDH_HQUERY = PDH_INVALID_HANDLE;
-        let mut counter_handle: PDH_HCOUNTER = null_mut();
+        let mut cpu_query: PDH_HQUERY = ptr::null_mut();
+        let mut cpu_total: PDH_HCOUNTER = ptr::null_mut();
 
-        // Open a new performance counter query
-        if PdhOpenQueryA(null_mut(), 0, &mut query_handle) != ERROR_SUCCESS {
-            panic!("Failed to open performance counter query");
-        }
+        let err = PdhOpenQueryA(ptr::null(), 0, &mut cpu_query);
+        assert_eq!(err, ERROR_SUCCESS as i32);
 
-        // Add a counter to the query to monitor CPU temperature
-        let counter_path = "\\Thermal Zone Information\\_TZ.THRM".as_bytes().to_vec();
-        let counter_path_ptr = counter_path.as_ptr() as *mut i8;
-        if PdhAddCounterA(query_handle, counter_path_ptr, 0, &mut counter_handle) != ERROR_SUCCESS {
-            panic!("Failed to add performance counter to query");
-        }
+        let err = PdhAddCounterA(
+            cpu_query,
+            b"\\Processor(_Total)\\% Processor Time\0".as_ptr() as *const c_char,
+            0,
+            &mut cpu_total,
+        );
+        assert_eq!(err, ERROR_SUCCESS as i32);
 
-        // Collect the current value of the counter
-        if PdhCollectQueryData(query_handle) != ERROR_SUCCESS {
-            panic!("Failed to collect performance counter data");
-        }
+        let mut counter_val: PDH_FMT_COUNTERVALUE = std::mem::zeroed();
+        let err = PdhCollectQueryData(cpu_query);
+        assert_eq!(err, ERROR_SUCCESS as i32);
 
-        // Get the formatted value of the counter
-        let mut buffer_size: u32 = 0;
-        if PdhGetFormattedCounterValue(counter_handle, PDH_FMT_DOUBLE, &mut buffer_size, null_mut(), &mut value) != ERROR_SUCCESS {
-            panic!("Failed to get formatted performance counter value");
-        }
+        std::thread::sleep(std::time::Duration::from_millis(1000));
 
-        let mut value: f64 = 0.0;
-        if PdhGetFormattedCounterValue(counter_handle, PDH_FMT_DOUBLE, &mut buffer_size, &mut value as *mut f64 as *mut _, null_mut()) != ERROR_SUCCESS {
-            panic!("Failed to get formatted performance counter value");
-        }
+        let err = PdhCollectQueryData(cpu_query);
+        assert_eq!(err, ERROR_SUCCESS as i32);
 
-        println!("CPU temperature: {} degrees Celsius", value);
+        let err = PdhGetFormattedCounterValue(
+            cpu_total,
+            PDH_FMT_DOUBLE,
+            ptr::null_mut(),
+            &mut counter_val,
+        );
+        assert_eq!(err, ERROR_SUCCESS as i32);
+
+        println!("{:?}", counter_val.u.doubleValue());
     }
 }
