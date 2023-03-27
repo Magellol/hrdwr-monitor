@@ -13,7 +13,6 @@ in
       nodejs
       yarn
       just
-      cargo
-      rustc
+      rustup
     ];
   }
