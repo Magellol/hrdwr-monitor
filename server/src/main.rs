@@ -1,5 +1,4 @@
 use std::ptr;
-// winapi = { version = "0.3.9", features = ["pdh", "winerror"] }
 use winapi::{ctypes::c_char, shared::winerror::ERROR_SUCCESS, um::pdh::*};
 
 fn main() {
