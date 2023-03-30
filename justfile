@@ -10,7 +10,6 @@ tsc project:
 dev:
   rm -rf ./dist
   just tsc webpack
-  just tsc server
   webpack serve -c ./dist/webpack/client.config.js
 
 unit paths:
