@@ -6,7 +6,7 @@
   "author": "<thmslbvr@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "rm -rf ./dist && just tsc webpack && webpack serve -c ./dist/webpack/client.config.js"
+    "dev": "rm -rf ./dist && tsc -p ./webpack/tsconfig.json && webpack serve -c ./dist/webpack/client.config.js"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
