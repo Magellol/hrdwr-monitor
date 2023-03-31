@@ -1168,16 +1168,6 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@unsplash/sum-types-io-ts@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@unsplash/sum-types-io-ts/-/sum-types-io-ts-0.5.1.tgz#8f80de7c974b13c8d952d19ac7e1a8faa5e70e9b"
-  integrity sha512-wKLgmAZ0NgqC5Zub+0+vdH3Iuuu8QiLeb6rSk0j8Xc7UV4L7n6HLlsEZmN7HDl2+tae8EG+pHOxm7Zz+2jNyBg==
-
-"@unsplash/sum-types@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@unsplash/sum-types/-/sum-types-0.3.2.tgz#192592794ee3e0918c630cf4092445a652538257"
-  integrity sha512-O/OkIjlrft5YFbhJohfAICQf06eoZGS2ui9yb2qs3YekXsq+rwN8GetzHjf5P2WyZNfydVx/z4BqK2ULFhh+yQ==
-
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -2270,7 +2260,7 @@ expect@^29.0.0, expect@^29.5.0:
     jest-message-util "^29.5.0"
     jest-util "^29.5.0"
 
-express@^4.17.3, express@^4.18.2:
+express@^4.17.3:
   version "4.18.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.18.2.tgz#3fabe08296e930c796c19e3c516979386ba9fd59"
   integrity sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==
@@ -2636,11 +2626,6 @@ human-signals@^2.1.0:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
-hyper-ts@^0.7.8:
-  version "0.7.8"
-  resolved "https://registry.yarnpkg.com/hyper-ts/-/hyper-ts-0.7.8.tgz#0a9e482a592fc52d6558ce0ffc6563e47bbf9f02"
-  integrity sha512-YfHch3uMhvKEa2EeVOMrCNF2aRKDUMEiIFSAKtdCCPpegJUWDX9XCLD/N5kIoW3OWasSPsM44GB0BJnN+ue3fw==
-
 iconv-lite@0.4.24:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
@@ -2688,16 +2673,6 @@ interpret@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-3.1.1.tgz#5be0ceed67ca79c6c4bc5cf0d7ee843dcea110c4"
   integrity sha512-6xwYfHbajpoF0xLW+iwLkhwgvLoZDfjYfoFNu8ftMoXINzwuymNLd9u/KmwtdT2GbR+/Cz66otEGEVVUHX9QLQ==
-
-io-ts-types@^0.5.19:
-  version "0.5.19"
-  resolved "https://registry.yarnpkg.com/io-ts-types/-/io-ts-types-0.5.19.tgz#9c04fa73f15992436605218a5686b610efa7a5d3"
-  integrity sha512-kQOYYDZG5vKre+INIDZbLeDJe+oM+4zLpUkjXyTMyUfoCpjJNyi29ZLkuEAwcPufaYo3yu/BsemZtbdD+NtRfQ==
-
-io-ts@^2.2.20:
-  version "2.2.20"
-  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-2.2.20.tgz#be42b75f6668a2c44f706f72ee6e4c906777c7f5"
-  integrity sha512-Rq2BsYmtwS5vVttie4rqrOCIfHCS9TgpRLFpKQCM1wZBBRY9nWVGmEvm2FnDbSE2un1UE39DvFpTR5UL47YDcA==
 
 ipaddr.js@1.9.1:
   version "1.9.1"
@@ -3417,11 +3392,6 @@ minimatch@^3.0.4, minimatch@^3.1.1:
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
   dependencies:
     brace-expansion "^1.1.7"
-
-monocle-ts@^2.3.13:
-  version "2.3.13"
-  resolved "https://registry.yarnpkg.com/monocle-ts/-/monocle-ts-2.3.13.tgz#7c8af489613cd5175df2ea3c02c57c6151995e5d"
-  integrity sha512-D5Ygd3oulEoAm3KuGO0eeJIrhFf1jlQIoEVV2DYsZUMz42j4tGxgct97Aq68+F8w4w4geEnwFa8HayTS/7lpKQ==
 
 ms@2.0.0:
   version "2.0.0"
