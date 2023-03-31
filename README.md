@@ -23,6 +23,13 @@
 
 ### Development
 
+- `node`
+- `just`
+- `yarn`
+
+The project doesn't currently compile on macos but I'm investigating this. I'm currently using my windows machine when I need
+to compile and test the rust backend.
+
 ### Known issues
 
 - Installing `rustup` through nix doesn't compile the project; it looks it can't find the `ld` missing lib.
