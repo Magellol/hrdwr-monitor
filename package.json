@@ -36,6 +36,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "@unsplash/sum-types": "^0.3.2",
     "classnames": "^2.3.2",
     "d3-shape": "^3.2.0",
     "fp-ts": "^2.13.1",
