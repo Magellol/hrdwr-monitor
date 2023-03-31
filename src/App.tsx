@@ -53,24 +53,24 @@ export const App: React.FC = () => {
     memoryTotal: 0,
   });
 
-  React.useEffect(() => {
-    //TODO We could create a socket instead and push values to the client instead of polling.
-    const id = window.setInterval(() => {
-      fetch("http://localhost:5000/ps")
-        .then((response) => response.json())
-        .then((data) => {
-          setState({
-            memoryTotal: data.memoryTotal,
-            memoryUsed: data.memoryTotal - data.memoryAvailable,
-            cpuPerc: data.cpuPerc,
-          });
-        });
-    }, 2000);
+  // React.useEffect(() => {
+  //   //TODO We could create a socket instead and push values to the client instead of polling.
+  //   const id = window.setInterval(() => {
+  //     fetch("http://localhost:5000/ps")
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         setState({
+  //           memoryTotal: data.memoryTotal,
+  //           memoryUsed: data.memoryTotal - data.memoryAvailable,
+  //           cpuPerc: data.cpuPerc,
+  //         });
+  //       });
+  //   }, 2000);
 
-    return () => {
-      window.clearInterval(id);
-    };
-  }, []);
+  //   return () => {
+  //     window.clearInterval(id);
+  //   };
+  // }, []);
 
   return (
     <div className={styles.container}>
