@@ -14,12 +14,3 @@ dev:
 
 unit paths:
   NODE_ENV=development jest {{ paths }}
-
-[private]
-build-server target:
-  cargo clean --manifest-path ./server/Cargo.toml
-  cargo build --target {{ target }} --manifest-path ./server/Cargo.toml
-
-share-windows:
-  just build-server x86_64-pc-windows-gnu
-  sudo mv server/target/x86_64-pc-windows-gnu/debug/server.exe /Users/windows
