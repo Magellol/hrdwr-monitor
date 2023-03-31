@@ -13,6 +13,5 @@ in
       nodejs
       yarn
       just
-      rustup
     ];
   }

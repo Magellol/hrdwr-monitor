@@ -23,8 +23,7 @@
 
 ### Development
 
-```
-# This is needed to cross-compile from macos to windows.
-rustup target add x86_64-pc-windows-gnu
-brew install mingw-w64
-```
+### Known issues
+
+- Installing `rustup` through nix doesn't compile the project; it looks it can't find the `ld` missing lib.
+  I may have to exclusively compile this on windows to test, it's a bit of a shame...
