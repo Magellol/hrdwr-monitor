@@ -5,6 +5,9 @@
   "repository": "git@github.com:Magellol/hardware-monitor.git",
   "author": "<thmslbvr@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "rm -rf ./dist && just tsc webpack && webpack serve -c ./dist/webpack/client.config.js"
+  },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@tauri-apps/cli": "^1.2.3",
