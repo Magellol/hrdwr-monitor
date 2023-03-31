@@ -4,7 +4,6 @@
     "lib": ["DOM", "es2022"],
     "jsx": "react-jsx",
     "module": "ESNext",
-    "importsNotUsedAsValues": "preserve",
     "types": ["jest", "node"]
   },
   "include": ["./src"]
