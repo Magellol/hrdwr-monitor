@@ -13,11 +13,12 @@ struct Sensor {
 }
 
 #[tauri::command]
-async fn get_sensor() -> Result<Sensor, String> {
-  let url = Url::parse("http://localhost:5555")?;
+async fn get_sensor() -> Result<Vec<Sensor>, String> {
+  let url = std::env::var("SENSOR_HOST").expect("Missing SENSOR_HOST env var");
+  let url = Url::parse(&url).expect("Bad url");
 
-  // TODO: this doesn't seem to work; mismatching types.
-  let res = reqwest::get(url).await?.json::<Sensor>().await.map_err(|err| "bad error")?;
+  // TODO: error handling
+  let res = reqwest::get(url).await.expect("Failed request").json::<Vec<Sensor>>().await.expect("not json");
   Ok(res)
 }
 
