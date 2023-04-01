@@ -6,6 +6,7 @@ import "./Globals.css";
 import { Dir, Thermal } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
 import { UsageGauge } from "./UsageGauge/UsageGauge";
+import {invoke} from '@tauri-apps/api';
 
 // Needed data
 // CPU load, CPU name, CPU temp
@@ -52,6 +53,10 @@ export const App: React.FC = () => {
     memoryUsed: 0,
     memoryTotal: 0,
   });
+
+  React.useEffect(() => {
+    invoke('getSensor').then(console.log);
+  }, [])
 
   // React.useEffect(() => {
   //   //TODO We could create a socket instead and push values to the client instead of polling.
