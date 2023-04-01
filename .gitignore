@@ -1,4 +1,4 @@
 node_modules/
 dist/
-server/target
+app/target
 **/__pycache__/
