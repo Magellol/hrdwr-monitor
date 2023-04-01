@@ -8,7 +8,7 @@ import { resolve } from "path";
 
 const config: Configuration = {
   mode: "development",
-  entry: "./src/index.tsx",
+  entry: "./client/index.tsx",
   module: {
     rules: [
       {

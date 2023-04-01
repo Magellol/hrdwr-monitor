@@ -6,5 +6,5 @@
     "module": "ESNext",
     "types": ["jest", "node"]
   },
-  "include": ["./src"]
+  "include": ["./client"]
 }
