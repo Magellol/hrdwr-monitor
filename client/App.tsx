@@ -55,7 +55,7 @@ export const App: React.FC = () => {
   });
 
   React.useEffect(() => {
-    invoke('getSensor').then(console.log);
+    invoke('get_sensor').then(console.log);
   }, [])
 
   // React.useEffect(() => {
