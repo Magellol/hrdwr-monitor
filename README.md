@@ -23,14 +23,8 @@
 
 ### Development
 
+This project uses nix and nix flakes to install dependencies locally in order to build the app.
+
 - `node`
 - `just`
 - `yarn`
-
-The project doesn't currently compile on macos but I'm investigating this. I'm currently using my windows machine when I need
-to compile and test the rust backend.
-
-### Known issues
-
-- Installing `rustup` through nix doesn't compile the project; it looks it can't find the `ld` missing lib.
-  I may have to exclusively compile this on windows to test, it's a bit of a shame...
