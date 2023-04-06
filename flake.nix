@@ -32,6 +32,7 @@
 
           packages-darwin = with pkgs; [
             rustup
+            rustfmt
             nodejs-18_x
             yarn
             just
