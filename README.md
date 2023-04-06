@@ -13,6 +13,7 @@
 - [ ] Enable eslint/prettier
 - [ ] Make UsageGauge a bit more consistent design-wise with the thermal gauges (we're missing some gradient and glow)
 - [ ] Add number interpolation, e.g animate them when they change.
+- [ ] Re-enable building the app on windows (or cross compiling to windows)
 
 ### Ideas
 
@@ -24,7 +25,3 @@
 ### Development
 
 This project uses nix and nix flakes to install dependencies locally in order to build the app.
-
-- `node`
-- `just`
-- `yarn`
