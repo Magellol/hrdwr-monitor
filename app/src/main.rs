@@ -33,6 +33,8 @@ async fn get_sensor() -> Result<Vec<Sensor>, SensorError> {
             .await
             .map_err(|_err| SensorError::Decode)?;
         Ok(res)
+    } else {
+        panic!("Unknown target operating system!");
     }
 }
 
