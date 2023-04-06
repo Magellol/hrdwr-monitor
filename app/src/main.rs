@@ -20,6 +20,8 @@ enum SensorError {
 #[tauri::command]
 async fn get_sensor() -> Result<Vec<Sensor>, SensorError> {
     if cfg!(target_os = "macos") {
+        let empty: Vec<Sensor> = Vec::new();
+        Ok(empty)
     } else if cfg!(target_os = "windows") {
         let url = std::env::var("SENSOR_HOST").expect("Missing SENSOR_HOST env var");
         let url = Url::parse(&url).expect("Bad url");
