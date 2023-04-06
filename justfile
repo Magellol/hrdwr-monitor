@@ -14,3 +14,6 @@ dev:
 
 unit paths:
   NODE_ENV=development jest {{ paths }}
+
+fmt:
+  nixpkgs-fmt ./flake.nix
