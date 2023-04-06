@@ -14,21 +14,24 @@ struct Sensor {
 #[derive(Serialize)]
 enum SensorError {
     Fetch,
-    Decode
+    Decode,
 }
 
 #[tauri::command]
 async fn get_sensor() -> Result<Vec<Sensor>, SensorError> {
-    let url = std::env::var("SENSOR_HOST").expect("Missing SENSOR_HOST env var");
-    let url = Url::parse(&url).expect("Bad url");
+    if cfg!(target_os = "macos") {
+    } else if cfg!(target_os = "windows") {
+        let url = std::env::var("SENSOR_HOST").expect("Missing SENSOR_HOST env var");
+        let url = Url::parse(&url).expect("Bad url");
 
-    let res = reqwest::get(url)
-        .await
-        .map_err(|_err| SensorError::Fetch)?
-        .json::<Vec<Sensor>>()
-        .await
-        .map_err(|_err| SensorError::Decode)?;
-    Ok(res)
+        let res = reqwest::get(url)
+            .await
+            .map_err(|_err| SensorError::Fetch)?
+            .json::<Vec<Sensor>>()
+            .await
+            .map_err(|_err| SensorError::Decode)?;
+        Ok(res)
+    }
 }
 
 fn main() {
