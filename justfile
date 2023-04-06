@@ -15,5 +15,6 @@ dev:
 unit paths:
   NODE_ENV=development jest {{ paths }}
 
-fmt:
+fmt-write:
   nixpkgs-fmt ./flake.nix
+  rustfmt --edition 2021 ./app/**/*.rs
