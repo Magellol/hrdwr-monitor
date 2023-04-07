@@ -6,9 +6,22 @@
 use reqwest::Url;
 use serde_derive::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
-struct Sensor {
+#[derive(Serialize, Deserialize)]
+enum TempUnit {
+    Celsius,
+    Farhenheit,
+}
+
+#[derive(Serialize, Deserialize)]
+enum Sensor {
+    Temp { val: i32, unit: TempUnit },
+    Load { val: i32 },
+}
+
+#[derive(Serialize, Deserialize)]
+struct SensorData {
     SensorName: String,
+    SensorValue: String,
 }
 
 #[derive(Serialize)]
