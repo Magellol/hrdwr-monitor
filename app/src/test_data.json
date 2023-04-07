@@ -1,0 +1,14 @@
+[
+  {
+    "SensorName": "CPU",
+    "SensorClass": "foo bar",
+    "SensorUnit": "C",
+    "SensorValue": 10
+  },
+  {
+    "SensorName": "CPU Load",
+    "SensorClass": "foo bar",
+    "SensorUnit": "%",
+    "SensorValue": 20
+  }
+]

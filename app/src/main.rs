@@ -5,23 +5,22 @@
 
 use reqwest::Url;
 use serde_derive::{Deserialize, Serialize};
+use std::fs::File;
+use std::io::Read;
 
-#[derive(Serialize, Deserialize)]
-enum TempUnit {
-    Celsius,
-    Farhenheit,
-}
-
-#[derive(Serialize, Deserialize)]
+#[derive(Deserialize, Serialize, Debug)]
+#[serde(tag = "SensorUnit")]
 enum Sensor {
-    Temp { val: i32, unit: TempUnit },
-    Load { val: i32 },
-}
-
-#[derive(Serialize, Deserialize)]
-struct SensorData {
-    SensorName: String,
-    SensorValue: String,
+    #[serde(rename = "C")]
+    Temp {
+        #[serde(rename = "SensorValue")]
+        val: i32,
+    },
+    #[serde(rename = "%")]
+    Load {
+        #[serde(rename = "SensorValue")]
+        val: i32,
+    },
 }
 
 #[derive(Serialize)]
@@ -33,11 +32,16 @@ enum SensorError {
 #[tauri::command]
 async fn get_sensor() -> Result<Vec<Sensor>, SensorError> {
     if cfg!(target_os = "macos") {
-        let empty: Vec<Sensor> = Vec::new();
-        Ok(empty)
+        // Note: filepath is relative to app root (where Cargo.toml lives)
+        let mut file = File::open("./src/test_data.json").unwrap();
+        let mut data = String::new();
+        file.read_to_string(&mut data).unwrap();
+
+        let sensors: Vec<Sensor> = serde_json::from_str(&data).expect("bad json");
+        Ok(sensors)
     } else if cfg!(target_os = "windows") {
-        let url = std::env::var("SENSOR_HOST").expect("Missing SENSOR_HOST env var");
-        let url = Url::parse(&url).expect("Bad url");
+        let host = std::env::var("SENSOR_HOST").expect("Missing SENSOR_HOST env var");
+        let url = Url::parse(&host).expect("Bad url");
 
         let res = reqwest::get(url)
             .await
