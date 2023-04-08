@@ -8,6 +8,29 @@
 - RAM load (DONE)
 - Fan speeds RPM (TODO)
 
+### Usage
+
+This project currently has two hard dependencies that must be running on the host machine:
+
+- [HMWiNfo](https://www.hwinfo.com/download/)@v736-4960
+- [remotehwinfo](https://github.com/Demion/remotehwinfo)@v0.5
+
+Note that this only has been tested running specifically the aforementioned versions. Other versions may or may not work.
+Also `HMWiNfo` must have the following sensor enabled:
+
+- Total CPU Usage
+- CPU Package
+- GPU Temperature
+
+Also make sure to check "fixed order" and you may also need to reset to the original order since we're relying on sensor positioning to find specific sensor data (this isn't ideal but I'm not sure how else at the moment).
+
+TODO: Add images or tutorial how to check these out in HMWiNfo
+
+### Vision
+
+TBD.
+
+
 ### TODO for MVP
 
 - [ ] Enable eslint/prettier
