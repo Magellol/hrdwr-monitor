@@ -7,35 +7,38 @@ use reqwest::Url;
 use serde_derive::{Deserialize, Serialize};
 use std::fs::File;
 use std::io::Read;
+use std::collections::HashMap;
 
 #[derive(Deserialize, Serialize, Debug)]
 // TODO: this should be "readingType" prop but we can't specify integer for internal tags in serde_json
 #[serde(tag = "unit")]
-enum Sensor {
+enum Variant {
     
     #[serde(rename = "°C")]
     Temp {
         value: f64,
-        #[serde(rename = "labelOriginal")]
-        name: String,
     },
     #[serde(rename = "%")]
     Load {
         value: f64,
-        #[serde(rename = "labelOriginal")]
-        name: String,
     },
-    #[serde(rename = "RPM")]
-    RPM {
-        #[serde(rename = "labelOriginal")]
-        name: String,
-    }
+    #[serde(other)]
+    Other
+}
+
+#[derive(Deserialize, Serialize)]
+struct Sensor {
+    #[serde(rename = "labelOriginal")]
+    name: String,
+    #[serde(flatten)]
+    variant: Variant
 }
 
 #[derive(Serialize)]
 enum SensorError {
     Fetch,
     Decode(String),
+    MissingSensor
 }
 
 #[derive(Serialize)]
@@ -45,15 +48,19 @@ struct Response {
     gpuTemp: f64
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize)]
 struct HWiNfo {
     readings: Vec<Sensor>
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize)]
 struct RemoteResponse {
     hwinfo: HWiNfo
 }
+
+const CPU_LOAD_KEY: &str ="Total CPU Usage";
+const GPU_TEMP_KEY: &str = "GPU Temperature";
+const CPU_TEMP_KEY: &str = "CPU Package";
 
 #[tauri::command]
 async fn get_sensor() -> Result<Response, SensorError> {
@@ -64,10 +71,12 @@ async fn get_sensor() -> Result<Response, SensorError> {
         file.read_to_string(&mut data).unwrap();
 
         let _sensors: Vec<Sensor> = serde_json::from_str(&data).expect("bad json");
+
+        // TODO: fill this up
         Ok(Response {
             totalCpuLoad: 0.0,
-            gpuTemp: 0.0,
-            cpuTemp: 0.0
+            cpuTemp: 0.0,
+            gpuTemp: 0.0
         })
     } else if cfg!(target_os = "windows") {
         // TODO: make url configurable
@@ -80,23 +89,33 @@ async fn get_sensor() -> Result<Response, SensorError> {
             .json::<RemoteResponse>()
             .await
             .map_err(|_err| SensorError::Decode(_err.to_string()))?;
-        let mut iter = rmtResponse.hwinfo.readings.into_iter();
 
-        let res = Response {
-            // TODO: clean this up lol
-            totalCpuLoad: iter.find(|x| match x {
-                Sensor::Temp { name, .. } => name == "Total CPU Usage",
-                Sensor::Load { name, .. } => name == "Total CPU Usage",
-                Sensor::RPM { name, .. } => name == "Total CPU Usage"
-            }).map(|s| match s {
-                Sensor::Load { value, .. } => value,
-                Sensor::Temp { value, .. } => value,
-                Sensor::RPM {..}  => 0.0,
-            }).unwrap_or(0.0),
-            gpuTemp: 0.0,
-            cpuTemp: 0.0
-        };
-        Ok(res)
+        let sensors: HashMap<String, Variant> = rmtResponse.hwinfo.readings.into_iter().map(|i| (i.name, i.variant)).collect();
+        let total_cpu_usage = sensors.get(CPU_LOAD_KEY).and_then(|x| match x {
+            Variant::Load { value } => Some(value),
+            _ => None
+        });
+        let cpu_temp = sensors.get(CPU_TEMP_KEY).and_then(|x| match x {
+            Variant::Temp {value} => Some(value),
+            _ => None
+        });
+        let gpu_temp = sensors.get(GPU_TEMP_KEY).and_then((|x| match x {
+            Variant::Temp {value} => Some(value),
+            _ => None
+        }));
+
+        let result = total_cpu_usage.and_then(|total_cpu_usage_val| {
+            let cpu_temp_val = cpu_temp?;
+            let gpu_temp_val = gpu_temp?;
+
+            Some(Response {
+                totalCpuLoad: *total_cpu_usage_val as f64,
+                cpuTemp: *cpu_temp_val as f64,
+                gpuTemp: *gpu_temp_val as f64
+            })
+        }).ok_or(SensorError::MissingSensor);
+
+        result
     } else {
         panic!("Unknown target operating system!");
     }
