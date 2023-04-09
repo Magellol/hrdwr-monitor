@@ -6,7 +6,7 @@ import "./Globals.css";
 import { Dir, Thermal } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
 import { UsageGauge } from "./UsageGauge/UsageGauge";
-import {invoke} from '@tauri-apps/api';
+import { invoke } from '@tauri-apps/api';
 
 // Needed data
 // CPU load, CPU name, CPU temp
@@ -42,30 +42,37 @@ const ConnectingLine: React.FC = () => {
 };
 
 type State = {
-  cpuPerc: number;
-  memoryUsed: number;
-  memoryTotal: number;
+  totalCpuLoad: number;
+  cpuTemp: number;
+  gpuTemp: number;
 };
 
 export const App: React.FC = () => {
   const [state, setState] = React.useState<State>({
-    cpuPerc: 0,
-    memoryUsed: 0,
-    memoryTotal: 0,
+    totalCpuLoad: 0,
+    cpuTemp: 0,
+    gpuTemp: 0,
   });
 
   React.useEffect(() => {
-    invoke('get_sensor').then(console.log, err => {
-      console.error("Error", err)
-    });
+    const id = window.setInterval(() => {
+      // TODO: Decode? I think we can trust what rust outputs
+      invoke('get_sensor').then(response => setState(response), err => {
+        console.error("Error", err)
+      });
+    }, 2000);
+
+    return () => {
+      window.clearInterval(id)
+    }
   }, [])
 
   return (
     <div className={styles.container}>
       <div className={styles.layout}>
         <Thermal
-          degrees={0}
-          load={state.cpuPerc}
+          degrees={state.cpuTemp}
+          load={state.totalCpuLoad}
           label="CPU Core"
           model="Intel Core i5-13600K"
           paths={pathSample1}
@@ -97,7 +104,7 @@ export const App: React.FC = () => {
                 // TODO: we should set this once and for all when the load the app
                 // We could request when we boot the app at the beginning and never change this info ever again.
                 max={16000}
-                n={state.memoryUsed}
+                n={0}
                 title="RAM"
                 unit="MB"
               />
@@ -125,7 +132,7 @@ export const App: React.FC = () => {
         </div>
 
         <Thermal
-          degrees={0}
+          degrees={state.gpuTemp}
           label="GPU Core"
           model="AMD Radeon RX 7900 XTX"
           paths={pathSample2}
