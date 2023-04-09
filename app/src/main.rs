@@ -5,25 +5,20 @@
 
 use reqwest::Url;
 use serde_derive::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::Read;
-use std::collections::HashMap;
 
 #[derive(Deserialize, Serialize, Debug)]
 // TODO: this should be "readingType" prop but we can't specify integer for internal tags in serde_json
 #[serde(tag = "unit")]
 enum Variant {
-    
     #[serde(rename = "°C")]
-    Temp {
-        value: f64,
-    },
+    Temp { value: f64 },
     #[serde(rename = "%")]
-    Load {
-        value: f64,
-    },
+    Load { value: f64 },
     #[serde(other)]
-    Other
+    Other,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -31,34 +26,34 @@ struct Sensor {
     #[serde(rename = "labelOriginal")]
     name: String,
     #[serde(flatten)]
-    variant: Variant
+    variant: Variant,
 }
 
 #[derive(Serialize)]
 enum SensorError {
     Fetch,
     Decode(String),
-    MissingSensor
+    MissingSensor,
 }
 
 #[derive(Serialize)]
 struct Response {
     totalCpuLoad: f64,
     cpuTemp: f64,
-    gpuTemp: f64
+    gpuTemp: f64,
 }
 
 #[derive(Deserialize, Serialize)]
 struct HWiNfo {
-    readings: Vec<Sensor>
+    readings: Vec<Sensor>,
 }
 
 #[derive(Deserialize, Serialize)]
 struct RemoteResponse {
-    hwinfo: HWiNfo
+    hwinfo: HWiNfo,
 }
 
-const CPU_LOAD_KEY: &str ="Total CPU Usage";
+const CPU_LOAD_KEY: &str = "Total CPU Usage";
 const GPU_TEMP_KEY: &str = "GPU Temperature";
 const CPU_TEMP_KEY: &str = "CPU Package";
 
@@ -76,7 +71,7 @@ async fn get_sensor() -> Result<Response, SensorError> {
         Ok(Response {
             totalCpuLoad: 0.0,
             cpuTemp: 0.0,
-            gpuTemp: 0.0
+            gpuTemp: 0.0,
         })
     } else if cfg!(target_os = "windows") {
         // TODO: make url configurable
@@ -90,32 +85,41 @@ async fn get_sensor() -> Result<Response, SensorError> {
             .await
             .map_err(|_err| SensorError::Decode(_err.to_string()))?;
 
-        let sensors: HashMap<String, Variant> = rmtResponse.hwinfo.readings.into_iter().map(|i| (i.name, i.variant)).collect();
+        let sensors: HashMap<String, Variant> = rmtResponse
+            .hwinfo
+            .readings
+            .into_iter()
+            .map(|i| (i.name, i.variant))
+            .collect();
+
+        // TODO: there must be a better way to represent this
         let total_cpu_usage = sensors.get(CPU_LOAD_KEY).and_then(|x| match x {
             Variant::Load { value } => Some(value),
-            _ => None
+            _ => None,
         });
         let cpu_temp = sensors.get(CPU_TEMP_KEY).and_then(|x| match x {
-            Variant::Temp {value} => Some(value),
-            _ => None
+            Variant::Temp { value } => Some(value),
+            _ => None,
         });
-        let gpu_temp = sensors.get(GPU_TEMP_KEY).and_then((|x| match x {
-            Variant::Temp {value} => Some(value),
-            _ => None
-        }));
+        let gpu_temp = sensors.get(GPU_TEMP_KEY).and_then(
+            (|x| match x {
+                Variant::Temp { value } => Some(value),
+                _ => None,
+            }),
+        );
 
-        let result = total_cpu_usage.and_then(|total_cpu_usage_val| {
-            let cpu_temp_val = cpu_temp?;
-            let gpu_temp_val = gpu_temp?;
+        total_cpu_usage
+            .and_then(|total_cpu_usage_val| {
+                let cpu_temp_val = cpu_temp?;
+                let gpu_temp_val = gpu_temp?;
 
-            Some(Response {
-                totalCpuLoad: *total_cpu_usage_val as f64,
-                cpuTemp: *cpu_temp_val as f64,
-                gpuTemp: *gpu_temp_val as f64
+                Some(Response {
+                    totalCpuLoad: *total_cpu_usage_val as f64,
+                    cpuTemp: *cpu_temp_val as f64,
+                    gpuTemp: *gpu_temp_val as f64,
+                })
             })
-        }).ok_or(SensorError::MissingSensor);
-
-        result
+            .ok_or(SensorError::MissingSensor)
     } else {
         panic!("Unknown target operating system!");
     }
