@@ -67,7 +67,7 @@ fn mock_sensors() -> ServiceResponse {
 }
 
 #[tauri::command]
-async fn get_sensor() -> Result<Response, SensorError> {
+async fn fetch_sensor() -> Result<Response, SensorError> {
     let resp = if cfg!(target_os = "macos") {
         mock_sensors()
     } else if cfg!(target_os = "windows") {
@@ -121,7 +121,7 @@ async fn get_sensor() -> Result<Response, SensorError> {
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![get_sensor])
+        .invoke_handler(tauri::generate_handler![fetch_sensor])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -57,7 +57,7 @@ export const App: React.FC = () => {
   React.useEffect(() => {
     const id = window.setInterval(() => {
       // TODO: Decode? I think we can trust what rust outputs
-      invoke('get_sensor').then(response => setState({
+      invoke('fetch_sensor').then(response => setState({
         cpuTemp: response.cpu_temp,
         gpuTemp: response.gpu_temp,
         totalCpuLoad: response.total_cpu_load
