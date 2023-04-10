@@ -100,12 +100,10 @@ async fn get_sensor() -> Result<Response, SensorError> {
         Variant::Temp { value } => Some(value),
         _ => None,
     });
-    let gpu_temp = sensors.get(GPU_TEMP_KEY).and_then(
-        (|x| match x {
-            Variant::Temp { value } => Some(value),
-            _ => None,
-        }),
-    );
+    let gpu_temp = sensors.get(GPU_TEMP_KEY).and_then(|x| match x {
+        Variant::Temp { value } => Some(value),
+        _ => None,
+    });
 
     total_cpu_usage
         .and_then(|total_cpu_usage_val| {
