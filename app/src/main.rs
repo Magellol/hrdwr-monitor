@@ -38,9 +38,9 @@ enum SensorError {
 
 #[derive(Serialize)]
 struct Response {
-    totalCpuLoad: f64,
-    cpuTemp: f64,
-    gpuTemp: f64,
+    total_cpu_load: f64,
+    cpu_temp: f64,
+    gpu_temp: f64,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -113,9 +113,9 @@ async fn get_sensor() -> Result<Response, SensorError> {
             let gpu_temp_val = gpu_temp?;
 
             Some(Response {
-                totalCpuLoad: *total_cpu_usage_val as f64,
-                cpuTemp: *cpu_temp_val as f64,
-                gpuTemp: *gpu_temp_val as f64,
+                total_cpu_load: *total_cpu_usage_val as f64,
+                cpu_temp: *cpu_temp_val as f64,
+                gpu_temp: *gpu_temp_val as f64,
             })
         })
         .ok_or(SensorError::MissingSensor)
