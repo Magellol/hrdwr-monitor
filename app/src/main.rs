@@ -33,6 +33,7 @@ struct Sensor {
 enum SensorError {
     Fetch,
     Decode(String),
+    TypeMismatch(String),
     MissingSensor(String),
 }
 
@@ -72,8 +73,8 @@ fn get_sensor(
     f: impl Fn(&Variant) -> Option<f64>
 ) -> Result<f64, SensorError> {
     map.get(key)
-        .and_then(f)
         .ok_or(SensorError::MissingSensor(key.to_string()))
+        .and_then(|x| f(x).ok_or(SensorError::TypeMismatch(key.to_string())))
 }
 
 #[tauri::command]
