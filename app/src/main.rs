@@ -33,7 +33,7 @@ struct Sensor {
 enum SensorError {
     Fetch,
     Decode(String),
-    MissingSensor,
+    MissingSensor(String),
 }
 
 #[derive(Serialize)]
@@ -66,6 +66,16 @@ fn mock_sensors() -> ServiceResponse {
     serde_json::from_str(&data).expect("bad json")
 }
 
+fn get_sensor(
+    key: &str,
+    map: &HashMap<String, Variant>,
+    f: impl Fn(&Variant) -> Option<f64>
+) -> Result<f64, SensorError> {
+    map.get(key)
+        .and_then(f)
+        .ok_or(SensorError::MissingSensor(key.to_string()))
+}
+
 #[tauri::command]
 async fn fetch_sensor() -> Result<Response, SensorError> {
     let resp = if cfg!(target_os = "macos") {
@@ -92,31 +102,25 @@ async fn fetch_sensor() -> Result<Response, SensorError> {
         .map(|i| (i.name, i.variant))
         .collect();
 
-    let total_cpu_usage = sensors.get(CPU_LOAD_KEY).and_then(|x| match x {
-        Variant::Load { value } => Some(value),
+    let total_cpu_usage = get_sensor(CPU_LOAD_KEY, &sensors, |x| match x {
+        Variant::Load { value } => Some(*value as f64),
         _ => None,
-    });
-    let cpu_temp = sensors.get(CPU_TEMP_KEY).and_then(|x| match x {
-        Variant::Temp { value } => Some(value),
-        _ => None,
-    });
-    let gpu_temp = sensors.get(GPU_TEMP_KEY).and_then(|x| match x {
-        Variant::Temp { value } => Some(value),
-        _ => None,
-    });
+    })?;
 
-    total_cpu_usage
-        .and_then(|total_cpu_usage_val| {
-            let cpu_temp_val = cpu_temp?;
-            let gpu_temp_val = gpu_temp?;
+    let cpu_temp = get_sensor(CPU_TEMP_KEY, &sensors, |x| match x {
+        Variant::Temp { value } => Some(*value as f64),
+        _ => None,
+    })?;
+    let gpu_temp = get_sensor(GPU_TEMP_KEY, &sensors, |x| match x {
+        Variant::Temp { value } => Some(*value as f64),
+        _ => None,
+    })?;
 
-            Some(Response {
-                total_cpu_load: *total_cpu_usage_val as f64,
-                cpu_temp: *cpu_temp_val as f64,
-                gpu_temp: *gpu_temp_val as f64,
-            })
-        })
-        .ok_or(SensorError::MissingSensor)
+    Ok(Response {
+        total_cpu_load: total_cpu_usage,
+        cpu_temp: cpu_temp,
+        gpu_temp: gpu_temp
+    })
 }
 
 fn main() {
