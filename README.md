@@ -5,16 +5,16 @@ Monitor hardware sensor data through a cool looking UI while you're gaming.
 ### Disclaimer and decisions
 This project isn't pretending to be replacing the most advanced hardware monitoring tools like HWiNFO, Open Hardware Monitor. I wasn't happy with how any of these softwares looked like, and as a UI engineer, I wanted to build a web-based UI and use this data. I could have stopped at building a NodeJS server fetching the same remote server I use here but I've decided that I'd push this a little further and package it as a Rust app with a webview. This was a good excuse to build something with Rust.
 
-I'm not proficient with Rust and system programming in general, I'm more of a web guy but I was curious to see how I could have access to hardware data from Rust. Turns out it was more complicated than I thought, there wasn't any crate I could use to give me what I wanted and I've looked at a few:
+I'm not proficient with Rust and system programming in general, I'm more of a web guy but I was curious to see how I could have access to hardware data from Rust. Turns out it was more complicated than I thought, there wasn't any simple high level API I could use to give me what I wanted and I've looked at a few:
 
 - [systemstat](https://github.com/valpackett/systemstat)
 - [rust-psutil](https://github.com/rust-psutil/rust-psutil)
 
-A lot of the existing libraries I've looked at were missing the GPU sensor information, such as temperature or VRAM usage. There was [NVML](https://docs.rs/nvml-wrapper/latest/nvml_wrapper/) Rust wrapper but this is Nvidia specific and I couldn't find anything for AMD cards (I have one). I've then decided to use the windows API binding through [`winapi`](https://docs.rs/winapi/latest/winapi/) but I was quickly out of my depth and I was having a hard time making any progress. That's when I decided to rely on existing tools to expose hardware data over the network. See [Usage](#usage) for more details.
-
-_Note that I'm currently evaluating [`windows-rs`](https://github.com/microsoft/windows-rs) and specifically this [example](https://github.com/microsoft/windows-rs/blob/0.48.0/crates/samples/windows/counter/src/main.rs) to read performance counter from the windows SDK._
+A lot of the existing libraries I've looked at were missing the GPU sensor information, such as temperature or VRAM usage. There was [NVML](https://docs.rs/nvml-wrapper/latest/nvml_wrapper/) Rust wrapper but this is Nvidia specific and I couldn't find anything for AMD cards (I have one). I've then decided to use the windows API binding through [`winapi`](https://docs.rs/winapi/latest/winapi/) but I was quickly out of my depth and I was having a hard time making any progress. That's when I decided to rely on existing tools to expose hardware data over the network for now. See [Usage](#usage) for more details.
 
 All of this to say that this isn't "ideal" as it requires folks to use other tools to feed data into this one and I'm calling for help to anyone who's got even the slighest idea how I could get this data directly from this app. I'm also specifically interested in using `Rust` here but I'm aware `.NET` has tools like [`LibreHardwareMonitor`](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor) with which I could rewrite this backend at some point.
+
+_Note that I'm currently evaluating [`windows-rs`](https://github.com/microsoft/windows-rs) and specifically this [example](https://github.com/microsoft/windows-rs/blob/0.48.0/crates/samples/windows/counter/src/main.rs) to read performance counter from the windows SDK. If I'm able to get something conclusive, I will plan on removing the two hard dependencies mentioned below._
 
 ### Usage
 
