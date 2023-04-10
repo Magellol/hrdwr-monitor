@@ -49,7 +49,7 @@ struct HWiNfo {
 }
 
 #[derive(Deserialize, Serialize)]
-struct RemoteResponse {
+struct ServiceResponse {
     hwinfo: HWiNfo,
 }
 
