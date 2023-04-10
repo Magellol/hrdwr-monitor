@@ -2,16 +2,19 @@
   "hwinfo": {
     "readings": [
       {
-        "SensorName": "CPU",
-        "SensorClass": "foo bar",
-        "SensorUnit": "C",
-        "SensorValue": 10
+        "labelOriginal": "Total CPU Usage",
+        "unit": "%",
+        "value": 10
       },
       {
-        "SensorName": "CPU Load",
-        "SensorClass": "foo bar",
-        "SensorUnit": "%",
-        "SensorValue": 20
+        "labelOriginal": "GPU Temperature",
+        "unit": "°C",
+        "value": 40
+      },
+      {
+        "labelOriginal": "CPU Package",
+        "unit": "°C",
+        "value": 40
       }
     ]
   }
