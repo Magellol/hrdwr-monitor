@@ -6,7 +6,7 @@ import "./Globals.css";
 import { Dir, Thermal } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
 import { UsageGauge } from "./UsageGauge/UsageGauge";
-import { invoke } from '@tauri-apps/api';
+import { invoke } from "@tauri-apps/api";
 
 // Needed data
 // CPU load, CPU name, CPU temp
@@ -42,41 +42,37 @@ const ConnectingLine: React.FC = () => {
 };
 
 type State = {
-  totalCpuLoad: number;
-  cpuTemp: number;
-  gpuTemp: number;
+  total_cpu_load: number;
+  cpu_temp: number;
+  gpu_temp: number;
 };
 
 export const App: React.FC = () => {
   const [state, setState] = React.useState<State>({
-    totalCpuLoad: 0,
-    cpuTemp: 0,
-    gpuTemp: 0,
+    total_cpu_load: 0,
+    cpu_temp: 0,
+    gpu_temp: 0,
   });
 
   React.useEffect(() => {
     const id = window.setInterval(() => {
-      // TODO: Decode? I think we can trust what rust outputs
-      invoke('fetch_sensor').then(response => setState({
-        cpuTemp: response.cpu_temp,
-        gpuTemp: response.gpu_temp,
-        totalCpuLoad: response.total_cpu_load
-      }), err => {
-        console.error("Error", err)
+      // Since we own the rust backend, for now we're going to trust the data being sent to avoid any further decoding process.
+      invoke<State>("fetch_sensor").then(setState, (err) => {
+        console.error("Error", err);
       });
     }, 2000);
 
     return () => {
-      window.clearInterval(id)
-    }
-  }, [])
+      window.clearInterval(id);
+    };
+  }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.layout}>
         <Thermal
-          degrees={state.cpuTemp}
-          load={state.totalCpuLoad}
+          degrees={state.cpu_temp}
+          load={state.total_cpu_load}
           label="CPU Core"
           model="Intel Core i5-13600K"
           paths={pathSample1}
@@ -104,7 +100,6 @@ export const App: React.FC = () => {
                 // TODO: we have to use -1 here because max must be greater than min and they both start at 0 on the first render
                 // we can use options instead.
                 min={-1}
-
                 // TODO: we should set this once and for all when the load the app
                 // We could request when we boot the app at the beginning and never change this info ever again.
                 max={16000}
@@ -136,7 +131,7 @@ export const App: React.FC = () => {
         </div>
 
         <Thermal
-          degrees={state.gpuTemp}
+          degrees={state.gpu_temp}
           label="GPU Core"
           model="AMD Radeon RX 7900 XTX"
           paths={pathSample2}
