@@ -57,72 +57,68 @@ const CPU_LOAD_KEY: &str = "Total CPU Usage";
 const GPU_TEMP_KEY: &str = "GPU Temperature";
 const CPU_TEMP_KEY: &str = "CPU Package";
 
+fn mock_sensors() -> ServiceResponse {
+    // Note: filepath is relative to app root (where Cargo.toml lives)
+    let mut file = File::open("./src/test_data.json").unwrap();
+    let mut data = String::new();
+    file.read_to_string(&mut data).unwrap();
+
+    serde_json::from_str(&data).expect("bad json")
+}
+
 #[tauri::command]
 async fn get_sensor() -> Result<Response, SensorError> {
-    if cfg!(target_os = "macos") {
-        // Note: filepath is relative to app root (where Cargo.toml lives)
-        let mut file = File::open("./src/test_data.json").unwrap();
-        let mut data = String::new();
-        file.read_to_string(&mut data).unwrap();
-
-        let _sensors: Vec<Sensor> = serde_json::from_str(&data).expect("bad json");
-
-        // TODO: fill this up
-        Ok(Response {
-            totalCpuLoad: 0.0,
-            cpuTemp: 0.0,
-            gpuTemp: 0.0,
-        })
+    let resp = if cfg!(target_os = "macos") {
+        mock_sensors()
     } else if cfg!(target_os = "windows") {
         // TODO: make url configurable
         let host = "http://localhost:5000/json";
         let url = Url::parse(&host).expect("Bad url");
 
-        let rmtResponse = reqwest::get(url)
+        reqwest::get(url)
             .await
             .map_err(|_err| SensorError::Fetch)?
-            .json::<RemoteResponse>()
+            .json::<ServiceResponse>()
             .await
-            .map_err(|_err| SensorError::Decode(_err.to_string()))?;
-
-        let sensors: HashMap<String, Variant> = rmtResponse
-            .hwinfo
-            .readings
-            .into_iter()
-            .map(|i| (i.name, i.variant))
-            .collect();
-
-        // TODO: there must be a better way to represent this
-        let total_cpu_usage = sensors.get(CPU_LOAD_KEY).and_then(|x| match x {
-            Variant::Load { value } => Some(value),
-            _ => None,
-        });
-        let cpu_temp = sensors.get(CPU_TEMP_KEY).and_then(|x| match x {
-            Variant::Temp { value } => Some(value),
-            _ => None,
-        });
-        let gpu_temp = sensors.get(GPU_TEMP_KEY).and_then(
-            (|x| match x {
-                Variant::Temp { value } => Some(value),
-                _ => None,
-            }),
-        );
-
-        total_cpu_usage
-            .and_then(|total_cpu_usage_val| {
-                let cpu_temp_val = cpu_temp?;
-                let gpu_temp_val = gpu_temp?;
-
-                Some(Response {
-                    totalCpuLoad: *total_cpu_usage_val as f64,
-                    cpuTemp: *cpu_temp_val as f64,
-                    gpuTemp: *gpu_temp_val as f64,
-                })
-            })
-            .ok_or(SensorError::MissingSensor)
+            .map_err(|_err| SensorError::Decode(_err.to_string()))?
     } else {
         panic!("Unknown target operating system!");
-    }
+    };
+
+    let sensors: HashMap<String, Variant> = resp
+        .hwinfo
+        .readings
+        .into_iter()
+        .map(|i| (i.name, i.variant))
+        .collect();
+
+    let total_cpu_usage = sensors.get(CPU_LOAD_KEY).and_then(|x| match x {
+        Variant::Load { value } => Some(value),
+        _ => None,
+    });
+    let cpu_temp = sensors.get(CPU_TEMP_KEY).and_then(|x| match x {
+        Variant::Temp { value } => Some(value),
+        _ => None,
+    });
+    let gpu_temp = sensors.get(GPU_TEMP_KEY).and_then(
+        (|x| match x {
+            Variant::Temp { value } => Some(value),
+            _ => None,
+        }),
+    );
+
+    total_cpu_usage
+        .and_then(|total_cpu_usage_val| {
+            let cpu_temp_val = cpu_temp?;
+            let gpu_temp_val = gpu_temp?;
+
+            Some(Response {
+                totalCpuLoad: *total_cpu_usage_val as f64,
+                cpuTemp: *cpu_temp_val as f64,
+                gpuTemp: *gpu_temp_val as f64,
+            })
+        })
+        .ok_or(SensorError::MissingSensor)
 }
 
 fn main() {
