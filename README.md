@@ -10,7 +10,9 @@ I'm not proficient with Rust and system programming in general, I'm more of a we
 - [systemstat](https://github.com/valpackett/systemstat)
 - [rust-psutil](https://github.com/rust-psutil/rust-psutil)
 
-A lot of the existing libraries I've looked at were missing the GPU sensor information, such as temperature or VRAM usage. There was [NVML](https://docs.rs/nvml-wrapper/latest/nvml_wrapper/) Rust wrapper but this is Nvidia specific and I couldn't find anything for AMD cards (I have one). I've then decided to use the windows API binding through []`winapi`](https://docs.rs/winapi/latest/winapi/) but I was quickly out of my depth and I was having a hard time getting any progress. That's when I decided to rely on existing tools to expose such hardware data over the network. See [Usage](#usage) for more details.
+A lot of the existing libraries I've looked at were missing the GPU sensor information, such as temperature or VRAM usage. There was [NVML](https://docs.rs/nvml-wrapper/latest/nvml_wrapper/) Rust wrapper but this is Nvidia specific and I couldn't find anything for AMD cards (I have one). I've then decided to use the windows API binding through [`winapi`](https://docs.rs/winapi/latest/winapi/) but I was quickly out of my depth and I was having a hard time making any progress. That's when I decided to rely on existing tools to expose hardware data over the network. See [Usage](#usage) for more details.
+
+_Note that I'm currently evaluating [`windows-rs`](https://github.com/microsoft/windows-rs) and specifically this [example](https://github.com/microsoft/windows-rs/blob/0.48.0/crates/samples/windows/counter/src/main.rs) to read performance counter from the windows SDK._
 
 All of this to say that this isn't "ideal" as it requires folks to use other tools to feed data into this one and I'm calling for help to anyone who's got even the slighest idea how I could get this data directly from this app. I'm also specifically interested in using `Rust` here but I'm aware `.NET` has tools like [`LibreHardwareMonitor`](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor) with which I could rewrite this backend at some point.
 
