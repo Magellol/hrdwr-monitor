@@ -1,4 +1,3 @@
-import { flow, pipe } from "fp-ts/lib/function";
 
 // TODO: use newtypes
 export type Hex = string;
