@@ -8,11 +8,6 @@ import { pathSample1, pathSample2 } from "./ThermalGauge";
 import { UsageGauge } from "./UsageGauge/UsageGauge";
 import { invoke } from "@tauri-apps/api";
 
-// Needed data
-// CPU load, CPU name, CPU temp
-// RAM usage, RAM total,
-// VRAM usage, VRAM total,
-// GPU load, GPU name, GPU temp
 
 const ConnectingLine: React.FC = () => {
   const id = React.useId();
