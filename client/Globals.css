@@ -4,15 +4,6 @@ body,
   height: 100%;
 }
 
-:root {
-  --grey1: #b1b1b1;
-  --grey2: #838282;
-  --blockRadius: 12px;
-  --blockPadding: 18px;
-  --blockBg: #01050d;
-  --layoutGap: 12px;
-}
-
 * {
   box-sizing: border-box;
 }
