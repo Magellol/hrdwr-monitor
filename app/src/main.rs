@@ -76,7 +76,7 @@ fn mock_sensors() -> ServiceResponse {
 fn get_sensor(
     key: &str,
     map: &HashMap<String, Variant>,
-    f: impl Fn(&Variant) -> Option<f64>
+    f: impl Fn(&Variant) -> Option<f64>,
 ) -> Result<f64, SensorError> {
     map.get(key)
         .ok_or(SensorError::MissingSensor(key.to_string()))
@@ -126,7 +126,7 @@ async fn fetch_sensor() -> Result<Response, SensorError> {
     Ok(Response {
         total_cpu_load: total_cpu_usage,
         cpu_temp: cpu_temp,
-        gpu_temp: gpu_temp
+        gpu_temp: gpu_temp,
     })
 }
 
