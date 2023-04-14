@@ -41,6 +41,8 @@ enum SensorError {
     MissingSensor(String),
 }
 
+#[derive(TS)]
+#[ts(export)]
 #[derive(Serialize)]
 struct Response {
     total_cpu_load: f64,
