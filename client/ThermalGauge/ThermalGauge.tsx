@@ -10,6 +10,7 @@ import { loadFull } from "tsparticles";
 import type { Engine } from "tsparticles-engine";
 import styles from "./ThermalGauge.css";
 import * as Color from "../Color";
+import { constNull } from "fp-ts/lib/function";
 
 type Path = {
   speed: number;
@@ -133,7 +134,7 @@ export const pathSample2: Array<Path> = [
 
 export type Props = {
   size: number;
-  degrees: number;
+  degrees: O.Option<number>;
   min: number;
   max: number;
   id: string;
@@ -153,7 +154,11 @@ export const ThermalGauge: React.FC<Props> = React.memo(
 
     const canvasSize = size * 1.2;
 
-    const color = `#${gaugeRainbow.colourAt(degrees)}`;
+    const color = pipe(
+      degrees,
+      O.getOrElse(constant(0)),
+      (n) => `#${gaugeRainbow.colourAt(n)}`
+    );
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
     const frameIdRef = React.useRef(0);
     const getPath = generatePath(size / 2);
@@ -262,14 +267,23 @@ export const ThermalGauge: React.FC<Props> = React.memo(
             detectRetina: true,
           }}
         />
-        <span
-          className={styles.degrees}
-          style={{
-            color: `#${textRainbow.colorAt(degrees)}`,
-          }}
-        >
-          {degrees}
-        </span>
+        {pipe(
+          degrees,
+          O.match(constNull, (n) => (
+            <span
+              className={styles.degrees}
+              style={{
+                color: pipe(
+                  degrees,
+                  O.getOrElse(constant(0)),
+                  (n) => `#${textRainbow.colourAt(n)}`
+                ),
+              }}
+            >
+              {n}
+            </span>
+          ))
+        )}
       </div>
     );
   }

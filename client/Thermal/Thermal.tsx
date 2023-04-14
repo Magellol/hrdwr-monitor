@@ -1,15 +1,16 @@
 import * as Sum from "@unsplash/sum-types";
 import classNames from "classnames";
 import * as A from "fp-ts/Array";
-import { constant, pipe, tuple } from "fp-ts/function";
 import * as NEA from "fp-ts/NonEmptyArray";
+import * as Tuple from "fp-ts/Tuple";
+import { constNull, constant, flow, pipe, tuple } from "fp-ts/function";
 import { Gauge, GaugeOptions } from "gaugeJS";
 import range from "lodash.range";
 import Rainbow from "rainbowvis.js";
 import React from "react";
 import { toHex } from "../Color";
+import { ThermalGauge, Props as ThermalGaugeProps } from "../ThermalGauge";
 import * as O from "../facades/Option";
-import { Props as ThermalGaugeProps, ThermalGauge } from "../ThermalGauge";
 import styles from "./Thermal.css";
 
 const [lower, upper, step] = [0, 1, 0.05];
@@ -67,26 +68,33 @@ export const Thermal: React.FC<
 
   React.useEffect(() => {
     gaugeRef.current = pipe(
-      gaugeRef.current,
-      O.alt(() => {
-        return pipe(
-          ref.current,
-          O.fromNullable,
-          O.map((el) => {
-            const g = new Gauge(el).setOptions(avg5minGaugeOpts);
-            g.maxValue = 100;
-            g.setMinValue(0);
-            g.animationSpeed = 150;
+      O.Do,
+      O.apS("resp", resp),
+      O.apS(
+        "gauge",
+        pipe(
+          gaugeRef.current,
+          O.alt(() => {
+            return pipe(
+              ref.current,
+              O.fromNullable,
+              O.map((el) => {
+                const g = new Gauge(el).setOptions(avg5minGaugeOpts);
+                g.maxValue = 100;
+                g.setMinValue(0);
+                g.animationSpeed = 150;
 
-            return g;
+                return g;
+              })
+            );
           })
-        );
-      }),
-
-      // TODO this sounds like `Option` is the wrong monadic context here
-      O.chainFirst((g) => O.some(g.set(load)))
+        )
+      ),
+      // TODO this looks like `Option` is the wrong monadic context here
+      O.chainFirst(({ resp, gauge }) => O.some(gauge.set(Tuple.snd(resp)))),
+      O.map(({ gauge }) => gauge)
     );
-  }, [load]);
+  }, [resp]);
 
   return (
     <div className={styles.container}>
@@ -118,7 +126,7 @@ export const Thermal: React.FC<
       </div>
       <div className={classNames(styles.content)}>
         <ThermalGauge
-          degrees={degrees}
+          degrees={pipe(resp, O.map(Tuple.fst))}
           size={225}
           paths={paths}
           id={label}
@@ -139,7 +147,13 @@ export const Thermal: React.FC<
         )}
       >
         <span className={classNames(styles.loadLabel, styles.glowyText)}>
-          {load}%
+          {pipe(
+            resp,
+            O.match(
+              constNull,
+              flow(Tuple.snd, (n) => `${n}%`)
+            )
+          )}
         </span>
         <div className={classNames(styles.loadGraphContainer)}>
           <canvas ref={ref} style={{ width: 300, height: 300 }}></canvas>
