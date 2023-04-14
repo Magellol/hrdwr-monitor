@@ -8,6 +8,7 @@ use serde_derive::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Read;
+use ts_rs::TS;
 
 #[derive(Deserialize, Serialize, Debug)]
 // TODO: this should be "readingType" prop but we can't specify integer for internal tags in serde_json
@@ -29,7 +30,10 @@ struct Sensor {
     variant: Variant,
 }
 
+#[derive(TS)]
+#[ts(export)]
 #[derive(Serialize)]
+#[serde(tag = "type", content = "payload")]
 enum SensorError {
     Fetch,
     Decode(String),

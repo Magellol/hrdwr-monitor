@@ -4,7 +4,10 @@
     "lib": ["DOM", "es2022"],
     "jsx": "react-jsx",
     "module": "ESNext",
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "paths": {
+      "rust-bindings/*": ["./app/bindings/*"]
+    }
   },
-  "include": ["./client"]
+  "include": ["./client", "./app/bindings/**/*.ts"]
 }
