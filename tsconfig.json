@@ -7,7 +7,8 @@
     "types": ["jest", "node"],
     "paths": {
       "rust-bindings/*": ["./app/bindings/*"]
-    }
+    },
+    "importsNotUsedAsValues": "remove"
   },
   "include": ["./client", "./app/bindings/**/*.ts"]
 }
