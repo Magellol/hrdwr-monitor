@@ -2,7 +2,6 @@ import * as Sum from "@unsplash/sum-types";
 import classNames from "classnames";
 import * as A from "fp-ts/Array";
 import * as NEA from "fp-ts/NonEmptyArray";
-import * as Tuple from "fp-ts/Tuple";
 import { constNull, constant, flow, pipe, tuple } from "fp-ts/function";
 import { Gauge, GaugeOptions } from "gaugeJS";
 import range from "lodash.range";
@@ -57,11 +56,10 @@ export const Thermal: React.FC<
   Pick<ThermalGaugeProps, "paths"> & {
     label: string;
     // TODO: use newtype for percentage
-    resp: O.Option<[degrees: number, load: number]>;
-    model: string;
+    resp: O.Option<{ degrees: number; load: number; model: string }>;
     dir: Dir;
   }
-> = ({ label, model, resp, paths, dir }) => {
+> = ({ label, resp, paths, dir }) => {
   // TODO: use useCallbackRef with an option instead
   const ref = React.useRef<HTMLCanvasElement>(null);
   const gaugeRef = React.useRef<O.Option<Gauge>>(O.none);
@@ -91,7 +89,7 @@ export const Thermal: React.FC<
         )
       ),
       // TODO this looks like `Option` is the wrong monadic context here
-      O.chainFirst(({ resp, gauge }) => O.some(gauge.set(Tuple.snd(resp)))),
+      O.chainFirst(({ resp, gauge }) => O.some(gauge.set(resp.load))),
       O.map(({ gauge }) => gauge)
     );
   }, [resp]);
@@ -112,7 +110,10 @@ export const Thermal: React.FC<
       >
         <span className={styles.label}>{label}</span>
         <span className={classNames(styles.model, styles.glowyText)}>
-          {model}
+          {pipe(
+            resp,
+            O.match(constant("—"), (r) => r.model)
+          )}
         </span>
       </header>
       <div className={styles.rays}>
@@ -126,7 +127,10 @@ export const Thermal: React.FC<
       </div>
       <div className={classNames(styles.content)}>
         <ThermalGauge
-          degrees={pipe(resp, O.map(Tuple.fst))}
+          degrees={pipe(
+            resp,
+            O.map((r) => r.degrees)
+          )}
           size={225}
           paths={paths}
           id={label}
@@ -151,7 +155,7 @@ export const Thermal: React.FC<
             resp,
             O.match(
               constNull,
-              flow(Tuple.snd, (n) => `${n}%`)
+              flow(({ load }) => `${load}%`)
             )
           )}
         </span>

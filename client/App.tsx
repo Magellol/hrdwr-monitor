@@ -89,7 +89,11 @@ export const App: React.FC = () => {
             O.map((s) => tuple(s.cpu_temp, 0))
           )}
           label="CPU Core"
-          model="Intel Core i5-13600K"
+          model={pipe(
+            state,
+            RmtData.toOption,
+            O.map((s) => s.cpu_model)
+          )}
           paths={pathSample1}
           dir={Dir.mk.Left}
         />
@@ -152,7 +156,11 @@ export const App: React.FC = () => {
             O.map((s) => tuple(s.gpu_temp, 0))
           )}
           label="GPU Core"
-          model="AMD Radeon RX 7900 XTX"
+          model={pipe(
+            state,
+            RmtData.toOption,
+            O.map((s) => s.gpu_model)
+          )}
           paths={pathSample2}
           dir={Dir.mk.Right}
         ></Thermal>
