@@ -53,15 +53,14 @@ const avg5minGaugeOpts: GaugeOptions = {
 };
 
 export const Thermal: React.FC<
-  Pick<ThermalGaugeProps, "degrees" | "paths"> & {
+  Pick<ThermalGaugeProps, "paths"> & {
     label: string;
-
     // TODO: use newtype for percentage
-    load: number;
+    resp: O.Option<[degrees: number, load: number]>;
     model: string;
     dir: Dir;
   }
-> = ({ label, model, degrees, paths, dir, load }) => {
+> = ({ label, model, resp, paths, dir }) => {
   // TODO: use useCallbackRef with an option instead
   const ref = React.useRef<HTMLCanvasElement>(null);
   const gaugeRef = React.useRef<O.Option<Gauge>>(O.none);
