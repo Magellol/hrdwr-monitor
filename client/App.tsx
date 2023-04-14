@@ -1,13 +1,17 @@
+import * as RmtData from "@devexperts/remote-data-ts";
+import { invoke } from "@tauri-apps/api";
 import classNames from "classnames";
+import * as O from "fp-ts/Option";
+import { pipe, tuple } from "fp-ts/function";
 import "normalize.css";
 import * as React from "react";
+import { Response } from "rust-bindings/Response";
+import { SensorError } from "rust-bindings/SensorError";
 import styles from "./App.css";
 import "./Globals.css";
 import { Dir, Thermal } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
 import { UsageGauge } from "./UsageGauge/UsageGauge";
-import { invoke } from "@tauri-apps/api";
-
 
 const ConnectingLine: React.FC = () => {
   const id = React.useId();
@@ -36,25 +40,38 @@ const ConnectingLine: React.FC = () => {
   );
 };
 
-type State = {
-  total_cpu_load: number;
-  cpu_temp: number;
-  gpu_temp: number;
+const mkErrorMsg = (error: Error | SensorError): string => {
+  if (error instanceof Error) {
+    return error.message;
+  } else {
+    switch (error.type) {
+      case "Fetch":
+        return "Failed to fetch the remote server. Make sure it is running as instructed in the readme.";
+      case "Decode":
+      case "MissingSensor":
+        return `Sensor ${error.payload} was not found in the remote server. Make sure it is being tracked by HMWiNfo as instructed in the readme.`;
+      case "TypeMismatch":
+        return `Sensor ${error.payload} did not have the expected type. This may be a bug in this application and should be reported.`;
+    }
+  }
 };
 
+type AppError = Error | SensorError;
+
 export const App: React.FC = () => {
-  const [state, setState] = React.useState<State>({
-    total_cpu_load: 0,
-    cpu_temp: 0,
-    gpu_temp: 0,
-  });
+  const [state, setState] = React.useState<
+    RmtData.RemoteData<AppError, Response>
+  >(RmtData.initial);
 
   React.useEffect(() => {
+    setState(RmtData.pending);
+
     const id = window.setInterval(() => {
       // Since we own the rust backend, for now we're going to trust the data being sent to avoid any further decoding process.
-      invoke<State>("fetch_sensor").then(setState, (err) => {
-        console.error("Error", err);
-      });
+      invoke<Response>("fetch_sensor").then(
+        (resp) => setState(RmtData.success(resp)),
+        (err: Error | SensorError) => setState(RmtData.failure(err))
+      );
     }, 2000);
 
     return () => {
@@ -66,13 +83,16 @@ export const App: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.layout}>
         <Thermal
-          degrees={state.cpu_temp}
-          load={state.total_cpu_load}
+          resp={pipe(
+            state,
+            RmtData.toOption,
+            O.map((s) => tuple(s.cpu_temp, 0))
+          )}
           label="CPU Core"
           model="Intel Core i5-13600K"
           paths={pathSample1}
           dir={Dir.mk.Left}
-        ></Thermal>
+        />
 
         <div className={styles.connectingLines}>
           <div className={styles.connectingLineContainer}>
@@ -126,11 +146,14 @@ export const App: React.FC = () => {
         </div>
 
         <Thermal
-          degrees={state.gpu_temp}
+          resp={pipe(
+            state,
+            RmtData.toOption,
+            O.map((s) => tuple(s.gpu_temp, 0))
+          )}
           label="GPU Core"
           model="AMD Radeon RX 7900 XTX"
           paths={pathSample2}
-          load={0}
           dir={Dir.mk.Right}
         ></Thermal>
         <div className={styles.bgPattern}>
