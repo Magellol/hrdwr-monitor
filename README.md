@@ -38,6 +38,7 @@ TODO: Add images or tutorial how to check these out in HMWiNfo
 - [ ] Better loading state
 - [ ] Let users configure temp and load thresholds
 - [ ] Add FAN RPM. Build a live "streaming" chart for visualizing one line per fan (cpu, sys1, sys2, etc), e.g https://stackoverflow.com/questions/15283289/labeling-animated-line-graphs-using-d3
+- [ ] System status message update should animate vertically (sliding up)
 
 ### Development
 
