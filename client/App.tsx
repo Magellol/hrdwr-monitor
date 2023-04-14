@@ -2,7 +2,7 @@ import * as RmtData from "@devexperts/remote-data-ts";
 import { invoke } from "@tauri-apps/api";
 import classNames from "classnames";
 import * as O from "fp-ts/Option";
-import { pipe, tuple } from "fp-ts/function";
+import { pipe } from "fp-ts/function";
 import "normalize.css";
 import * as React from "react";
 import { Response } from "rust-bindings/Response";
@@ -86,14 +86,13 @@ export const App: React.FC = () => {
           resp={pipe(
             state,
             RmtData.toOption,
-            O.map((s) => tuple(s.cpu_temp, 0))
+            O.map((s) => ({
+              degrees: s.cpu_temp,
+              load: s.total_cpu_load,
+              model: s.cpu_model,
+            }))
           )}
           label="CPU Core"
-          model={pipe(
-            state,
-            RmtData.toOption,
-            O.map((s) => s.cpu_model)
-          )}
           paths={pathSample1}
           dir={Dir.mk.Left}
         />
@@ -153,14 +152,13 @@ export const App: React.FC = () => {
           resp={pipe(
             state,
             RmtData.toOption,
-            O.map((s) => tuple(s.gpu_temp, 0))
+            O.map((s) => ({
+              degrees: s.gpu_temp,
+              load: 0,
+              model: s.gpu_model,
+            }))
           )}
           label="GPU Core"
-          model={pipe(
-            state,
-            RmtData.toOption,
-            O.map((s) => s.gpu_model)
-          )}
           paths={pathSample2}
           dir={Dir.mk.Right}
         ></Thermal>
