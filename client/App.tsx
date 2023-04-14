@@ -81,87 +81,7 @@ export const App: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.layout}>
-        <Thermal
-          resp={pipe(
-            state,
-            RmtData.toOption,
-            O.map((s) => ({
-              degrees: s.cpu_temp,
-              load: s.total_cpu_load,
-              model: s.cpu_model,
-            }))
-          )}
-          label="CPU Core"
-          paths={pathSample1}
-          dir={Dir.mk.Left}
-        />
-
-        <div className={styles.connectingLines}>
-          <div className={styles.connectingLineContainer}>
-            <div className={styles.leftConnectingLineContainer}>
-              <div
-                className={classNames(
-                  styles.connectingLine,
-                  styles.leftConnectingLine
-                )}
-              />
-              <ConnectingLine />
-            </div>
-            <div
-              className={classNames(
-                styles.usageGaugeContainer,
-                styles.leftUsageGaugeContainer
-              )}
-            >
-              <UsageGauge
-                // TODO: we have to use -1 here because max must be greater than min and they both start at 0 on the first render
-                // we can use options instead.
-                min={-1}
-                // TODO: we should set this once and for all when the load the app
-                // We could request when we boot the app at the beginning and never change this info ever again.
-                max={16000}
-                n={0}
-                title="RAM"
-                unit="MB"
-              />
-            </div>
-          </div>
-          <div className={styles.connectingLineContainer}>
-            <div className={styles.rightConnectingLineContainer}>
-              <div
-                className={classNames(
-                  styles.connectingLine,
-                  styles.rightConnectingLine
-                )}
-              />
-              <ConnectingLine />
-            </div>
-            <div
-              className={classNames(
-                styles.usageGaugeContainer,
-                styles.rightUsageGaugeContainer
-              )}
-            >
-              <UsageGauge min={0} max={24000} n={0} title="VRAM" unit="MB" />
-            </div>
-          </div>
-        </div>
-
-        <Thermal
-          resp={pipe(
-            state,
-            RmtData.toOption,
-            O.map((s) => ({
-              degrees: s.gpu_temp,
-              load: 0,
-              model: s.gpu_model,
-            }))
-          )}
-          label="GPU Core"
-          paths={pathSample2}
-          dir={Dir.mk.Right}
-        ></Thermal>
+      <div className={styles.content}>
         <div className={styles.bgPattern}>
           <div
             className={classNames(
@@ -188,6 +108,102 @@ export const App: React.FC = () => {
             )}
           ></div>
         </div>
+        <div className={styles.layout}>
+          <Thermal
+            resp={pipe(
+              state,
+              RmtData.toOption,
+              O.map((s) => ({
+                degrees: s.cpu_temp,
+                load: s.total_cpu_load,
+                model: s.cpu_model,
+              }))
+            )}
+            label="CPU Core"
+            paths={pathSample1}
+            dir={Dir.mk.Left}
+          />
+
+          <div className={styles.connectingLines}>
+            <div className={styles.connectingLineContainer}>
+              <div className={styles.leftConnectingLineContainer}>
+                <div
+                  className={classNames(
+                    styles.connectingLine,
+                    styles.leftConnectingLine
+                  )}
+                />
+                <ConnectingLine />
+              </div>
+              <div
+                className={classNames(
+                  styles.usageGaugeContainer,
+                  styles.leftUsageGaugeContainer
+                )}
+              >
+                <UsageGauge
+                  // TODO: we have to use -1 here because max must be greater than min and they both start at 0 on the first render
+                  // we can use options instead.
+                  min={-1}
+                  // TODO: we should set this once and for all when the load the app
+                  // We could request when we boot the app at the beginning and never change this info ever again.
+                  max={16000}
+                  n={0}
+                  title="RAM"
+                  unit="MB"
+                />
+              </div>
+            </div>
+            <div className={styles.connectingLineContainer}>
+              <div className={styles.rightConnectingLineContainer}>
+                <div
+                  className={classNames(
+                    styles.connectingLine,
+                    styles.rightConnectingLine
+                  )}
+                />
+                <ConnectingLine />
+              </div>
+              <div
+                className={classNames(
+                  styles.usageGaugeContainer,
+                  styles.rightUsageGaugeContainer
+                )}
+              >
+                <UsageGauge min={0} max={24000} n={0} title="VRAM" unit="MB" />
+              </div>
+            </div>
+          </div>
+
+          <Thermal
+            resp={pipe(
+              state,
+              RmtData.toOption,
+              O.map((s) => ({
+                degrees: s.gpu_temp,
+                load: 0,
+                model: s.gpu_model,
+              }))
+            )}
+            label="GPU Core"
+            paths={pathSample2}
+            dir={Dir.mk.Right}
+          ></Thermal>
+        </div>
+
+        <footer className={styles.status}>
+          <h3>System status</h3>
+          <p>
+            {pipe(
+              state,
+              RmtData.fold3(
+                () => "Warning up...",
+                (err) => `Failure: ${err}`,
+                () => "Online"
+              )
+            )}
+          </p>
+        </footer>
       </div>
     </div>
   );

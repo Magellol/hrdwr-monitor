@@ -8,7 +8,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.content {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
 }
 
 .bgPattern {
@@ -17,13 +25,10 @@
     linear-gradient(to right, #444cf7 1px, transparent 1px);
   background-size: 15px 15px;
   height: 642px;
-  width: 100%;
+  left: 0;
+  right: 0;
   position: absolute;
   pointer-events: none;
-  z-index: 1;
-
-  /* To avoid fades to create horizontal scrolling */
-  overflow: hidden;
 
   animation: pulse 4s ease infinite;
 }
@@ -129,6 +134,18 @@
 
 .rightUsageGaugeContainer {
   right: -30px;
+}
+
+.status {
+  margin-top: 40px;
+  text-align: center;
+  color: white;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5),
+    0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+.status.bad {
+  color: red;
 }
 
 @keyframes move {
