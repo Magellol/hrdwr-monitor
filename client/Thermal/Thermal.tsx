@@ -109,7 +109,13 @@ export const Thermal: React.FC<
         )}
       >
         <span className={styles.label}>{label}</span>
-        <span className={classNames(styles.model, styles.glowyText)}>
+        <span
+          className={classNames(
+            styles.model,
+            styles.glowyText,
+            pipe(resp, O.match(constNull, constant(styles.loading)))
+          )}
+        >
           {pipe(
             resp,
             O.match(constant("—"), (r) => r.model)
