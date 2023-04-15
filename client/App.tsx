@@ -82,6 +82,40 @@ export const App: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
+        <header className={styles.status}>
+          <h3 className={styles.statusHeading}>
+            System status
+            <div
+              className={classNames(
+                styles.statusDotContainer,
+                pipe(
+                  state,
+                  RmtData.fold3(
+                    constant(styles.loading),
+                    constant(styles.error),
+                    constant(styles.loaded)
+                  )
+                )
+              )}
+            >
+              <div className={styles.statusDot} />
+            </div>
+          </h3>
+          <p className={styles.statusLabel}>
+            {pipe(
+              state,
+              RmtData.fold3(
+                () => <span className={styles.loading}>Warning up...</span>,
+                (err) => (
+                  <span className={styles.error}>
+                    ⚠️ Failure: {mkErrorMsg(err)}
+                  </span>
+                ),
+                () => <span className={styles.loaded}>Online</span>
+              )
+            )}
+          </p>
+        </header>
         <div className={styles.bgPattern}>
           <div
             className={classNames(
@@ -188,41 +222,6 @@ export const App: React.FC = () => {
             />
           </div>
         </div>
-
-        <footer className={styles.status}>
-          <h3 className={styles.statusHeading}>
-            System status
-            <div
-              className={classNames(
-                styles.statusDotContainer,
-                pipe(
-                  state,
-                  RmtData.fold3(
-                    constant(styles.loading),
-                    constant(styles.error),
-                    constant(styles.loaded)
-                  )
-                )
-              )}
-            >
-              <div className={styles.statusDot} />
-            </div>
-          </h3>
-          <p className={styles.statusLabel}>
-            {pipe(
-              state,
-              RmtData.fold3(
-                () => <span className={styles.loading}>Warning up...</span>,
-                (err) => (
-                  <span className={styles.error}>
-                    ⚠️ Failure: {mkErrorMsg(err)}
-                  </span>
-                ),
-                () => <span className={styles.loaded}>Online</span>
-              )
-            )}
-          </p>
-        </footer>
       </div>
     </div>
   );

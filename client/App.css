@@ -17,7 +17,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 50px;
 }
 
 .bgPattern {
@@ -32,6 +31,8 @@
   pointer-events: none;
 
   animation: pulse 4s ease infinite;
+  top: 50%;
+  translate: 0 -50%;
 }
 
 .fade {
@@ -176,7 +177,10 @@
 }
 
 .status {
-  text-align: center;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
 }
 
 .statusHeading {
@@ -187,6 +191,7 @@
   font-size: 13px;
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.5),
     0 0 4px rgba(255, 255, 255, 0.5);
+  margin: 0;
 }
 
 .statusLabel {
