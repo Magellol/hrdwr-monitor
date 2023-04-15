@@ -12,6 +12,11 @@ dev:
   just tsc webpack
   webpack serve -c ./dist/webpack/client.config.js
 
+build:
+  rm -rf ./dist
+  just tsc webpack
+  NODE_ENV=production webpack -c ./dist/webpack/client.config.js
+
 unit paths:
   NODE_ENV=development jest {{ paths }}
 

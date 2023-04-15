@@ -6,8 +6,10 @@ import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 
 import { resolve } from "path";
 
+const { NODE_ENV } = process.env;
+
 const config: Configuration = {
-  mode: "development",
+  mode: NODE_ENV === "production" ? "production" : "development",
   entry: "./client/index.tsx",
   module: {
     rules: [
@@ -34,7 +36,8 @@ const config: Configuration = {
           options: {
             transpileOnly: true,
             getCustomTransformers: () => ({
-              before: [ReactRefreshTypeScript({})],
+              before:
+                NODE_ENV === "development" ? ReactRefreshTypeScript({}) : [],
             }),
           },
         },
@@ -64,12 +67,15 @@ const config: Configuration = {
         </html>,
       `,
     }),
-    new ReactRefreshWebpackPlugin(),
   ],
   devServer: {
     hot: true,
     port: 3000,
   },
 };
+
+if (NODE_ENV === "development") {
+  config.plugins?.push(new ReactRefreshWebpackPlugin());
+}
 
 export default config;
