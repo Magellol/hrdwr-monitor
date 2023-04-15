@@ -183,7 +183,6 @@ export const ThermalGauge: React.FC<Props> = React.memo(
           context.shadowOffsetX = 1;
           context.shadowOffsetY = -1;
           context.shadowBlur = 20;
-          // context.shadowColor = "rgba(255, 255, 255, 0.1)";
           context.stroke(new Path2D(getPath(path, i)));
         });
 
