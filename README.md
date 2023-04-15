@@ -43,3 +43,7 @@ TODO: Add images or tutorial how to check these out in HMWiNfo
 ### Development
 
 This project uses nix and nix flakes to install dependencies locally in order to build the app.
+
+### Known issues
+
+- The app currently builds on MacOS but the performance aren't great. This is because of the Safari webview, chrome doesn't have that issue. https://github.com/Magellol/hardware-monitor/issues/2
