@@ -137,15 +137,76 @@
 }
 
 .status {
-  margin-top: 40px;
   text-align: center;
+  font-size: 14px;
+}
+
+.statusHeading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: white;
+  font-size: 13px;
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.5),
     0 0 4px rgba(255, 255, 255, 0.5);
 }
 
+.statusLabel > .loading {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.statusLabel > .error {
+  background: linear-gradient(to right, #eee, red);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .status.bad {
   color: red;
+}
+
+.statusDotContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #16ff45;
+  color: #16ff45;
+}
+
+.statusDot::after {
+  content: "";
+  border-width: 2px;
+  border-style: solid;
+  border-color: inherit;
+  border-radius: 30px;
+  height: 9px;
+  width: 9px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  animation: pulsate 2s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+  }
 }
 
 @keyframes move {

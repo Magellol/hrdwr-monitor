@@ -2,7 +2,7 @@ import * as RmtData from "@devexperts/remote-data-ts";
 import { invoke } from "@tauri-apps/api";
 import classNames from "classnames";
 import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
+import { constant, pipe } from "fp-ts/function";
 import "normalize.css";
 import * as React from "react";
 import { Response } from "rust-bindings/Response";
@@ -192,14 +192,35 @@ export const App: React.FC = () => {
         </div>
 
         <footer className={styles.status}>
-          <h3>System status</h3>
-          <p>
+          <h3 className={styles.statusHeading}>
+            System status
+            <div
+              className={classNames(
+                styles.statusDotContainer,
+                pipe(
+                  state,
+                  RmtData.fold3(
+                    constant(styles.loading),
+                    constant(styles.error),
+                    constant(styles.loaded)
+                  )
+                )
+              )}
+            >
+              <div className={styles.statusDot} />
+            </div>
+          </h3>
+          <p className={styles.statusLabel}>
             {pipe(
               state,
               RmtData.fold3(
-                () => "Warning up...",
-                (err) => `Failure: ${err}`,
-                () => "Online"
+                () => <span className={styles.loading}>Warning up...</span>,
+                (err) => (
+                  <span className={styles.error}>
+                    ⚠️ Failure: {mkErrorMsg(err)}
+                  </span>
+                ),
+                () => <span className={styles.loaded}>Online</span>
               )
             )}
           </p>
