@@ -97,7 +97,7 @@ export const App: React.FC = () => {
               )}
             />
           </h3>
-          <p className={styles.statusLabel}>
+          <div className={styles.statusLabel}>
             {pipe(
               state,
               RmtData.fold3(
@@ -114,7 +114,7 @@ export const App: React.FC = () => {
                 () => <span className={styles.loaded}>Online</span>
               )
             )}
-          </p>
+          </div>
         </header>
         <div className={styles.bgPattern}>
           <div
