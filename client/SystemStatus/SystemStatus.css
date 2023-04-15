@@ -1,0 +1,60 @@
+.statusDotContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease-in;
+}
+
+.statusDot.loading {
+  background-color: grey;
+  color: grey;
+}
+
+.statusDot.loading::after {
+  animation: none;
+}
+
+.statusDots.success {
+  background-color: #00ff81;
+  color: #00ff81;
+}
+
+.statusDot.failure {
+  background-color: red;
+  color: red;
+}
+
+.statusDot::after {
+  content: "";
+  border-width: 2px;
+  border-style: solid;
+  border-color: inherit;
+  border-radius: 30px;
+  height: 9px;
+  width: 9px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  animation: pulsate 2s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+  }
+}

@@ -12,6 +12,7 @@ import "./Globals.css";
 import { Dir, Thermal } from "./Thermal";
 import { pathSample1, pathSample2 } from "./ThermalGauge";
 import { UsageGauge } from "./UsageGauge/UsageGauge";
+import { SystemStatus, State as SystemState } from "./SystemStatus";
 
 const ConnectingLine: React.FC = () => {
   const id = React.useId();
@@ -85,21 +86,16 @@ export const App: React.FC = () => {
         <header className={styles.status}>
           <h3 className={styles.statusHeading}>
             System status
-            <div className={styles.statusDotContainer}>
-              <div
-                className={classNames(
-                  styles.statusDot,
-                  pipe(
-                    state,
-                    RmtData.fold3(
-                      constant(styles.loading),
-                      constant(styles.failure),
-                      constant(styles.success)
-                    )
-                  )
-                )}
-              />
-            </div>
+            <SystemStatus
+              state={pipe(
+                state,
+                RmtData.fold3(
+                  constant(SystemState.mk.Loading),
+                  constant(SystemState.mk.Failure),
+                  constant(SystemState.mk.Success)
+                )
+              )}
+            />
           </h3>
           <p className={styles.statusLabel}>
             {pipe(
