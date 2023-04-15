@@ -19,7 +19,7 @@
   animation: none;
 }
 
-.statusDots.success {
+.statusDot.success {
   background-color: #00ff81;
   color: #00ff81;
 }
