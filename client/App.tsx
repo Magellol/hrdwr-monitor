@@ -85,27 +85,27 @@ export const App: React.FC = () => {
         <header className={styles.status}>
           <h3 className={styles.statusHeading}>
             System status
-            <div
-              className={classNames(
-                styles.statusDotContainer,
-                pipe(
-                  state,
-                  RmtData.fold3(
-                    constant(styles.loading),
-                    constant(styles.error),
-                    constant(styles.loaded)
+            <div className={styles.statusDotContainer}>
+              <div
+                className={classNames(
+                  styles.statusDot,
+                  pipe(
+                    state,
+                    RmtData.fold3(
+                      constant(styles.loading),
+                      constant(styles.failure),
+                      constant(styles.success)
+                    )
                   )
-                )
-              )}
-            >
-              <div className={styles.statusDot} />
+                )}
+              />
             </div>
           </h3>
           <p className={styles.statusLabel}>
             {pipe(
               state,
               RmtData.fold3(
-                () => <span className={styles.loading}>Warning up...</span>,
+                () => <span className={styles.loading}>Warming up...</span>,
                 (err) => (
                   <span className={styles.error}>
                     ⚠️ Failure: {mkErrorMsg(err)}

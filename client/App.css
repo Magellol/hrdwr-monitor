@@ -209,10 +209,6 @@
   color: transparent;
 }
 
-.status.bad {
-  color: red;
-}
-
 .statusDotContainer {
   position: relative;
   display: inline-block;
@@ -222,8 +218,26 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
+  transition: background-color 0.3s ease-in;
+}
+
+.statusDot.loading {
+  background-color: grey;
+  color: grey;
+}
+
+.statusDot.loading::after {
+  animation: none;
+}
+
+.statusDots.success {
   background-color: #00ff81;
   color: #00ff81;
+}
+
+.statusDot.failure {
+  background-color: red;
+  color: red;
 }
 
 .statusDot::after {
