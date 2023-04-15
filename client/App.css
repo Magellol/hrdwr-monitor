@@ -179,8 +179,11 @@
 .status {
   display: inline-flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 16px;
   align-items: center;
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
 }
 
 .statusHeading {
