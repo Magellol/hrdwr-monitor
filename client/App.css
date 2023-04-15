@@ -138,7 +138,6 @@
 
 .status {
   text-align: center;
-  font-size: 14px;
 }
 
 .statusHeading {
@@ -149,6 +148,10 @@
   font-size: 13px;
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.5),
     0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+.statusLabel {
+  font-size: 13px;
 }
 
 .statusLabel > .loading {
@@ -175,8 +178,8 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: #16ff45;
-  color: #16ff45;
+  background-color: #00ff81;
+  color: #00ff81;
 }
 
 .statusDot::after {
