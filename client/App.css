@@ -77,6 +77,16 @@
   position: relative;
 }
 
+@media (max-width: 1199px) {
+  .layout {
+    gap: 5%;
+  }
+
+  .connectingLines {
+    display: none;
+  }
+}
+
 .connectingLineContainer {
   width: 100%;
 }
@@ -126,15 +136,43 @@
 
 .usageGaugeContainer {
   position: absolute;
-  bottom: -195px;
+  bottom: -60px;
 }
 
-.leftUsageGaugeContainer {
-  left: -30px;
+.usageGaugeContainer.left {
+  right: -60px;
 }
 
-.rightUsageGaugeContainer {
-  right: -30px;
+.usageGaugeContainer.right {
+  left: -60px;
+}
+
+@media (max-width: 1199px) {
+  .usageGaugeContainer {
+    bottom: -120px;
+  }
+
+  .usageGaugeContainer.left {
+    right: 50%;
+  }
+
+  .usageGaugeContainer.right {
+    left: 50%;
+  }
+}
+
+@media (max-width: 767px) {
+  .usageGaugeContainer {
+    bottom: -100px;
+  }
+
+  .usageGaugeContainer.left {
+    right: 0;
+  }
+
+  .usageGaugeContainer.right {
+    left: 0;
+  }
 }
 
 .status {
@@ -197,6 +235,10 @@
   translate: -50% -50%;
   animation: pulsate 2s ease-out infinite;
   opacity: 0;
+}
+
+.thermalContainer {
+  position: relative;
 }
 
 @keyframes pulsate {

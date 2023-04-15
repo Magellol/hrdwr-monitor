@@ -109,20 +109,37 @@ export const App: React.FC = () => {
           ></div>
         </div>
         <div className={styles.layout}>
-          <Thermal
-            resp={pipe(
-              state,
-              RmtData.toOption,
-              O.map((s) => ({
-                degrees: s.cpu_temp,
-                load: s.total_cpu_load,
-                model: s.cpu_model,
-              }))
-            )}
-            label="CPU Core"
-            paths={pathSample1}
-            dir={Dir.mk.Left}
-          />
+          <div className={styles.thermalContainer}>
+            <Thermal
+              resp={pipe(
+                state,
+                RmtData.toOption,
+                O.map((s) => ({
+                  degrees: s.cpu_temp,
+                  load: s.total_cpu_load,
+                  model: s.cpu_model,
+                }))
+              )}
+              label="CPU Core"
+              paths={pathSample1}
+              dir={Dir.mk.Left}
+            />
+            <div
+              className={classNames(styles.usageGaugeContainer, styles.left)}
+            >
+              <UsageGauge
+                // TODO: we have to use -1 here because max must be greater than min and they both start at 0 on the first render
+                // we can use options instead.
+                min={-1}
+                // TODO: we should set this once and for all when the load the app
+                // We could request when we boot the app at the beginning and never change this info ever again.
+                max={16000}
+                n={0}
+                title="RAM"
+                unit="MB"
+              />
+            </div>
+          </div>
 
           <div className={styles.connectingLines}>
             <div className={styles.connectingLineContainer}>
@@ -135,24 +152,6 @@ export const App: React.FC = () => {
                 />
                 <ConnectingLine />
               </div>
-              <div
-                className={classNames(
-                  styles.usageGaugeContainer,
-                  styles.leftUsageGaugeContainer
-                )}
-              >
-                <UsageGauge
-                  // TODO: we have to use -1 here because max must be greater than min and they both start at 0 on the first render
-                  // we can use options instead.
-                  min={-1}
-                  // TODO: we should set this once and for all when the load the app
-                  // We could request when we boot the app at the beginning and never change this info ever again.
-                  max={16000}
-                  n={0}
-                  title="RAM"
-                  unit="MB"
-                />
-              </div>
             </div>
             <div className={styles.connectingLineContainer}>
               <div className={styles.rightConnectingLineContainer}>
@@ -164,31 +163,30 @@ export const App: React.FC = () => {
                 />
                 <ConnectingLine />
               </div>
-              <div
-                className={classNames(
-                  styles.usageGaugeContainer,
-                  styles.rightUsageGaugeContainer
-                )}
-              >
-                <UsageGauge min={0} max={24000} n={0} title="VRAM" unit="MB" />
-              </div>
             </div>
           </div>
 
-          <Thermal
-            resp={pipe(
-              state,
-              RmtData.toOption,
-              O.map((s) => ({
-                degrees: s.gpu_temp,
-                load: 0,
-                model: s.gpu_model,
-              }))
-            )}
-            label="GPU Core"
-            paths={pathSample2}
-            dir={Dir.mk.Right}
-          ></Thermal>
+          <div className={styles.thermalContainer}>
+            <div
+              className={classNames(styles.usageGaugeContainer, styles.right)}
+            >
+              <UsageGauge min={0} max={24000} n={0} title="VRAM" unit="MB" />
+            </div>
+            <Thermal
+              resp={pipe(
+                state,
+                RmtData.toOption,
+                O.map((s) => ({
+                  degrees: s.gpu_temp,
+                  load: 0,
+                  model: s.gpu_model,
+                }))
+              )}
+              label="GPU Core"
+              paths={pathSample2}
+              dir={Dir.mk.Right}
+            />
+          </div>
         </div>
 
         <footer className={styles.status}>
