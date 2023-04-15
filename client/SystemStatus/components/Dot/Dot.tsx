@@ -1,20 +1,20 @@
 import * as Sum from "@unsplash/sum-types";
 import classNames from "classnames";
 import { constant, pipe } from "fp-ts/function";
-import styles from "./SystemStatus.css";
+import styles from "./Dot.css";
 
-export type State =
+export type DotState =
   | Sum.Member<"Loading">
   | Sum.Member<"Success">
   | Sum.Member<"Failure">;
 
-export const State = Sum.create<State>();
+export const DotState = Sum.create<DotState>();
 
 export type Props = {
-  state: State;
+  state: DotState;
 };
 
-export const SystemStatus: React.FC<Props> = ({ state }) => {
+export const Dot: React.FC<Props> = ({ state }) => {
   return (
     <div className={styles.statusDotContainer}>
       <div
@@ -22,7 +22,7 @@ export const SystemStatus: React.FC<Props> = ({ state }) => {
           styles.statusDot,
           pipe(
             state,
-            State.match({
+            DotState.match({
               Loading: constant(styles.loading),
               Success: constant(styles.success),
               Failure: constant(styles.failure),
