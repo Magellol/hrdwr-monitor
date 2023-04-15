@@ -101,7 +101,11 @@ export const App: React.FC = () => {
             {pipe(
               state,
               RmtData.fold3(
-                () => <span className={styles.loading}>Warming up...</span>,
+                () => (
+                  <div className={styles.loading}>
+                    Warming up <SystemStatus.Loading width={12} height={12} />
+                  </div>
+                ),
                 (err) => (
                   <span className={styles.error}>
                     ⚠️ Failure: {mkErrorMsg(err)}
