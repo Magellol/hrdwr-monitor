@@ -95,6 +95,12 @@
   translate: 0 -50%;
 }
 
+@media (max-width: 767px) {
+  .loadGaugeContainer {
+    display: none;
+  }
+}
+
 .loadLabel {
   /* Relative to .loadGaugeContainer */
   position: absolute;
