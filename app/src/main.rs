@@ -68,6 +68,7 @@ struct ServiceResponse {
 const CPU_LOAD_KEY: &str = "Total CPU Usage";
 const GPU_TEMP_KEY: &str = "GPU Temperature";
 const CPU_TEMP_KEY: &str = "CPU Package";
+const RAM_LOAD_KEY: &str = "Physical Memory Load";
 
 fn mock_sensors() -> ServiceResponse {
     // Note: filepath is relative to app root (where Cargo.toml lives)
@@ -114,30 +115,30 @@ async fn fetch_sensor() -> Result<Response, SensorError> {
         .map(|i| (i.name, i.variant))
         .collect();
 
-    let total_cpu_usage = get_sensor(CPU_LOAD_KEY, &sensors, |x| match x {
-        Variant::Load { value } => Some(*value as f64),
-        _ => None,
-    })?;
-
-    let cpu_temp = get_sensor(CPU_TEMP_KEY, &sensors, |x| match x {
-        Variant::Temp { value } => Some(*value as f64),
-        _ => None,
-    })?;
-    let gpu_temp = get_sensor(GPU_TEMP_KEY, &sensors, |x| match x {
-        Variant::Temp { value } => Some(*value as f64),
-        _ => None,
-    })?;
-
     Ok(Response {
-        total_cpu_load: total_cpu_usage,
-        cpu_temp: cpu_temp,
-        gpu_temp: gpu_temp,
+        total_cpu_load: get_sensor(CPU_LOAD_KEY, &sensors, |x| match x {
+            Variant::Load { value } => Some(*value as f64),
+            _ => None,
+        })?,
+        cpu_temp: get_sensor(CPU_TEMP_KEY, &sensors, |x| match x {
+            Variant::Temp { value } => Some(*value as f64),
+            _ => None,
+        })?,
+        gpu_temp: get_sensor(GPU_TEMP_KEY, &sensors, |x| match x {
+            Variant::Temp { value } => Some(*value as f64),
+            _ => None,
+        })?,
+
+        total_ram_load: get_sensor(RAM_LOAD_KEY, &sensors, |x| match x {
+            Variant::Load { value } => Some(*value as f64),
+            _ => None,
+        })?,
 
         // TODO
         cpu_model: "Intel Core i7-9750H".to_string(),
         gpu_model: "NVIDIA GeForce RTX 2060".to_string(),
         total_gpu_load: 0.0,
-        total_ram_load: 0.0,
+
         total_vram_load: 0.0,
     })
 }
