@@ -69,6 +69,8 @@ const CPU_LOAD_KEY: &str = "Total CPU Usage";
 const GPU_TEMP_KEY: &str = "GPU Temperature";
 const CPU_TEMP_KEY: &str = "CPU Package";
 const RAM_LOAD_KEY: &str = "Physical Memory Load";
+const GPU_LOAD_KEY: &str = "GPU Utilization";
+const VRAM_LOAD_KEY: &str = "GPU Memory Controller Utilization";
 
 fn mock_sensors() -> ServiceResponse {
     // Note: filepath is relative to app root (where Cargo.toml lives)
@@ -134,12 +136,19 @@ async fn fetch_sensor() -> Result<Response, SensorError> {
             _ => None,
         })?,
 
+        total_gpu_load: get_sensor(GPU_LOAD_KEY, &sensors, |x| match x {
+            Variant::Load { value } => Some(*value as f64),
+            _ => None,
+        })?,
+
+        total_vram_load: get_sensor(VRAM_LOAD_KEY, &sensors, |x| match x {
+            Variant::Load { value } => Some(*value as f64),
+            _ => None,
+        })?,
+
         // TODO
         cpu_model: "Intel Core i7-9750H".to_string(),
         gpu_model: "NVIDIA GeForce RTX 2060".to_string(),
-        total_gpu_load: 0.0,
-
-        total_vram_load: 0.0,
     })
 }
 

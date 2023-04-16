@@ -26,6 +26,8 @@ Also `HMWiNfo` must have the following sensors enabled:
 - CPU Package
 - GPU Temperature
 - Physical Memory Load
+- GPU Utilization
+- GPU Memory Controller Utilization
 
 Also make sure to check "fixed order" and you may also need to reset to the original order since we're relying on sensor positioning to find specific sensor data (this isn't ideal but I'm not sure how else at the moment).
 
