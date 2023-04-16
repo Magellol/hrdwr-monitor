@@ -34,7 +34,16 @@ TODO: Add images or tutorial how to check these out in HMWiNfo
 
 This project uses nix and nix flakes to install dependencies locally in order to build the app.
 
-Here's a list of improvements I had in mind
+You can run `just dev` to only run the client part, e.g the UI. To enable mock data, you can set the `DEMO` env variable.
+
+```console
+$ just dev
+$ DEMO=true just dev
+```
+
+This is a [`tauri`](https://tauri.app/) app, so you can run `yarn tauri dev` to build the rust app, the client and package the whole thing.
+
+Here's a list of improvements I had in mind.
 
 #### Improvements
 
