@@ -162,12 +162,9 @@ export const App: React.FC = () => {
               className={classNames(styles.usageGaugeContainer, styles.left)}
             >
               <UsageGauge
-                // TODO: we have to use -1 here because max must be greater than min and they both start at 0 on the first render
-                // we can use options instead.
+                // TODO: we have to use -1 here because max must be greater than min and they both start at 0 on the first render.
                 min={-1}
-                // TODO: we should set this once and for all when the load the app
-                // We could request when we boot the app at the beginning and never change this info ever again.
-                max={16000}
+                max={100}
                 n={pipe(
                   state,
                   RmtData.toOption,
@@ -175,7 +172,7 @@ export const App: React.FC = () => {
                   O.getOrElse(constant(0))
                 )}
                 title="RAM"
-                unit="MB"
+                unit="%"
               />
             </div>
           </div>

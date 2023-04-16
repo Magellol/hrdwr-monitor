@@ -162,7 +162,12 @@ export const Thermal: React.FC<
             resp,
             O.match(
               constNull,
-              flow(({ load }) => `${load}%`)
+              flow(({ load }) =>
+                Intl.NumberFormat("en-CA", {
+                  style: "percent",
+                  maximumFractionDigits: 1,
+                }).format(load / 100)
+              )
             )
           )}
         </span>
