@@ -1,8 +1,11 @@
 # hrdwrd-monitor
 
+_This is very much experimental_
+
 Monitor hardware sensor data through a cool looking UI while you're gaming.
 
 Demo: https://hrdwr-monitor.netlify.app
+_Note_: the demo has been tested on chrome, firefox ans safari. Safari performance kinda sucks at the moment. See [Known issues](#known-issues) — Don't try this on a phone, your eyes are going to bleed, remember this is a computer hardware monitoring tool.
 
 ### Disclaimer
 
