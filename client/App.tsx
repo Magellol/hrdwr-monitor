@@ -162,8 +162,7 @@ export const App: React.FC = () => {
               className={classNames(styles.usageGaugeContainer, styles.left)}
             >
               <UsageGauge
-                // TODO: we have to use -1 here because max must be greater than min and they both start at 0 on the first render.
-                min={-1}
+                min={0}
                 max={100}
                 n={pipe(
                   state,
@@ -172,7 +171,6 @@ export const App: React.FC = () => {
                   O.getOrElse(constant(0))
                 )}
                 title="RAM"
-                unit="%"
               />
             </div>
           </div>
@@ -206,7 +204,7 @@ export const App: React.FC = () => {
             <div
               className={classNames(styles.usageGaugeContainer, styles.right)}
             >
-              <UsageGauge min={0} max={24000} n={0} title="VRAM" unit="MB" />
+              <UsageGauge min={0} max={100} n={0} title="VRAM" />
             </div>
             <Thermal
               resp={pipe(

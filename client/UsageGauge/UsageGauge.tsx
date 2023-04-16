@@ -49,11 +49,10 @@ export type Props = {
   min: number;
   max: number;
   n: number;
-  unit: string;
   title: string;
 };
 
-export const UsageGauge: React.FC<Props> = ({ min, max, n, title, unit }) => {
+export const UsageGauge: React.FC<Props> = ({ min, max, n, title }) => {
   textRainbow.setNumberRange(min, max);
 
   // TODO: use useCallbackRef with an option instead
@@ -101,7 +100,6 @@ export const UsageGauge: React.FC<Props> = ({ min, max, n, title, unit }) => {
             maximumFractionDigits: 1,
           }).format(n / max)}
         </span>
-        <span className={styles.unit}>({unit})</span>
       </div>
       <span className={styles.title}>{title}</span>
     </div>

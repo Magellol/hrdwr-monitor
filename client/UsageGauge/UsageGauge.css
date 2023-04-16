@@ -13,16 +13,7 @@
 
 .nContainer {
   position: absolute;
-  top: 50%;
-  translate: 0 -50%;
+  top: 52px;
   color: white;
   font-size: 13px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-}
-
-.unit {
-  font-size: 11px;
 }
