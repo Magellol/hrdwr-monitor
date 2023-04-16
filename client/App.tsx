@@ -204,7 +204,17 @@ export const App: React.FC = () => {
             <div
               className={classNames(styles.usageGaugeContainer, styles.right)}
             >
-              <UsageGauge min={0} max={100} n={0} title="VRAM" />
+              <UsageGauge
+                min={0}
+                max={100}
+                n={pipe(
+                  state,
+                  RmtData.toOption,
+                  O.map((s) => s.total_vram_load),
+                  O.getOrElse(constant(0))
+                )}
+                title="VRAM"
+              />
             </div>
             <Thermal
               resp={pipe(
