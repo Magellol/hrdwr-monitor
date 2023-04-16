@@ -46,6 +46,10 @@ const config: Configuration = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      // __dirname is the compiled dist/webpack folder, then we step out twice to get back to the codebase root.
+      facades: resolve(__dirname, "..", "..", "client", "facades"),
+    },
   },
   output: {
     filename: "app.js",
