@@ -2,5 +2,7 @@ node_modules/
 dist/
 app/target
 **/__pycache__/
+app/target/
 # Local Netlify folder
 .netlify
+
