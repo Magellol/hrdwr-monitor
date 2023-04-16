@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
-    "beforeBuildCommand": "just build",
+    "beforeBuildCommand": "just build false",
     "beforeDevCommand": "just dev",
     "devPath": "http://localhost:3000",
     "distDir": "../dist"
@@ -58,7 +58,10 @@
         "fullscreen": false,
         "height": 800,
         "resizable": true,
-        "title": "hdwm",
+        "title": "hrdwr monitor",
+        "fileDropEnabled": false,
+        "minWidth": 600,
+        "minHeight": 400,
         "width": 1200
       }
     ]
