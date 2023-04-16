@@ -1,8 +1,11 @@
 /// <reference path="../node_modules/webpack-dev-server/types/lib/Server.d.ts"/>
-import type { Configuration } from "webpack";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import * as O from "fp-ts/Option";
+import * as R from "fp-ts/Record";
+import { constFalse, pipe } from "fp-ts/function";
 import HtmlPlugin from "html-webpack-plugin";
 import ReactRefreshTypeScript from "react-refresh-typescript";
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import { Configuration, DefinePlugin } from "webpack";
 
 import { resolve } from "path";
 
@@ -70,6 +73,15 @@ const config: Configuration = {
           </body>
         </html>
       `,
+    }),
+
+    new DefinePlugin({
+      __DEMO__: pipe(
+        process.env,
+        R.lookup("DEMO"),
+        O.chain(O.fromNullable),
+        O.match(constFalse, (x) => x === "true")
+      ),
     }),
   ],
   devServer: {
