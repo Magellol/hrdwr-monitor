@@ -40,6 +40,7 @@
             nixpkgs-fmt
             darwin.apple_sdk.frameworks.AppKit
             darwin.apple_sdk.frameworks.WebKit
+            netlify-cli
           ];
 
           packages = packages-darwin;
