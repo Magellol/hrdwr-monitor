@@ -212,7 +212,7 @@ export const App: React.FC = () => {
                 RmtData.toOption,
                 O.map((s) => ({
                   degrees: s.gpu_temp,
-                  load: 0,
+                  load: s.total_gpu_load,
                   model: s.gpu_model,
                 }))
               )}
