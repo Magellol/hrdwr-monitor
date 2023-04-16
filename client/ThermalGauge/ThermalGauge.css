@@ -28,10 +28,7 @@
 
 .degrees {
   position: absolute;
-
-  /* Visually align on the X axis */
-  /* translate: 4px 0; */
-  font-size: 60px;
+  font-size: 52px;
 }
 
 .particlesContainer {
