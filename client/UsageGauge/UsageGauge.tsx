@@ -72,6 +72,7 @@ export const UsageGauge: React.FC<Props> = ({ min, max, n, title, unit }) => {
             g.maxValue = max; // set max gauge value
             g.setMinValue(min); // set min value
             g.animationSpeed = 50;
+            g.set(0);
 
             return g;
           })

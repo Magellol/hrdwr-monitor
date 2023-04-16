@@ -81,6 +81,7 @@ export const Thermal: React.FC<
                 g.maxValue = 100;
                 g.setMinValue(0);
                 g.animationSpeed = 150;
+                g.set(0);
 
                 return g;
               })
