@@ -235,8 +235,8 @@ export const mockInvoke =
             (resp) =>
               Promise.resolve<Response>({
                 ...resp,
-                cpu_model: "Mock CPU",
-                gpu_model: "Mock GPU",
+                cpu_model: "Intel Core i9-13900K",
+                gpu_model: "AMD Radeon™ RX 7900 XTX",
               })
           )
         );
