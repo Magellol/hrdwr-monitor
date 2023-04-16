@@ -48,6 +48,9 @@ struct Response {
     total_cpu_load: f64,
     cpu_temp: f64,
     gpu_temp: f64,
+    total_gpu_load: f64,
+    total_ram_load: f64,
+    total_vram_load: f64,
     cpu_model: String,
     gpu_model: String,
 }
@@ -133,6 +136,9 @@ async fn fetch_sensor() -> Result<Response, SensorError> {
         // TODO
         cpu_model: "Intel Core i7-9750H".to_string(),
         gpu_model: "NVIDIA GeForce RTX 2060".to_string(),
+        total_gpu_load: 0.0,
+        total_ram_load: 0.0,
+        total_vram_load: 0.0,
     })
 }
 
