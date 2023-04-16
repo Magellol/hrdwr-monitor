@@ -7,10 +7,10 @@ export PATH := './node_modules/.bin:' + env_var('PATH')
 tsc project:
     @tsc -p ./{{ project }}/tsconfig.json
 
-dev:
+dev is_demo="true":
   rm -rf ./dist
   just tsc webpack
-  webpack serve -c ./dist/webpack/client.config.js
+  DEMO={{ is_demo }} webpack serve -c ./dist/webpack/client.config.js
 
 [private]
 build is_demo:
