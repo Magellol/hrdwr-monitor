@@ -13,10 +13,10 @@ dev:
   webpack serve -c ./dist/webpack/client.config.js
 
 [private]
-build:
+build is_demo:
   rm -rf ./dist
   just tsc webpack
-  NODE_ENV=production webpack -c ./dist/webpack/client.config.js
+  DEMO={{ is_demo }} NODE_ENV=production webpack -c ./dist/webpack/client.config.js
 
 unit paths:
   NODE_ENV=development jest {{ paths }}
@@ -25,5 +25,5 @@ fmt-write:
   nixpkgs-fmt ./flake.nix
   rustfmt --edition 2021 ./app/**/*.rs
 
-deploy-demo: build
+deploy-demo: (build "true")
   netlify deploy --prod -d dist/
