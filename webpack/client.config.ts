@@ -67,6 +67,9 @@ const config: Configuration = {
           <head>
             <meta charset="utf-8"><title>Webpack App</title>
             <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta property="og:title" content="Hrdwr Monitor" />
+            <meta property="og:url" content="https://hrdwr-monitor.netlify.app" />
+            <meta property="og:image" content="https://tlbvr.com/static/hrdwr-screenshot1-5d41e9cacb6d26d9a73627a478bfb7c9.png" />
           </head>
           <body>
             <div id="app" />
