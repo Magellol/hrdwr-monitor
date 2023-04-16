@@ -168,7 +168,12 @@ export const App: React.FC = () => {
                 // TODO: we should set this once and for all when the load the app
                 // We could request when we boot the app at the beginning and never change this info ever again.
                 max={16000}
-                n={0}
+                n={pipe(
+                  state,
+                  RmtData.toOption,
+                  O.map((s) => s.total_ram_load),
+                  O.getOrElse(constant(0))
+                )}
                 title="RAM"
                 unit="MB"
               />
