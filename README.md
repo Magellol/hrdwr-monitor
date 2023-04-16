@@ -1,8 +1,10 @@
-# hardware-monitor
+# hrdwrd-monitor
 
 Monitor hardware sensor data through a cool looking UI while you're gaming.
 
-### Disclaimer and decisions
+Demo: https://hrdwr-monitor.netlify.app
+
+### Disclaimer
 
 This project isn't pretending to be replacing the most advanced hardware monitoring tools like HWiNFO, Open Hardware Monitor. I wasn't happy with how any of these softwares looked like, and as a UI engineer, I wanted to build a web-based UI and use this data. I could have stopped at building a NodeJS server fetching the same remote server I use here but I've decided that I'd push this a little further and package it as a Rust app with a webview. This was a good excuse to build something with Rust.
 
@@ -28,7 +30,13 @@ Also make sure to check "fixed order" and you may also need to reset to the orig
 
 TODO: Add images or tutorial how to check these out in HMWiNfo
 
-### Improvements
+### Contributing
+
+This project uses nix and nix flakes to install dependencies locally in order to build the app.
+
+Here's a list of improvements I had in mind
+
+#### Improvements
 
 - [ ] Enable eslint/prettier
 - [ ] Build on CI
@@ -39,10 +47,6 @@ TODO: Add images or tutorial how to check these out in HMWiNfo
 - [ ] Let users configure temp and load thresholds
 - [ ] Add FAN RPM. Build a live "streaming" chart for visualizing one line per fan (cpu, sys1, sys2, etc), e.g https://stackoverflow.com/questions/15283289/labeling-animated-line-graphs-using-d3
 - [ ] System status message update should animate vertically (sliding up)
-
-### Development
-
-This project uses nix and nix flakes to install dependencies locally in order to build the app.
 
 ### Known issues
 
