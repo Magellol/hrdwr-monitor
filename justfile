@@ -12,6 +12,7 @@ dev:
   just tsc webpack
   webpack serve -c ./dist/webpack/client.config.js
 
+[private]
 build:
   rm -rf ./dist
   just tsc webpack
@@ -23,3 +24,6 @@ unit paths:
 fmt-write:
   nixpkgs-fmt ./flake.nix
   rustfmt --edition 2021 ./app/**/*.rs
+
+deploy-demo: build
+  netlify deploy --prod -d dist/
