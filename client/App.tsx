@@ -1,7 +1,7 @@
 import * as RmtData from "@devexperts/remote-data-ts";
 import { invoke } from "@tauri-apps/api";
 import classNames from "classnames";
-import * as O from "fp-ts/Option";
+import * as O from "facades/Option";
 import { constant, pipe } from "fp-ts/function";
 import "normalize.css";
 import * as React from "react";
