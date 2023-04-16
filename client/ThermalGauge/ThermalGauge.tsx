@@ -74,10 +74,10 @@ export const pathSample1: Array<Path> = [
   {
     radiusDelta: -12,
     speed: -600,
-    strokeWidth: 0.5,
+    strokeWidth: 1,
     waveAmplitude: 3,
     waves: 4,
-    color: constant("rgba(255, 255, 255, 0.6"),
+    color: constant("rgba(255, 255, 255, 0.35"),
   },
 ];
 
@@ -125,10 +125,10 @@ export const pathSample2: Array<Path> = [
   {
     radiusDelta: -12,
     speed: 600,
-    strokeWidth: 0.5,
+    strokeWidth: 1,
     waveAmplitude: 3,
-    waves: 4,
-    color: constant("rgba(255, 255, 255, 0.6"),
+    waves: 1,
+    color: constant("rgba(255, 255, 255, 0.35"),
   },
 ];
 
