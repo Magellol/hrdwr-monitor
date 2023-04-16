@@ -1,5 +1,8 @@
 # hrdwrd-monitor
 
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/3819093/232328723-deabedcb-fb6a-4714-9e94-01cccfe1cdc5.png">
+
+
 _This is very much experimental_
 
 Monitor hardware sensor data through a cool looking UI while you're gaming.
