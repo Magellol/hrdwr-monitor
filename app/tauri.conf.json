@@ -60,8 +60,8 @@
         "resizable": true,
         "title": "hrdwr monitor",
         "fileDropEnabled": false,
-        "minWidth": 600,
-        "minHeight": 400,
+        "minWidth": 690,
+        "minHeight": 745,
         "width": 1200
       }
     ]
