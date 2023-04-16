@@ -64,7 +64,7 @@ const config: Configuration = {
           <body>
             <div id="app" />
           </body>
-        </html>,
+        </html>
       `,
     }),
   ],
