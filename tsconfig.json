@@ -6,7 +6,8 @@
     "module": "ESNext",
     "types": ["jest", "node"],
     "paths": {
-      "rust-bindings/*": ["./app/bindings/*"]
+      "rust-bindings/*": ["./app/bindings/*"],
+      "facades/*": ["./client/facades/*"],
     },
     "importsNotUsedAsValues": "remove"
   },
