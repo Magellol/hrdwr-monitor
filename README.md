@@ -2,12 +2,14 @@
 
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/3819093/232328723-deabedcb-fb6a-4714-9e94-01cccfe1cdc5.png">
 
-
 _This is very much experimental_
 
 Monitor hardware sensor data through a cool looking UI while you're gaming.
 
-Demo: https://hrdwr-monitor.netlify.app
+### Demo
+
+https://hrdwr-monitor.netlify.app
+
 _Note_: the demo has been tested on chrome, firefox ans safari. Safari performance kinda sucks at the moment. See [Known issues](#known-issues) — Don't try this on a phone, your eyes are going to bleed, remember this is a computer hardware monitoring tool.
 
 ### Disclaimer
@@ -43,14 +45,14 @@ TODO: Add images or tutorial how to check these out in HMWiNfo
 
 This project uses nix and nix flakes to install dependencies locally in order to build the app.
 
-You can run `just dev` to only run the client part, e.g the UI. To enable mock data, you can set the `DEMO` env variable.
+You can run `just dev` to only run the client part, e.g the UI. By default, mock data will be used. To disable it, you can pass an argument to the command.
 
 ```console
-$ just dev
-$ DEMO=true just dev
+$ just dev # with mock data
+$ just dev false # no mock data
 ```
 
-This is a [`tauri`](https://tauri.app/) app, so you can run `yarn tauri dev` to build the rust app, the client and package the whole thing.
+This is a [`tauri`](https://tauri.app/) app, so you can run `yarn tauri dev` to build the rust app, the client and package the whole thing. The app builds on windows and MacOS (haven't tested linux yet). On MacOS, the data will fake, I haven't gotten around getting actual sensors data on MacOS yet.
 
 Here's a list of improvements I had in mind.
 
