@@ -114,7 +114,7 @@ export const Thermal: React.FC<
           className={classNames(
             styles.model,
             styles.glowyText,
-            pipe(resp, O.match(constNull, constant(styles.loading)))
+            pipe(resp, O.match(constant(styles.loading), constNull))
           )}
         >
           {pipe(
