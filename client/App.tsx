@@ -151,7 +151,6 @@ export const App: React.FC = () => {
                 O.map((s) => ({
                   degrees: s.cpu_temp,
                   load: s.total_cpu_load,
-                  model: s.cpu_model,
                 }))
               )}
               label="CPU Core"
@@ -223,7 +222,6 @@ export const App: React.FC = () => {
                 O.map((s) => ({
                   degrees: s.gpu_temp,
                   load: s.total_gpu_load,
-                  model: s.gpu_model,
                 }))
               )}
               label="GPU Core"

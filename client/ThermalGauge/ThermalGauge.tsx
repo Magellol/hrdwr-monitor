@@ -279,7 +279,7 @@ export const ThermalGauge: React.FC<Props> = React.memo(
                 ),
               }}
             >
-              {n}
+              {n}<sup className={styles.degSymbol}>°</sup>
             </span>
           ))
         )}

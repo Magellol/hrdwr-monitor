@@ -56,7 +56,7 @@ export const Thermal: React.FC<
   Pick<ThermalGaugeProps, "paths"> & {
     label: string;
     // TODO: use newtype for percentage
-    resp: O.Option<{ degrees: number; load: number; model: string }>;
+    resp: O.Option<{ degrees: number; load: number; }>;
     dir: Dir;
   }
 > = ({ label, resp, paths, dir }) => {
@@ -110,18 +110,6 @@ export const Thermal: React.FC<
         )}
       >
         <span className={styles.label}>{label}</span>
-        <span
-          className={classNames(
-            styles.model,
-            styles.glowyText,
-            pipe(resp, O.match(constant(styles.loading), constNull))
-          )}
-        >
-          {pipe(
-            resp,
-            O.match(constant("—"), (r) => r.model)
-          )}
-        </span>
       </header>
       <div className={styles.rays}>
         {pipe(

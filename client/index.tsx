@@ -5,6 +5,8 @@ import { App } from "./App";
 import * as O from "./facades/Option";
 import { mockInvoke } from "./mock";
 
+console.log(__DEMO__)
+
 if (__DEMO__) {
   let count = 0;
   mockIPC((cmd) => {

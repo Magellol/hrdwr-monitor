@@ -31,6 +31,10 @@
   font-size: 52px;
 }
 
+.degSymbol {
+  font-size: 22px;
+}
+
 .particlesContainer {
   /* TODO: this is somewhat directly related from the size of the ThermalGauge */
   width: 150px;

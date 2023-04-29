@@ -51,8 +51,6 @@ struct Response {
     total_gpu_load: f64,
     total_ram_load: f64,
     total_vram_load: f64,
-    cpu_model: String,
-    gpu_model: String,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -145,10 +143,6 @@ async fn fetch_sensor() -> Result<Response, SensorError> {
             Variant::Load { value } => Some(*value as f64),
             _ => None,
         })?,
-
-        // TODO
-        cpu_model: "Intel Core i7-9750H".to_string(),
-        gpu_model: "NVIDIA GeForce RTX 2060".to_string(),
     })
 }
 
