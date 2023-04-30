@@ -16,6 +16,7 @@ dev is_demo="true":
 build is_demo:
   rm -rf ./dist
   just tsc webpack
+  cp -r public/* dist/
   DEMO={{ is_demo }} NODE_ENV=production webpack -c ./dist/webpack/client.config.js
 
 unit paths:

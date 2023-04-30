@@ -65,6 +65,7 @@ const config: Configuration = {
       <!DOCTYPE html>
         <html>
           <head>
+            <link rel="icon" href="favicon.svg">
             <meta charset="utf-8"><title>Hrdwr Monitor</title>
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <meta name="description" content="Polls PC hardware sensor data and display them through a cool looking dashboard" />
