@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "hardware-monitor",
+    "productName": "Hrdwr Monitor",
     "version": "0.1.0"
   },
   "tauri": {
