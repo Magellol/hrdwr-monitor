@@ -151,6 +151,10 @@ export const App: React.FC = () => {
                 O.map((s) => ({
                   degrees: s.cpu_temp,
                   load: s.total_cpu_load,
+                  hardware: pipe(
+                    __DEMO__,
+                    O.pureIf(() => "Intel® Core™ i9-13900K")
+                  ),
                 }))
               )}
               label="CPU Core"
@@ -222,6 +226,10 @@ export const App: React.FC = () => {
                 O.map((s) => ({
                   degrees: s.gpu_temp,
                   load: s.total_gpu_load,
+                  hardware: pipe(
+                    __DEMO__,
+                    O.pureIf(() => "AMD Radeon™ RX 7900 XTX")
+                  ),
                 }))
               )}
               label="GPU Core"

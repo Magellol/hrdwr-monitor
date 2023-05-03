@@ -20,6 +20,11 @@
   align-items: flex-end;
 }
 
+.model {
+  font-size: 12px;
+  height: 13px;
+}
+
 .rays {
   /* Relative to `.container` */
   position: absolute;
