@@ -1,7 +1,7 @@
 import { curveLinearClosed, lineRadial } from "d3-shape";
 import { constant, identity, pipe } from "fp-ts/es6/function";
 import * as IO from "fp-ts/es6/IO";
-import * as O from "fp-ts/es6/Option";
+import * as O from "facades/Option";
 import range from "lodash.range";
 import Rainbow from "rainbowvis.js";
 import React from "react";
@@ -161,7 +161,7 @@ export const ThermalGauge: React.FC<Props> = React.memo(
     );
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
     const frameIdRef = React.useRef(0);
-    const getPath = generatePath(size / 2);
+    const getPath = genPath(size / 2);
 
     const particlesInit = React.useCallback(async (engine: Engine) => {
       // you can initialize the tsParticles instance (engine) here, adding custom shapes or presets
@@ -178,12 +178,14 @@ export const ThermalGauge: React.FC<Props> = React.memo(
         context.clearRect(0, 0, canvasSize, canvasSize);
         context.setTransform(1, 0, 0, 1, canvasSize / 2, canvasSize / 2);
         paths.forEach((path, i) => {
+          const p = pipe(getPath(path, i), O.fromNullable, O.unsafeUnwrap);
+
           context.lineWidth = path.strokeWidth;
           context.strokeStyle = path.color(color);
           context.shadowOffsetX = 1;
           context.shadowOffsetY = -1;
           context.shadowBlur = 20;
-          context.stroke(new Path2D(getPath(path, i)));
+          context.stroke(new Path2D(p));
         });
 
         frameIdRef.current = window.requestAnimationFrame(() => draw(context));
@@ -279,7 +281,8 @@ export const ThermalGauge: React.FC<Props> = React.memo(
                 ),
               }}
             >
-              {n}<sup className={styles.degSymbol}>°</sup>
+              {n}
+              <sup className={styles.degSymbol}>°</sup>
             </span>
           ))
         )}
@@ -290,7 +293,7 @@ export const ThermalGauge: React.FC<Props> = React.memo(
 
 ThermalGauge.displayName = "Circle";
 
-function generatePath(size: number) {
+function genPath(size: number) {
   const points = range(0, Math.PI * 2, Math.PI / 70);
   const line = lineRadial<number>()
     .curve(curveLinearClosed)
@@ -306,6 +309,6 @@ function generatePath(size: number) {
           Math.pow((1 + Math.cos(angle - t)) / 2, 3) *
           path.waveAmplitude
       );
-    })(points)!; // @todo fix non null
+    })(points);
   };
 }
