@@ -193,7 +193,7 @@ export const ThermalGauge: React.FC<Props> = React.memo(
 
       const startDrawing = pipe(
         O.fromNullable(canvasRef.current),
-        O.mapNullable((canvas) => canvas.getContext("2d")),
+        O.chainNullableK((canvas) => canvas.getContext("2d")),
         O.fold(
           () => IO.of(frameIdRef.current),
           (context) =>
