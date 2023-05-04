@@ -66,7 +66,8 @@ Here's a list of improvements I had in mind.
 - [ ] Better loading state
 - [ ] Let users configure temp and load thresholds
 - [ ] Add FAN RPM. Build a live "streaming" chart for visualizing one line per fan (cpu, sys1, sys2, etc), e.g https://stackoverflow.com/questions/15283289/labeling-animated-line-graphs-using-d3
-- [ ] System status message update should animate vertically (sliding up)
+- [ ] System status message updates should animate vertically (sliding up)
+- [ ] Update system status based on data thresholds, e.g should not be ok if reaching 100% of temps tresholds.
 
 ### Known issues
 
